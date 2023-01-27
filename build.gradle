@@ -18,7 +18,11 @@ tasks.withType(JavaCompile).configureEach {
 
 javafx {
     version = "16"
+<<<<<<< HEAD
     modules = [ 'javafx.controls', 'javafx.fxml' ]
+=======
+    modules = [ 'javafx.controls','javafx.fxml' ]
+>>>>>>> 91f7507f34ccd9c748ff4d0396752a42ed6244f1
 }
 
 repositories {
