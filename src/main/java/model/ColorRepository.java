@@ -1,6 +1,8 @@
 package model;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class ColorRepository {
 
@@ -13,16 +15,26 @@ public class ColorRepository {
     private ColorRepository(){
         idCount = 0;
         colorMap = new HashMap<>();
+
+        addColor(new Color(255, 0, 0));
+        addColor(new Color(0, 255, 0));
+        addColor(new Color(0, 0, 255));
+
     }
 
-    public ColorRepository getInstance(){
+    public static ColorRepository getInstance(){
         if(instance == null)
             instance = new ColorRepository();
         return instance;
     }
 
-    public List<Color> listColors(){
-        return new ArrayList<>(colorMap.values());
+    public Set<Color> listColors(){
+        return new HashSet<>(colorMap.values());
+    }
+
+    public Set<Color> listColors(Iterable<Integer> ids){
+        return StreamSupport.stream(ids.spliterator(), false)
+                .map(id -> getColor(id)).collect(Collectors.toSet());
     }
 
     public void addColor(Color color){

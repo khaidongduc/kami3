@@ -25,7 +25,7 @@ public class Color {
     }
 
     void setColorId(int colorId){
-        this.colorId = getColorId();
+        this.colorId = colorId;
     }
 
     public int getRValue(){
