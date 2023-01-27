@@ -1,9 +1,11 @@
 package model;
 
+import utils.Observable;
+
 import java.util.Set;
 import java.util.List;
 
-public interface Level {
+public interface Level extends Observable {
     int getLevelId();
     int getNumRows();
     int getNumCols();

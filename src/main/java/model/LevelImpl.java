@@ -1,7 +1,8 @@
 package model;
 
-import java.util.List;
-import java.util.Set;
+import utils.Observer;
+
+import java.util.*;
 
 public class LevelImpl implements Level {
 
@@ -11,6 +12,7 @@ public class LevelImpl implements Level {
     private int maxNumTurn;
     private Color curColor;
 
+    private Set<Observer> observers;
 
     public LevelImpl(String filename){
         grid = new ColorGrid(3, 3);
@@ -18,6 +20,8 @@ public class LevelImpl implements Level {
         grid.setColor(1, 1, 1);
         grid.setColorFlood(2, 1, 1);
         this.curNumTurn = 0;
+
+        this.observers = new HashSet<Observer>();
     }
 
     @Override
@@ -49,6 +53,7 @@ public class LevelImpl implements Level {
     @Override
     public void switchColor(Color color) {
         this.curColor = color;
+        notifyObservers();
     }
 
     @Override
@@ -60,11 +65,13 @@ public class LevelImpl implements Level {
     public void play(Move move) {
         grid.setColorFlood(move.getColor().getColorId(), move.getRow(), move.getCol());
         ++ curNumTurn;
+        notifyObservers();
     }
 
     @Override
     public void restart() {
         this.curNumTurn = 0;
+        notifyObservers();
     }
 
     @Override
@@ -76,4 +83,22 @@ public class LevelImpl implements Level {
     public List<Move> getHints() {
         return null;
     }
+
+    @Override
+    public void attach(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void detach(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for(Observer observer : observers){
+            observer.update();
+        }
+    }
+
 }
