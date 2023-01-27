@@ -1,14 +1,20 @@
+import controller.LevelController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
+import model.Level;
+import model.LevelImpl;
+import view.LevelView;
 
 public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("LevelView.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        Level model = new LevelImpl("hello");
+        LevelController controller = new LevelController(model);
+        LevelView view = new LevelView(controller, model);
+
+        Scene scene = new Scene(view.asParent(), 400, 400);
         stage.setScene(scene);
         stage.show();
     }
