@@ -27,6 +27,8 @@ public class LevelView implements Observer {
         this.levelController = levelController;
         this.level = level;
         this.parent = new StackPane();
+        level.attach(this);
+
         GridPane colorGridPane = new GridPane();
 
         colorGridPane.setGridLinesVisible(true);

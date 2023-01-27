@@ -20,7 +20,7 @@ public class LevelImpl implements Level {
         grid.setColor(1, 1, 1);
         grid.setColorFlood(2, 1, 1);
         this.curNumTurn = 0;
-
+        this.curColor = ColorRepository.getInstance().getColor(0);
         this.observers = new HashSet<Observer>();
     }
 
