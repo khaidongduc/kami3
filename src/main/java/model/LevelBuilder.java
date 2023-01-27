@@ -2,7 +2,7 @@ package model;
 
 import java.util.Set;
 
-public interface GameBuilder {
+public interface LevelBuilder {
     int getNumRows();
     int getNumCols();
     Color getColorAt(int row, int col);

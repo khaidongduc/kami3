@@ -3,7 +3,7 @@ package model;
 import java.util.Set;
 import java.util.List;
 
-public interface Game {
+public interface Level {
     int getNumRows();
     int getNumCols();
     Color getColorAt(int row, int col);
