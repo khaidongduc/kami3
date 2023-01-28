@@ -12,7 +12,8 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
 
         Level model = new LevelImpl(1);
-        LevelController controller = new LevelController(model);
+        LevelController controller = new LevelController();
+        controller.setLevel(model);
         LevelView view = new LevelView(controller, model);
 
         Scene scene = new Scene(view.asParent(), 400, 400);

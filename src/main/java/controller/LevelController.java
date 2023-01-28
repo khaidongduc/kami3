@@ -6,13 +6,21 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import model.Color;
 import model.Level;
+import model.LevelImpl;
 import model.Move;
 
 public class LevelController {
 
-    private final Level level;
+    private Level level;
 
-    public LevelController(Level level){
+    public LevelController(){ }
+
+
+    public void setLevel(int levelId){
+        this.level = new LevelImpl(levelId);
+    }
+
+    public void setLevel(Level level){
         this.level = level;
     }
 
