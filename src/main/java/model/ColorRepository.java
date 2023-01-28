@@ -19,6 +19,7 @@ public class ColorRepository {
         addColor(new Color(255, 0, 0));
         addColor(new Color(0, 255, 0));
         addColor(new Color(0, 0, 255));
+        addColor(new Color(0, 255, 255));
 
     }
 
