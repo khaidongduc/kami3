@@ -2,7 +2,6 @@ package model;
 
 import utils.Observable;
 
-import java.util.Set;
 import java.util.List;
 
 public interface Level extends Observable {
@@ -16,7 +15,7 @@ public interface Level extends Observable {
     Color getCurrentColor();
     void play(Move move);
     void restart();
-    Set<Color> getColorSet();
+    List<Color> getColors();
     List<Move> getHints();
 
 }

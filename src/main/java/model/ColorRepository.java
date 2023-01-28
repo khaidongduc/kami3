@@ -28,13 +28,13 @@ public class ColorRepository {
         return instance;
     }
 
-    public Set<Color> listColors(){
-        return new HashSet<>(colorMap.values());
+    public List<Color> listColors(){
+        return new ArrayList<>(colorMap.values());
     }
 
-    public Set<Color> listColors(Iterable<Integer> ids){
+    public List<Color> listColors(Iterable<Integer> ids){
         return StreamSupport.stream(ids.spliterator(), false)
-                .map(id -> getColor(id)).collect(Collectors.toSet());
+                .map(id -> getColor(id)).collect(Collectors.toList());
     }
 
     public void addColor(Color color){

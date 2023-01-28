@@ -1,13 +1,13 @@
 package model;
 
-import java.util.Set;
+import java.util.List;
 
 public interface LevelBuilder {
     int getNumRows();
     int getNumCols();
     Color getColorAt(int row, int col);
 
-    Set<Color> getColorSet();
+    List<Color> getColors();
     void switchColor(Color color);
     Color getCurrentColor();
     void setColor(Color color, int row, int col);

@@ -12,7 +12,7 @@ public class LevelImpl implements Level {
     private int maxNumTurn;
     private Color curColor;
 
-    private Set<Observer> observers;
+    private final Set<Observer> observers;
 
     public LevelImpl(String filename){
         grid = new ColorGrid(3, 3);
@@ -20,7 +20,7 @@ public class LevelImpl implements Level {
         grid.setColor(1, 1, 1);
         grid.setColorFlood(2, 1, 1);
         this.curNumTurn = 0;
-        this.curColor = ColorRepository.getInstance().getColor(0);
+        this.curColor = ColorRepository.getInstance().getColor(grid.getAvailableColorIds().stream().findFirst().get());
         this.observers = new HashSet<Observer>();
     }
 
@@ -75,7 +75,7 @@ public class LevelImpl implements Level {
     }
 
     @Override
-    public Set<Color> getColorSet() {
+    public List<Color> getColors() {
         return ColorRepository.getInstance().listColors(grid.getAvailableColorIds());
     }
 

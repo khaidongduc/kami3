@@ -11,11 +11,13 @@ import model.Color;
 import model.Level;
 import utils.Observer;
 
+import java.util.List;
+
 public class LevelView implements Observer {
 
     private LevelController levelController;
     private Level level;
-    private StackPane parent;
+    private BorderPane parent;
     private GridPane colorGridPane;
     private Button[][] buttonGrid;
 
@@ -26,8 +28,9 @@ public class LevelView implements Observer {
     public LevelView(LevelController levelController, Level level){
         this.levelController = levelController;
         this.level = level;
-        this.parent = new StackPane();
         level.attach(this);
+
+        this.parent = new BorderPane();
 
         GridPane colorGridPane = new GridPane();
 
@@ -57,8 +60,21 @@ public class LevelView implements Observer {
                 colorGridPane.add(button, i, j);
             }
         }
-        parent.getChildren().add(colorGridPane);
 
+        parent.setCenter(colorGridPane);
+
+        StackPane colorPane = new StackPane();
+        List<Color> colors = level.getColors();
+        for(Color color: colors){
+            Button button = new Button();
+            button.setStyle(String.format("-fx-background-color: rgb(%d, %d, %d);",
+                    color.getRValue(), color.getGValue(), color.getBValue()));
+            button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+            colorPane.getChildren().add(button);
+            button.setOnAction(levelController::handleGridClickEvent);
+        }
+
+        parent.setBottom(colorPane);
         update();
     }
 
