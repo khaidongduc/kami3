@@ -53,6 +53,6 @@ public class LevelController {
     }
 
     public void handleMoveToMenuBtn() {
-        ViewSwitcher.switchView("Level2");
+        ViewSwitcher.switchView("MenuView");
     }
 }
