@@ -11,10 +11,9 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Level model = new LevelImpl(1);
-        LevelController controller = new LevelController();
-        controller.setLevel(model);
-        LevelView view = new LevelView(controller, model);
+        Level level = new LevelImpl(1);
+        LevelController controller = new LevelController(level);
+        LevelView view = new LevelView(controller, level);
 
         Scene scene = new Scene(view.asParent(), 400, 400);
         stage.setScene(scene);

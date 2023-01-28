@@ -17,10 +17,9 @@ public class LevelImpl implements Level {
     private final Set<Observer> observers;
 
     public LevelImpl(int levelId){
-        importLevel(levelId);
-        this.curNumTurn = 0;
-
         this.observers = new HashSet<Observer>();
+
+        importLevel(levelId);
     }
 
     @Override
@@ -40,7 +39,9 @@ public class LevelImpl implements Level {
                 }
             }
             this.maxNumTurn = scanner.nextInt();
+            this.curNumTurn = 0;
             this.curColor = ColorRepository.getInstance().getColor(grid.getAvailableColorIds().stream().findFirst().get());
+            notifyObservers();
         } catch (Exception ex){
             throw new RuntimeException(ex);
         }
@@ -95,9 +96,7 @@ public class LevelImpl implements Level {
 
     @Override
     public void restart() {
-        this.curNumTurn = 0;
         importLevel(getLevelId());
-        notifyObservers();
     }
 
     @Override

@@ -13,7 +13,9 @@ public class LevelController {
 
     private Level level;
 
-    public LevelController(){ }
+    public LevelController(Level level){
+        setLevel(level);
+    }
 
 
     public void setLevel(int levelId){
