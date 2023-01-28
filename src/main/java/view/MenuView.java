@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import model.LevelInfo;
+import model.LevelRepository;
 import utils.Observer;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 public class MenuView implements View, Observer {
 
     public final int gridNumColumns = 2;
+    private LevelRepository levelRepository;
 
     private MenuController menuController;
     private Scene scene;
@@ -22,10 +24,26 @@ public class MenuView implements View, Observer {
 
     private Button[][] buttonGrid;
 
+
     public MenuView(MenuController menuController){
         this.menuController = menuController;
         this.parent = new BorderPane();
         this.scene = new Scene(this.parent, 400, 400);
+        bindModel(LevelRepository.getInstance());
+    }
+
+    @Override
+    public Scene getScene() {
+        return this.scene;
+    }
+
+    @Override
+    public void bindModel(Object model) {
+        LevelRepository levelRepository = (LevelRepository) model;
+        if(this.levelRepository != null)
+            this.levelRepository.detach(this);
+        this.levelRepository = levelRepository;
+        this.levelRepository.attach(this);
         renderView();
     }
 
@@ -40,10 +58,7 @@ public class MenuView implements View, Observer {
         levelGridPane.setGridLinesVisible(false);
         levelGridPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-        ArrayList<LevelInfo> levelInfoList = new ArrayList<LevelInfo>();
-        levelInfoList.add(new LevelInfo(1));
-        levelInfoList.add(new LevelInfo(2));
-        levelInfoList.add(new LevelInfo(3));
+        List<LevelInfo> levelInfoList = this.levelRepository.listLevelInfo();
 
         int gridNumRows = (levelInfoList.size() + gridNumColumns - 1) / gridNumColumns;
         for(int i = 0 ; i < gridNumColumns ; ++ i) {
@@ -83,19 +98,10 @@ public class MenuView implements View, Observer {
         this.parent.setCenter(levelGridPane);
     }
 
-    @Override
-    public Scene getScene() {
-        return this.scene;
-    }
-
-    @Override
-    public void bindModel(Object model) {
-
-    }
 
     @Override
     public void update() {
-
+        renderView();
     }
 
 }
