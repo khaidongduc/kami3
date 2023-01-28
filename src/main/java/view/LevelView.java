@@ -72,7 +72,7 @@ public class LevelView implements Observer {
                 GridPane.setFillHeight(button, true);
                 button.setOnAction(levelController::handleGridClickEvent);
                 buttonGrid[i][j] = button;
-                colorGridPane.add(button, i, j);
+                colorGridPane.add(button, j, i);
             }
         }
 
