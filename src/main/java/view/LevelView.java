@@ -84,7 +84,7 @@ public class LevelView implements Observer {
         int count = 0;
         for(Color color: colors){
             Button button = new Button();
-            button.setStyle(String.format("-fx-background-color: rgb(%d, %d, %d);",
+            button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
                     color.getRValue(), color.getGValue(), color.getBValue()));
             button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
             button.setOnAction(levelController::handleColorPaneClickEvent);
@@ -103,7 +103,7 @@ public class LevelView implements Observer {
             for (int j = 0; j < level.getNumCols(); ++j) {
                 Color color = level.getColorAt(i, j);
                 Button button = buttonGrid[i][j];
-                button.setStyle(String.format("-fx-background-color: rgb(%d, %d, %d);",
+                button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
                         color.getRValue(), color.getGValue(), color.getBValue()));
 
             }
