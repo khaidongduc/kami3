@@ -5,6 +5,8 @@ import utils.Observable;
 import java.util.List;
 
 public interface Level extends Observable {
+
+    void importLevel(int levelId);
     int getLevelId();
     int getNumRows();
     int getNumCols();

@@ -10,7 +10,8 @@ import view.LevelView;
 public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        Level model = new LevelImpl("hello");
+
+        Level model = new LevelImpl(1);
         LevelController controller = new LevelController(model);
         LevelView view = new LevelView(controller, model);
 

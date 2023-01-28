@@ -1,7 +1,9 @@
 package model;
 
+import com.sun.tools.jdeprscan.scan.Scan;
 import utils.Observer;
 
+import java.io.File;
 import java.util.*;
 
 public class LevelImpl implements Level {
@@ -14,15 +16,34 @@ public class LevelImpl implements Level {
 
     private final Set<Observer> observers;
 
-    public LevelImpl(String filename){
-        grid = new ColorGrid(3, 3);
-        //grid.setColor(0, 0, 0);
-        grid.setColor(1, 1, 1);
-        grid.setColorFlood(2, 1, 1);
+    public LevelImpl(int levelId){
+        importLevel(levelId);
         this.curNumTurn = 0;
-        this.maxNumTurn = 2;
-        this.curColor = ColorRepository.getInstance().getColor(grid.getAvailableColorIds().stream().findFirst().get());
+
         this.observers = new HashSet<Observer>();
+    }
+
+    @Override
+    public void importLevel(int levelId){
+        try {
+            String relPath = String.format("levels/%s", String.valueOf(levelId));
+            File file = new File(getClass().getResource(relPath).getPath());
+            Scanner scanner = new Scanner(file);
+            this.levelId = Integer.parseInt(file.getName());
+            int numRows = scanner.nextInt();
+            int numCols = scanner.nextInt();
+            grid = new ColorGrid(numRows, numCols);
+            for (int i = 0; i < numRows; ++i){
+                for (int j = 0; j < numCols; ++j) {
+                    int colorId = scanner.nextInt();
+                    if(grid.getColorOfEntry(i, j) != colorId) grid.setColor(colorId, i, j);
+                }
+            }
+            this.maxNumTurn = scanner.nextInt();
+            this.curColor = ColorRepository.getInstance().getColor(grid.getAvailableColorIds().stream().findFirst().get());
+        } catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override
@@ -75,6 +96,7 @@ public class LevelImpl implements Level {
     @Override
     public void restart() {
         this.curNumTurn = 0;
+        importLevel(getLevelId());
         notifyObservers();
     }
 
