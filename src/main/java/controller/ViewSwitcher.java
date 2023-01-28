@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 
 import view.View;
 
+import java.io.ObjectInputFilter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +28,16 @@ public class ViewSwitcher {
     }
 
     public static void switchView(String viewName){
-        stage.setScene(viewMap.get(viewName).getScene());
+        View view = viewMap.get(viewName);
+        stage.setScene(view.getScene());
+    }
+
+    public static void switchView(String viewName, Object bindedObject){
+        View view = viewMap.get(viewName);
+        if (bindedObject != null){
+            view.bindModel(bindedObject);
+        }
+        stage.setScene(view.getScene());
     }
 
 }
