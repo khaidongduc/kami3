@@ -6,6 +6,7 @@ import model.Level;
 import model.LevelImpl;
 import model.LevelInfo;
 import model.LevelRepository;
+import view.ViewEnum;
 
 public class MenuController {
 
@@ -13,6 +14,6 @@ public class MenuController {
         Button target = (Button) actionEvent.getTarget();
         LevelInfo info = (LevelInfo) target.getUserData();
         Level level = LevelRepository.getInstance().getLevel(info.getLevelId());
-        ViewSwitcher.switchView("LevelView", level);
+        ViewSwitcher.switchView(ViewEnum.LEVEL, level);
     }
 }

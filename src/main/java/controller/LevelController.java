@@ -7,6 +7,7 @@ import javafx.scene.layout.GridPane;
 import model.Color;
 import model.Level;
 import model.Move;
+import view.ViewEnum;
 
 public class LevelController {
 
@@ -53,6 +54,6 @@ public class LevelController {
     }
 
     public void handleMoveToMenuBtn() {
-        ViewSwitcher.switchView("MenuView");
+        ViewSwitcher.switchView(ViewEnum.MENU);
     }
 }

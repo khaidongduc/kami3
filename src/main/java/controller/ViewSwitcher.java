@@ -1,39 +1,35 @@
 package controller;
 
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import view.View;
+import view.ViewEnum;
 
-import java.io.ObjectInputFilter;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 
+/**
+ * a view switcher to supporting switching between views in controller
+ */
 public class ViewSwitcher {
 
-    private static Scene scene;
     private static Stage stage;
-    private static final Map<String, View> viewMap = new HashMap<>();
+    private static final EnumMap<ViewEnum, View> viewMap = new EnumMap<ViewEnum, View>(ViewEnum.class);
 
-    public static void setScene(Scene scene){
-        ViewSwitcher.scene = scene;
-    }
     public static void setStage(Stage stage){
         ViewSwitcher.stage = stage;
     }
 
 
-    public static void addView(String viewName, View view){
-        viewMap.put(viewName, view);
+    public static void addView(ViewEnum viewEnum, View view){
+        viewMap.put(viewEnum, view);
     }
 
-    public static void switchView(String viewName){
-        View view = viewMap.get(viewName);
+    public static void switchView(ViewEnum viewEnum){
+        View view = viewMap.get(viewEnum);
         stage.setScene(view.getScene());
     }
 
-    public static void switchView(String viewName, Object bindedObject){
-        View view = viewMap.get(viewName);
+    public static void switchView(ViewEnum viewEnum, Object bindedObject){
+        View view = viewMap.get(viewEnum);
         if (bindedObject != null){
             view.bindModel(bindedObject);
         }
