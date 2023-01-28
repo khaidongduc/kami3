@@ -56,6 +56,6 @@ public class LevelController {
     }
 
     public void handleResultAlertMoveToMenuBtn() {
-        System.out.println("move to menu");
+        ViewSwitcher.switchView("Level2");
     }
 }
