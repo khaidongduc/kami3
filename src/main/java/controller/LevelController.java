@@ -12,6 +12,10 @@ public class LevelController {
 
     private Level level;
 
+    public LevelController() {
+
+    }
+
     public LevelController(Level level){
         setLevel(level);
     }

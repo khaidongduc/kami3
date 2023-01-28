@@ -34,10 +34,14 @@ public class LevelView implements View, Observer {
         return scene;
     }
 
-    public LevelView(LevelController levelController, Level level){
+    public LevelView(LevelController levelController){
         this.levelController = levelController;
         this.parent = new BorderPane();
         this.scene = new Scene(this.parent, 400, 400);
+    }
+
+    public LevelView(LevelController levelController, Level level){
+        this(levelController);
         level.attach(this);
         renderView(level);
     }
