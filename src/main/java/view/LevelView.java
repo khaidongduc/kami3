@@ -19,10 +19,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LevelView implements Observer {
+public class LevelView implements View, Observer {
 
     private LevelController levelController;
     private Level level;
+
+    private Scene scene;
     private BorderPane parent;
     private GridPane colorGridPane;
 
@@ -32,8 +34,8 @@ public class LevelView implements Observer {
 
     private Alert resultAlert;
 
-    public Parent asParent() {
-        return parent;
+    public Scene getScene() {
+        return scene;
     }
 
     public LevelView(LevelController levelController, Level level){
@@ -42,7 +44,7 @@ public class LevelView implements Observer {
         level.attach(this);
 
         this.parent = new BorderPane();
-        this.parent.autosize();
+        this.scene = new Scene(this.parent, 400, 400);
 
         GridPane colorGridPane = new GridPane();
 
