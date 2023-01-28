@@ -4,21 +4,25 @@ import utils.Observable;
 
 import java.util.List;
 
-public interface Level extends Observable {
+public abstract class Level extends Observable {
 
-    void importLevel(int levelId);
-    int getLevelId();
-    int getNumRows();
-    int getNumCols();
-    Color getColorAt(int row, int col);
+    public Level() {
+        super();
+    }
 
-    int numMoveRemaining();
-    void switchColor(Color color);
-    Color getCurrentColor();
-    void play(Move move);
-    void restart();
-    List<Color> getColors();
-    List<Move> getHints();
-    LevelState getLevelState();
+    public abstract void importLevel(int levelId);
+    public abstract int getLevelId();
+    public abstract int getNumRows();
+    public abstract int getNumCols();
+    public abstract Color getColorAt(int row, int col);
+
+    public abstract int numMoveRemaining();
+    public abstract void switchColor(Color color);
+    public abstract Color getCurrentColor();
+    public abstract void play(Move move);
+    public abstract void restart();
+    public abstract List<Color> getColors();
+    public abstract List<Move> getHints();
+    public abstract LevelState getLevelState();
 
 }

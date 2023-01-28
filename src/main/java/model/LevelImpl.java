@@ -6,7 +6,7 @@ import utils.Observer;
 import java.io.File;
 import java.util.*;
 
-public class LevelImpl implements Level {
+public class LevelImpl extends Level {
 
     private int levelId;
     private ColorGrid grid;
@@ -14,11 +14,8 @@ public class LevelImpl implements Level {
     private int maxNumTurn;
     private Color curColor;
 
-    private final Set<Observer> observers;
-
     public LevelImpl(int levelId){
-        this.observers = new HashSet<Observer>();
-
+        super();
         importLevel(levelId);
     }
 
@@ -124,23 +121,6 @@ public class LevelImpl implements Level {
             return LevelState.LOSE;
         }
         return LevelState.WIN;
-    }
-
-    @Override
-    public void attach(Observer observer) {
-        observers.add(observer);
-    }
-
-    @Override
-    public void detach(Observer observer) {
-        observers.remove(observer);
-    }
-
-    @Override
-    public void notifyObservers() {
-        for(Observer observer : observers){
-            observer.update();
-        }
     }
 
 }
