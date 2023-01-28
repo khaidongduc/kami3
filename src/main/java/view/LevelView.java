@@ -3,6 +3,7 @@ package view;
 import com.sun.rowset.internal.Row;
 import controller.LevelController;
 import javafx.beans.binding.DoubleExpression;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,7 +12,10 @@ import model.Color;
 import model.Level;
 import utils.Observer;
 
+import javax.swing.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LevelView implements Observer {
 
@@ -19,7 +23,9 @@ public class LevelView implements Observer {
     private Level level;
     private BorderPane parent;
     private GridPane colorGridPane;
+
     private Button[][] buttonGrid;
+    private Map<Color, Button> colorToChooseButton;
 
     public Parent asParent() {
         return parent;
@@ -35,7 +41,10 @@ public class LevelView implements Observer {
 
         GridPane colorGridPane = new GridPane();
 
-        colorGridPane.setGridLinesVisible(true);
+        colorGridPane.setHgap(10); //horizontal gap in pixels => that's what you are asking for
+        colorGridPane.setVgap(10); //vertical gap in pixels
+        colorGridPane.setPadding(new Insets(10, 10, 10, 10));
+        colorGridPane.setGridLinesVisible(false);
         colorGridPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         for(int i = 0 ; i < level.getNumCols() ; ++ i) {
             ColumnConstraints columnConstraints = new ColumnConstraints();
@@ -64,9 +73,13 @@ public class LevelView implements Observer {
 
         parent.setCenter(colorGridPane);
 
-        GridPane colorPane = new GridPane();
-        colorPane.setPrefHeight(100);
-        colorGridPane.setGridLinesVisible(true);
+        colorToChooseButton = new HashMap<>();
+        GridPane colorChoiceGrid = new GridPane();
+        colorChoiceGrid.setPrefHeight(100);
+        colorChoiceGrid.setHgap(10);
+        colorChoiceGrid.setVgap(10);
+        colorChoiceGrid.setPadding(new Insets(10, 10, 10, 10));
+        colorGridPane.setGridLinesVisible(false);
         List<Color> colors = level.getColors();
         int count = 0;
         for(Color color: colors){
@@ -75,10 +88,12 @@ public class LevelView implements Observer {
                     color.getRValue(), color.getGValue(), color.getBValue()));
             button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
             button.setOnAction(levelController::handleColorPaneClickEvent);
-            colorPane.add(button, count++, 0);
             button.setUserData(color);
+            colorChoiceGrid.add(button, count++, 0);
+            colorToChooseButton.put(color, button);
         }
-        parent.setBottom(colorPane);
+        parent.setBottom(colorChoiceGrid);
+
         update();
     }
 
@@ -93,5 +108,13 @@ public class LevelView implements Observer {
 
             }
         }
+
+        for(Button button : colorToChooseButton.values()){
+            button.setBorder(new Border(new BorderStroke[]{}));
+        }
+        Button curColorChooseButton = colorToChooseButton.get(level.getCurrentColor());
+        curColorChooseButton.setBorder(new Border(new BorderStroke(javafx.scene.paint.Color.BLACK,
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+
     }
 }
