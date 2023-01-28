@@ -40,4 +40,12 @@ public class LevelController {
             alert.show();
         }
     }
+
+    public void handleResultAlertRestartBtn() {
+        level.restart();
+    }
+
+    public void handleResultAlertMoveToMenuBtn() {
+        System.out.println("move to menu");
+    }
 }

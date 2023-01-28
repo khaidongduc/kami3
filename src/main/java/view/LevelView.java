@@ -3,13 +3,15 @@ package view;
 import com.sun.rowset.internal.Row;
 import controller.LevelController;
 import javafx.beans.binding.DoubleExpression;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import model.Color;
 import model.Level;
+import model.LevelState;
 import utils.Observer;
 
 import javax.swing.*;
@@ -26,6 +28,9 @@ public class LevelView implements Observer {
 
     private Button[][] buttonGrid;
     private Map<Color, Button> colorToChooseButton;
+    private Label numMoveRemainingLabel;
+
+    private Alert resultAlert;
 
     public Parent asParent() {
         return parent;
@@ -79,9 +84,15 @@ public class LevelView implements Observer {
         colorChoiceGrid.setHgap(10);
         colorChoiceGrid.setVgap(10);
         colorChoiceGrid.setPadding(new Insets(10, 10, 10, 10));
-        colorGridPane.setGridLinesVisible(false);
-        List<Color> colors = level.getColors();
+        colorChoiceGrid.setGridLinesVisible(false);
+
         int count = 0;
+
+        numMoveRemainingLabel = new Label();
+        colorChoiceGrid.add(numMoveRemainingLabel, count++, 0);
+        numMoveRemainingLabel.setPrefSize(10, 10);
+
+        List<Color> colors = level.getColors();
         for(Color color: colors){
             Button button = new Button();
             button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
@@ -94,11 +105,27 @@ public class LevelView implements Observer {
         }
         parent.setBottom(colorChoiceGrid);
 
+        ButtonType RESTART = new ButtonType("Restart");
+        ButtonType MOVE_TO_MENU = new ButtonType("Move to Menu");
+
+        resultAlert = new Alert(Alert.AlertType.CONFIRMATION, "",
+                RESTART, MOVE_TO_MENU);
+        resultAlert.setOnCloseRequest(event -> {
+            ButtonType result = resultAlert.getResult();
+            if(result.equals(RESTART)){
+                levelController.handleResultAlertRestartBtn();
+            } else {
+                levelController.handleResultAlertMoveToMenuBtn();
+            }
+        });
+
+
         update();
     }
 
     @Override
     public void update() {
+        // color grid
         for(int i = 0 ; i < level.getNumRows() ; ++ i) {
             for (int j = 0; j < level.getNumCols(); ++j) {
                 Color color = level.getColorAt(i, j);
@@ -108,7 +135,7 @@ public class LevelView implements Observer {
 
             }
         }
-
+        // current color
         for(Button button : colorToChooseButton.values()){
             button.setBorder(new Border(new BorderStroke[]{}));
         }
@@ -116,5 +143,18 @@ public class LevelView implements Observer {
         curColorChooseButton.setBorder(new Border(new BorderStroke(javafx.scene.paint.Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
+        // numMove remaining
+        numMoveRemainingLabel.textProperty().set(String.valueOf(level.numMoveRemaining()));
+
+        // check won
+        LevelState levelState = level.getLevelState();
+        if (!levelState.equals(LevelState.ONGOING)) {
+            if (levelState.equals(LevelState.WIN)) {
+                resultAlert.setContentText("You win");
+            } else {
+                resultAlert.setContentText("You lose");
+            }
+            resultAlert.show();
+        }
     }
 }
