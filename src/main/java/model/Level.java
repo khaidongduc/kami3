@@ -17,5 +17,6 @@ public interface Level extends Observable {
     void restart();
     List<Color> getColors();
     List<Move> getHints();
+    LevelState getLevelState();
 
 }

@@ -20,6 +20,7 @@ public class LevelImpl implements Level {
         grid.setColor(1, 1, 1);
         grid.setColorFlood(2, 1, 1);
         this.curNumTurn = 0;
+        this.maxNumTurn = 2;
         this.curColor = ColorRepository.getInstance().getColor(grid.getAvailableColorIds().stream().findFirst().get());
         this.observers = new HashSet<Observer>();
     }
@@ -63,8 +64,11 @@ public class LevelImpl implements Level {
 
     @Override
     public void play(Move move) {
+        if (numMoveRemaining() == 0){
+            throw new IllegalArgumentException("No move left");
+        }
         grid.setColorFlood(move.getColor().getColorId(), move.getRow(), move.getCol());
-        ++ curNumTurn;
+        ++curNumTurn;
         notifyObservers();
     }
 
@@ -82,6 +86,23 @@ public class LevelImpl implements Level {
     @Override
     public List<Move> getHints() {
         return null;
+    }
+
+    @Override
+    public LevelState getLevelState() {
+        int colorId = grid.getColorOfEntry(0, 0);
+        boolean isMono = true;
+        for(int i = 0 ; i < grid.getNumRows() && isMono ; ++ i)
+            for(int j = 0 ; j < grid.getNumCols() && isMono; ++ j){
+                if(grid.getColorOfEntry(i, j) != colorId) isMono = false;
+            }
+        if(!isMono){
+            if(numMoveRemaining() > 0) {
+                return LevelState.ONGOING;
+            }
+            return LevelState.LOSE;
+        }
+        return LevelState.WIN;
     }
 
     @Override
