@@ -16,7 +16,7 @@ public class LevelController {
         setLevel(level);
     }
 
-    private void setLevel(Level level){
+    public void setLevel(Level level){
         this.level = level;
     }
 

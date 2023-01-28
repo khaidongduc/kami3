@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import model.Color;
 import model.Level;
+import model.LevelImpl;
 import model.LevelState;
 import utils.Observer;
 
@@ -35,11 +36,24 @@ public class LevelView implements View, Observer {
 
     public LevelView(LevelController levelController, Level level){
         this.levelController = levelController;
-        this.level = level;
-        level.attach(this);
-
         this.parent = new BorderPane();
         this.scene = new Scene(this.parent, 400, 400);
+        level.attach(this);
+        renderView(level);
+    }
+
+    public void bindLevel(Level level){
+
+        this.level.detach(this);
+        level.attach(this);
+        this.levelController.setLevel(level);
+        renderView(level);
+    }
+
+    private void renderView(Level level){
+        this.level = level;
+        this.parent = new BorderPane();
+        scene.setRoot(this.parent);
 
         GridPane colorGridPane = new GridPane();
 
@@ -112,11 +126,9 @@ public class LevelView implements View, Observer {
             if(result.equals(RESTART)){
                 levelController.handleRestartBtn();
             } else {
-                levelController.handleMoveToMenuBtn();
+                bindLevel(new LevelImpl(3));
             }
         });
-
-
         update();
     }
 
