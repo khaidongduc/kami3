@@ -1,20 +1,26 @@
 package model;
 
+import utils.Observable;
+
 import java.util.List;
 
-public interface LevelBuilder {
-    int getNumRows();
-    int getNumCols();
-    Color getColorAt(int row, int col);
+public abstract class LevelBuilder extends Observable {
 
-    List<Color> getColors();
-    void switchColor(Color color);
-    Color getCurrentColor();
-    void setColor(Color color, int row, int col);
-    void setColorFlood(Color color, int row, int col);
-    void changeGridSize(int numRows, int numCols);
+    public LevelBuilder(){
+        super();
+    }
 
+    public abstract int getNumRows();
+    public abstract int getNumCols();
+    public abstract Color getColorAt(int row, int col);
 
-    void restart();
+    public abstract List<Color> getColors();
+    public abstract void switchColor(Color color);
+    public abstract Color getCurrentColor();
+    public abstract void setColor(Color color, int row, int col);
+    public abstract void setColorFlood(Color color, int row, int col);
+    public abstract void changeGridSize(int numRows, int numCols);
+
+    public abstract void restart();
 
 }
