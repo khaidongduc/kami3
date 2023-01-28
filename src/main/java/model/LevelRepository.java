@@ -22,7 +22,7 @@ public class LevelRepository extends Observable {
     }
 
     public Level getLevel(int gameId){
-        return null;
+        return new LevelImpl(gameId);
     }
 
     public void saveLevel(Level level){
