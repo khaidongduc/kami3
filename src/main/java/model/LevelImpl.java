@@ -22,7 +22,7 @@ public class LevelImpl extends Level {
     @Override
     public void importLevel(int levelId){
         try {
-            String relPath = String.format("levels/%s", String.valueOf(levelId));
+            String relPath = String.format("levels/%s", levelId);
             File file = new File(getClass().getResource(relPath).getPath());
             Scanner scanner = new Scanner(file);
             this.levelId = Integer.parseInt(file.getName());

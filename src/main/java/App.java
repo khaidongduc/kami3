@@ -2,15 +2,9 @@ import controller.LevelController;
 import controller.MenuController;
 import controller.ViewSwitcher;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import model.Level;
-import model.LevelImpl;
 import view.LevelView;
 import view.MenuView;
-
-import java.awt.*;
 
 public class App extends Application {
     @Override

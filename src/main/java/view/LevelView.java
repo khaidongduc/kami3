@@ -18,10 +18,10 @@ import java.util.Objects;
 
 public class LevelView implements View, Observer {
 
-    private LevelController levelController;
+    private final LevelController levelController;
     private Level level;
 
-    private Scene scene;
+    private final Scene scene;
     private BorderPane parent;
     private GridPane colorGridPane;
 

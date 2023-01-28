@@ -2,8 +2,9 @@ package model;
 
 public class Move {
 
-    private int row, col;
-    private Color color;
+    private final int row;
+    private final int col;
+    private final Color color;
 
     public Move(Color color, int row, int col){
         this.color = color;

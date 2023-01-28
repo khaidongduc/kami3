@@ -17,8 +17,8 @@ public class MenuView implements View, Observer {
     public final int gridNumColumns = 2;
     private LevelRepository levelRepository;
 
-    private MenuController menuController;
-    private Scene scene;
+    private final MenuController menuController;
+    private final Scene scene;
     private BorderPane parent;
     private GridPane levelGridPane;
 
