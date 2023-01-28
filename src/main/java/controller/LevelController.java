@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import model.Color;
 import model.Level;
 import model.Move;
 
@@ -22,6 +23,18 @@ public class LevelController {
             int row = GridPane.getRowIndex(targetButton);
             int col = GridPane.getColumnIndex(targetButton);
             level.play(new Move(level.getCurrentColor(), row, col));
+        } catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.WARNING, e.toString());
+            alert.show();
+        }
+    }
+
+    public void handleColorPaneClickEvent(ActionEvent actionEvent) {
+        try {
+            Button targetButton = (Button) actionEvent.getTarget();
+            Color color = (Color) targetButton.getUserData();
+            level.switchColor(color);
+            System.out.println(color);
         } catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.WARNING, e.toString());
             alert.show();

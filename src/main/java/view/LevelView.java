@@ -31,6 +31,7 @@ public class LevelView implements Observer {
         level.attach(this);
 
         this.parent = new BorderPane();
+        this.parent.autosize();
 
         GridPane colorGridPane = new GridPane();
 
@@ -63,17 +64,20 @@ public class LevelView implements Observer {
 
         parent.setCenter(colorGridPane);
 
-        StackPane colorPane = new StackPane();
+        GridPane colorPane = new GridPane();
+        colorPane.setPrefHeight(100);
+        colorGridPane.setGridLinesVisible(true);
         List<Color> colors = level.getColors();
+        int count = 0;
         for(Color color: colors){
             Button button = new Button();
             button.setStyle(String.format("-fx-background-color: rgb(%d, %d, %d);",
                     color.getRValue(), color.getGValue(), color.getBValue()));
             button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-            colorPane.getChildren().add(button);
-            button.setOnAction(levelController::handleGridClickEvent);
+            button.setOnAction(levelController::handleColorPaneClickEvent);
+            colorPane.add(button, count++, 0);
+            button.setUserData(color);
         }
-
         parent.setBottom(colorPane);
         update();
     }
