@@ -1,4 +1,5 @@
 import controller.LevelController;
+import controller.MenuController;
 import controller.ViewSwitcher;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -7,6 +8,9 @@ import javafx.stage.Stage;
 import model.Level;
 import model.LevelImpl;
 import view.LevelView;
+import view.MenuView;
+
+import java.awt.*;
 
 public class App extends Application {
     @Override
@@ -15,17 +19,15 @@ public class App extends Application {
 
         ViewSwitcher.setStage(stage);
 
-        Level level = new LevelImpl(1);
-        LevelController controller = new LevelController(level);
-        LevelView view = new LevelView(controller, level);
-        ViewSwitcher.addView("Level1", view);
+        MenuController menuController = new MenuController();
+        MenuView menuView = new MenuView(menuController);
+        ViewSwitcher.addView("MenuView", menuView);
 
-        Level level2 = new LevelImpl(3);
-        LevelController controller2 = new LevelController(level2);
-        LevelView view2 = new LevelView(controller2, level2);
-        ViewSwitcher.addView("Level2", view2);
+        LevelController levelController = new LevelController();
+        LevelView levelView = new LevelView(levelController);
+        ViewSwitcher.addView("LevelView", levelView);
 
-        stage.setScene(view.getScene());
+        stage.setScene(menuView.getScene());
         stage.show();
     }
     public static void main(String[] args){launch(args);}
