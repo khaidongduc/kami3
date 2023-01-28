@@ -1,11 +1,7 @@
 package view;
 
-import com.sun.rowset.internal.Row;
 import controller.LevelController;
-import javafx.beans.binding.DoubleExpression;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -14,7 +10,6 @@ import model.Level;
 import model.LevelState;
 import utils.Observer;
 
-import javax.swing.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +67,7 @@ public class LevelView implements View, Observer {
                 button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 GridPane.setFillWidth(button, true);
                 GridPane.setFillHeight(button, true);
-                button.setOnAction(levelController::handleGridClickEvent);
+                button.setOnAction(levelController::handleColorGridBtn);
                 buttonGrid[i][j] = button;
                 colorGridPane.add(button, j, i);
             }
@@ -100,7 +95,7 @@ public class LevelView implements View, Observer {
             button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
                     color.getRValue(), color.getGValue(), color.getBValue()));
             button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-            button.setOnAction(levelController::handleColorPaneClickEvent);
+            button.setOnAction(levelController::handleChooseColorBtn);
             button.setUserData(color);
             colorChoiceGrid.add(button, count++, 0);
             colorToChooseButton.put(color, button);
@@ -115,9 +110,9 @@ public class LevelView implements View, Observer {
         resultAlert.setOnCloseRequest(event -> {
             ButtonType result = resultAlert.getResult();
             if(result.equals(RESTART)){
-                levelController.handleResultAlertRestartBtn();
+                levelController.handleRestartBtn();
             } else {
-                levelController.handleResultAlertMoveToMenuBtn();
+                levelController.handleMoveToMenuBtn();
             }
         });
 

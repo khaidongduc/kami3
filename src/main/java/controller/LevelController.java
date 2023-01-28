@@ -6,7 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import model.Color;
 import model.Level;
-import model.LevelImpl;
 import model.Move;
 
 public class LevelController {
@@ -17,17 +16,11 @@ public class LevelController {
         setLevel(level);
     }
 
-
-    public void setLevel(int levelId){
-        this.level = new LevelImpl(levelId);
-    }
-
-    public void setLevel(Level level){
+    private void setLevel(Level level){
         this.level = level;
     }
 
-
-    public void handleGridClickEvent(ActionEvent actionEvent) {
+    public void handleColorGridBtn(ActionEvent actionEvent) {
         try {
             Button targetButton = (Button) actionEvent.getTarget();
             int row = GridPane.getRowIndex(targetButton);
@@ -39,7 +32,7 @@ public class LevelController {
         }
     }
 
-    public void handleColorPaneClickEvent(ActionEvent actionEvent) {
+    public void handleChooseColorBtn(ActionEvent actionEvent) {
         try {
             Button targetButton = (Button) actionEvent.getTarget();
             Color color = (Color) targetButton.getUserData();
@@ -51,11 +44,11 @@ public class LevelController {
         }
     }
 
-    public void handleResultAlertRestartBtn() {
+    public void handleRestartBtn() {
         level.restart();
     }
 
-    public void handleResultAlertMoveToMenuBtn() {
+    public void handleMoveToMenuBtn() {
         ViewSwitcher.switchView("Level2");
     }
 }
