@@ -14,6 +14,7 @@ import utils.Observer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class LevelView implements View, Observer {
 
@@ -43,19 +44,21 @@ public class LevelView implements View, Observer {
     public LevelView(LevelController levelController, Level level){
         this(levelController);
         level.attach(this);
-        renderView(level);
+        bindModel(level);
     }
 
-    public void bindLevel(Level level){
-
-        this.level.detach(this);
+    @Override
+    public void bindModel(Object obj){
+        Level level = (Level) obj;
+        if(this.level != null)
+            this.level.detach(this);
         level.attach(this);
         this.levelController.setLevel(level);
-        renderView(level);
+        this.level = level;
+        renderView();
     }
 
-    private void renderView(Level level){
-        this.level = level;
+    private void renderView(){
         this.parent = new BorderPane();
         scene.setRoot(this.parent);
 
@@ -130,7 +133,7 @@ public class LevelView implements View, Observer {
             if(result.equals(RESTART)){
                 levelController.handleRestartBtn();
             } else {
-                bindLevel(new LevelImpl(3));
+                levelController.handleMoveToMenuBtn();
             }
         });
         update();
