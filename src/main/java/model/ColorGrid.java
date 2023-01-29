@@ -2,16 +2,30 @@ package model;
 
 import java.util.*;
 
+/**
+ * a color grid to be use within Level and LevelBuilder
+ *
+ * @author Khai Dong
+ */
 public class ColorGrid {
     private int numRows;
     private int numCols;
     private int [][] grid;
 
+    /**
+     * basic initialization
+     */
     public ColorGrid(){
         numRows = numCols = 0;
         grid = null;
     }
 
+    /**
+     * create a color grid with specified sizes
+     * all initial colorId will be 0, which correspond to the first color added into ColorRepository
+     * @param numRows the number of rows
+     * @param numCols the number of columns
+     */
     public ColorGrid(int numRows, int numCols){
         this();
         this.numRows = numRows;
@@ -19,22 +33,38 @@ public class ColorGrid {
         this.grid = new int[numRows][numCols];
     }
 
-
+    /**
+     * @return the grid number of rows
+     */
     public int getNumRows() {
         return this.numRows;
     }
 
-
+    /**
+     * @return the grid number of columns
+     */
     public int getNumCols() {
         return this.numCols;
     }
 
-
+    /**
+     * get the colorId of an entry in a colorGrid
+     * @param row the row
+     * @param col the column
+     * @return  the colorId of the specified entry in a colorGrid
+     */
     public int getColorOfEntry(int row, int col) {
         return grid[row][col];
     }
 
-
+    /**
+     * set color of a specified entry
+     * @param colorId the new colorId
+     * @param row the row
+     * @param col the column
+     * @throws IllegalArgumentException will fail if the index is out of bounds or color
+     * is the same as the current color
+     */
     public void setColor(int colorId, int row, int col) {
         if(0 > row || row >= this.numRows || 0 > col || col >= this.numCols)
             throw new IllegalArgumentException("index out of bound");
@@ -45,7 +75,14 @@ public class ColorGrid {
         }
     }
 
-
+    /**
+     * set color of a specified entry and the surrounding entries with the same color
+     * @param colorId the new colorId
+     * @param row the row
+     * @param col the column
+     * @throws IllegalArgumentException will fail if the index is out of bounds or color
+     * is the same as the current color
+     */
     public void setColorFlood(int colorId, int row, int col) {
         if(0 > row || row >= this.numRows || 0 > col || col >= this.numCols){
             throw new IllegalArgumentException("index out of bound");
@@ -68,7 +105,10 @@ public class ColorGrid {
         }
     }
 
-
+    /**
+     * get all colorIds being used in this grid
+     * @return all colorIds being used in this grid
+     */
     public Set<Integer> getAvailableColorIds() {
         Set<Integer> colorIds = new HashSet<>();
         for(int i = 0 ; i < numRows ; ++ i)
@@ -76,6 +116,11 @@ public class ColorGrid {
         return colorIds;
     }
 
+    /**
+     * a helper function defining neighbors of a particular cell
+     * @param pos the cell specified
+     * @return an Iterable containing the neighboring cells
+     */
     private Iterable<CellPosition> getNeighborPositions(CellPosition pos){
         List<CellPosition> neighbors = new LinkedList<>();
         int [] dr = {0, 1, 0, -1}, dc = {-1, 0, 1, 0};
@@ -100,6 +145,9 @@ public class ColorGrid {
         return builder.toString();
     }
 
+    /**
+     * basic cell position with row and column
+     */
     static class CellPosition{
         public final int row;
         public final int col;
@@ -108,14 +156,6 @@ public class ColorGrid {
             this.row = row;
             this.col = col;
         }
-    }
-
-    public static void main(String[] args) {
-        ColorGrid grid = new ColorGrid(5, 5);
-        System.out.println(grid);
-        grid.setColor(2, 1, 1);
-        grid.setColorFlood(1, 0, 0);
-        System.out.println(grid);
     }
 
 }
