@@ -2,19 +2,24 @@ package view;
 
 import controller.MenuController;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import model.LevelInfo;
 import model.LevelRepository;
 import utils.Observer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MenuView implements View, Observer {
 
-    public final int gridNumColumns = 2;
+    public final int GRID_NUM_COLUMNS = 2;
     private LevelRepository levelRepository;
 
     private final MenuController menuController;
@@ -52,6 +57,10 @@ public class MenuView implements View, Observer {
         scene.setRoot(this.parent);
         levelGridPane = new GridPane();
 
+        Text title = new Text(0, 0, "KAMI 3");
+        title.setStyle("-fx-stroke: black");
+        title.setStyle("-fx-font: 40px Verdana");
+
         levelGridPane.setHgap(10); //horizontal gap in pixels => that's what you are asking for
         levelGridPane.setVgap(10); //vertical gap in pixels
         levelGridPane.setPadding(new Insets(10, 10, 10, 10));
@@ -60,8 +69,8 @@ public class MenuView implements View, Observer {
 
         List<LevelInfo> levelInfoList = this.levelRepository.listLevelInfo();
 
-        int gridNumRows = (levelInfoList.size() + gridNumColumns - 1) / gridNumColumns;
-        for(int i = 0 ; i < gridNumColumns ; ++ i) {
+        int gridNumRows = (levelInfoList.size() + GRID_NUM_COLUMNS - 1) / GRID_NUM_COLUMNS;
+        for(int i = 0; i < GRID_NUM_COLUMNS; ++ i) {
             ColumnConstraints columnConstraints = new ColumnConstraints();
             columnConstraints.setFillWidth(true);
             columnConstraints.setHgrow(Priority.ALWAYS);
@@ -73,29 +82,47 @@ public class MenuView implements View, Observer {
             rowConstraints.setVgrow(Priority.ALWAYS);
             levelGridPane.getRowConstraints().add(rowConstraints);
         }
-        buttonGrid = new Button[gridNumRows][gridNumColumns];
+        buttonGrid = new Button[gridNumRows][GRID_NUM_COLUMNS];
         for(int i = 0 ; i < gridNumRows ; ++ i){
-            for(int j = 0 ; j < gridNumColumns ; ++ j) {
-                int idx = i * gridNumColumns + j;
+            for(int j = 0; j < GRID_NUM_COLUMNS; ++ j) {
+                int idx = i * GRID_NUM_COLUMNS + j;
                 if(idx >= levelInfoList.size())
                     continue;
                 Button button = new Button();
                 button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+
                 GridPane.setFillWidth(button, true);
                 GridPane.setFillHeight(button, true);
+
                 button.setUserData(levelInfoList.get(idx));
-                button.setText(String.valueOf(levelInfoList.get(idx).getLevelId()));
-                button.setBorder(new Border(new BorderStroke(javafx.scene.paint.Color.BLACK,
-                        BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-                button.setStyle(button.getStyle() + "-fx-background-color: rgb(255, 192, 203);");
+                styleButton(button, "Level " + String.valueOf(levelInfoList.get(idx).getLevelId()));
+                button.setStyle("-fx-background-color: #d1edf2");
                 button.setOnAction(menuController::handleMoveToLevelBtn);
-                button.setVisible(true);
+
                 buttonGrid[i][j] = button;
                 levelGridPane.add(button, j, i);
             }
         }
 
+        Button builderButton = new Button();
+        styleButton(builderButton, "Build your own!");
+        builderButton.setStyle("-fx-background-color: #d1edf2");
+        builderButton.setOnAction(menuController::handleMoveToBuilderBtn);
+
+        this.parent.setBottom(builderButton);
+        this.parent.setAlignment(builderButton, Pos.CENTER);
+
+        this.parent.setTop(title);
+        this.parent.setAlignment(title, Pos.CENTER);
         this.parent.setCenter(levelGridPane);
+    }
+
+    private void styleButton(Button button, String toWrite){
+        button.setText(toWrite);
+        button.setStyle("-fx-font: 20px Verdana");
+        button.setStyle("-fx-padding: 10");
+        button.setEffect(new DropShadow());
+        button.setVisible(true);
     }
 
 
