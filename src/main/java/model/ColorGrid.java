@@ -92,14 +92,14 @@ public class ColorGrid {
             throw new IllegalArgumentException("color cant be the same as original color");
         }
         setColor(colorId, row, col);
-        Queue<CellPosition> queue = new LinkedList<>();
-        queue.add(new CellPosition(row, col));
+        Queue<GridCellPosition> queue = new LinkedList<>();
+        queue.add(new GridCellPosition(row, col));
         while(!queue.isEmpty()){
-            CellPosition curPos = queue.poll();
-            for (CellPosition nextCell : getNeighborPositions(curPos)){
+            GridCellPosition curPos = queue.poll();
+            for (GridCellPosition nextCell : getNeighborPositions(curPos)){
                 if(orgColorId == this.getColorOfEntry(nextCell.row, nextCell.col)){
                     setColor(colorId, nextCell.row, nextCell.col);
-                    queue.add(new CellPosition(nextCell.row, nextCell.col));
+                    queue.add(new GridCellPosition(nextCell.row, nextCell.col));
                 }
             }
         }
@@ -121,13 +121,13 @@ public class ColorGrid {
      * @param pos the cell specified
      * @return an Iterable containing the neighboring cells
      */
-    private Iterable<CellPosition> getNeighborPositions(CellPosition pos){
-        List<CellPosition> neighbors = new LinkedList<>();
+    public Iterable<GridCellPosition> getNeighborPositions(GridCellPosition pos){
+        List<GridCellPosition> neighbors = new LinkedList<>();
         int [] dr = {0, 1, 0, -1}, dc = {-1, 0, 1, 0};
         for(int i = 0 ; i < 4 ; ++ i){
             int nextRow = pos.row + dr[i], nextCol = pos.col + dc[i];
             if(0 <= nextRow && nextRow < this.getNumRows() && 0 <= nextCol && nextCol < this.getNumCols()){
-                neighbors.add(new CellPosition(nextRow, nextCol));
+                neighbors.add(new GridCellPosition(nextRow, nextCol));
             }
         }
         return neighbors;
@@ -148,11 +148,11 @@ public class ColorGrid {
     /**
      * basic cell position with row and column
      */
-    static class CellPosition{
+    public static class GridCellPosition {
         public final int row;
         public final int col;
 
-        public CellPosition(int row, int col) {
+        public GridCellPosition(int row, int col) {
             this.row = row;
             this.col = col;
         }
