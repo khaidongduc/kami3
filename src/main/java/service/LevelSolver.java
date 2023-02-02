@@ -1,13 +1,12 @@
 package service;
 
+import model.Color;
 import model.ColorGrid;
 import model.ColorGrid.GridCellPosition;
+import model.ColorRepository;
 import model.Move;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -37,10 +36,16 @@ public class LevelSolver {
         }
 
         Queue<ColoredGraph<GridCellPosition>> queue = new LinkedList<>();
-        queue.add(graph.pruneGraph());
+        Map<ColoredGraph<GridCellPosition>, ColoredGraph<GridCellPosition>> prevGraph = new HashMap<>();
+        Map<ColoredGraph<GridCellPosition>, Move> moves = new HashMap<>();
 
+        ColoredGraph<GridCellPosition> startGraph = graph.pruneGraph();
+        queue.add(startGraph);
+        prevGraph.put(startGraph, null);
+        moves.put(startGraph, null);
 
-        while(!queue.isEmpty()){
+        ColoredGraph<GridCellPosition> foundResult = null;
+        while(!queue.isEmpty() && foundResult == null){
             ColoredGraph<GridCellPosition> sourceGraph = queue.poll();
             for(GridCellPosition vertex : sourceGraph.getVertexSet()){
                 int orgColor = sourceGraph.getVertexColor(vertex);
@@ -51,20 +56,24 @@ public class LevelSolver {
                 for(Integer color : possibleColors){
                     sourceGraph.setVertexColor(vertex, color);
                     ColoredGraph<GridCellPosition> nextGraph = sourceGraph.pruneGraph();
-
-                    if(nextGraph.getNumVertices() == 1){
-                        System.out.println("Found");
-                        return null;
-                    }
-
                     queue.add(nextGraph);
+                    prevGraph.put(nextGraph, sourceGraph);
+                    moves.put(nextGraph, new Move(ColorRepository.getInstance().getColor(color), vertex.row, vertex.col));
+                    if(nextGraph.getNumVertices() == 1){
+                        foundResult = nextGraph;
+                    }
                 }
                 sourceGraph.setVertexColor(vertex, orgColor);
             }
-
         }
-
-        return null;
+        List<Move> solution = new ArrayList<>();
+        while(prevGraph.get(foundResult) != null){
+            solution.add(moves.get(foundResult));
+            foundResult = prevGraph.get(foundResult);
+        }
+        return solution;
     }
+
+
 
 }
