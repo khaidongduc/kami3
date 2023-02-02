@@ -6,15 +6,18 @@ import model.Color;
 import model.ColorGrid;
 
 import java.util.*;
+import java.util.UUID;
 
 public class ColoredGraph <V> {
 
-    Map<V, Set<V>> adjVertices;
-    Map<V, Integer> colorMap;
+    private String uuid;
+    private Map<V, Set<V>> adjVertices;
+    private Map<V, Integer> colorMap;
 
     public ColoredGraph(){
         this.adjVertices = new HashMap<>();
         this.colorMap = new HashMap<>();
+        this.uuid = String.valueOf(UUID.randomUUID());
     }
 
     public ColoredGraph(ColoredGraph<V> graph){
@@ -27,6 +30,10 @@ public class ColoredGraph <V> {
                 addEdge(vertex, adj);
             }
         }
+    }
+
+    public String getUUID(){
+        return this.uuid;
     }
 
     public Set<V> getVertexSet(){
@@ -100,6 +107,19 @@ public class ColoredGraph <V> {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ColoredGraph<?> that = (ColoredGraph<?>) o;
+        return Objects.equals(uuid, that.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid);
     }
 
 }
