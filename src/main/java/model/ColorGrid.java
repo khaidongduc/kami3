@@ -20,6 +20,14 @@ public class ColorGrid {
         grid = null;
     }
 
+    public ColorGrid(ColorGrid grid){
+        this.numRows = grid.numRows;
+        this.numCols = grid.numCols;
+        this.grid = new int[this.numRows][this.numCols];
+        for(int i = 0 ; i < this.numRows ; ++ i)
+            System.arraycopy(grid.grid[i], 0, this.grid[i], 0, this.numCols);
+    }
+
     /**
      * create a color grid with specified sizes
      * all initial colorId will be 0, which correspond to the first color added into ColorRepository
@@ -155,6 +163,19 @@ public class ColorGrid {
         public GridCellPosition(int row, int col) {
             this.row = row;
             this.col = col;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            GridCellPosition that = (GridCellPosition) o;
+            return row == that.row && col == that.col;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(row, col);
         }
     }
 
