@@ -5,7 +5,9 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses(
         {
                 ColorTests.class,
-                ColorGridTests.class
+                ColorGridTests.class,
+                ColorRepositoryTests.class,
+                LevelImplTests.class
         }
 )
 

@@ -8,7 +8,7 @@ import org.junit.runners.JUnit4;
 
 import static org.junit.Assert.*;
 
-@RunWith((JUnit4.class))
+@RunWith(JUnit4.class)
 public class ColorTests {
     private Color c;
 
@@ -18,13 +18,9 @@ public class ColorTests {
     @After
     public void tearDown(){c = null;}
 
-    @Test
+    @Test(expected = RuntimeException.class)
     public void constructTest(){
-        try{
-            Color c = new Color(-5, 5, 5);
-        } catch (Exception e){
-            fail("Unacceptable color parameters");
-        }
+        Color c = new Color(-5, 5, 5);
     }
 
     @Test

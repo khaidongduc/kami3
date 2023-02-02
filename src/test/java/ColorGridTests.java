@@ -7,13 +7,17 @@ import org.junit.After;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 import static org.junit.Assert.*;
 
+@RunWith(JUnit4.class)
 public class ColorGridTests {
     private ColorGrid c;
 
     @Before
-    public void setUp(){c = new ColorGrid(3, 4);}
+    public void setUp(){c = new ColorGrid(2, 3);}
 
     @After
     public void tearDown(){c = null;}
@@ -27,25 +31,83 @@ public class ColorGridTests {
 
     @Test
     public void testConstruct(){
-        assertEquals(4, c.getNumCols());
-        assertEquals(3, c.getNumRows());
+        assertEquals(3, c.getNumCols());
+        assertEquals(2, c.getNumRows());
     }
 
     @Test
     public void testSetGetColor(){
         ColorRepository repo = ColorRepository.getInstance();
-        c.setColor(0, 0, 0);
-        assertEquals(0, c.getColorOfEntry(0, 0));
+        c.setColor(2, 0, 0);
+        assertEquals(2, c.getColorOfEntry(0, 0));
 
-        c.setColor(2, 1, 1);
-        assertEquals(2, c.getColorOfEntry(1, 1));
+        c.setColor(1, 1, 1);
+        assertEquals(1, c.getColorOfEntry(1, 1));
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetColor_IndexOutOfBounds(){
+        c.setColor(2, 5, 5);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetColor_SameColor(){
+        c.setColor(0, 0, 0);
+    }
+
 
     @Test
     public void testSetColorFlood(){
-        c.setColor(0, 0, 0);
+        c.setColor(2, 0, 0);
         c.setColorFlood(1, 0, 1);
 
-        assertEquals(1, c.getColorOfEntry(4, 4));
+        assertEquals(2, c.getColorOfEntry(0, 0));
+        assertEquals(1, c.getColorOfEntry(0, 1));
+        assertEquals(1, c.getColorOfEntry(0, 2));
+        assertEquals(1, c.getColorOfEntry(1, 0));
+        assertEquals(1, c.getColorOfEntry(1, 1));
+        assertEquals(1, c.getColorOfEntry(1, 2));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetColorFlood_IndexOutOfBounds(){
+        c.setColorFlood(2, 5, 5);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetColorFlood_SameColor(){
+        c.setColorFlood(0, 0, 0);
+    }
+
+    @Test
+    public void testGetAvailableColorIds(){
+        c.setColor(1, 0, 1);
+        c.setColor(2, 0, 2);
+        c.setColor(3, 1, 0);
+
+        ArrayList<Integer> expectedIds = new ArrayList<>();
+        expectedIds.add(0);
+        expectedIds.add(1);
+        expectedIds.add(2);
+        expectedIds.add(3);
+
+        Set<Integer> ids = c.getAvailableColorIds();
+        assertTrue(setContains(expectedIds, ids));
+        assertFalse(ids.contains(4));
+
+    }
+
+    @Test
+    public void testToString(){
+        //to do
+    }
+
+    private boolean setContains(ArrayList<Integer> a, Set<Integer> s){
+        for (int i : s){
+            if (!a.contains(i)){
+                return false;
+            }
+        }
+        return true;
     }
 }
