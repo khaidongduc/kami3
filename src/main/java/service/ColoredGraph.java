@@ -23,10 +23,18 @@ public class ColoredGraph <V> {
             addVertex(vertex, graph.getVertexColor(vertex));
         }
         for(V vertex : graph.adjVertices.keySet()){
-            for(V adj : graph.adjVertices.get(vertex)){
+            for(V adj : graph.getNeighbors(vertex)){
                 addEdge(vertex, adj);
             }
         }
+    }
+
+    public Set<V> getVertexSet(){
+        return adjVertices.keySet();
+    }
+
+    public Set<V> getNeighbors(V vertex){
+        return adjVertices.get(vertex);
     }
 
     public void addVertex(V vertex, int color)
