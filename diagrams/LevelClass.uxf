@@ -1,0 +1,52 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>290</x><y>150</y><w>140</w><h>190</h></coordinates><panel_attributes>/Level/
+--
+getLevelId()
+getNumRows()
+getNumCols()
+getColorAt(row, col)
+numMoveRemaining()
+switchColor(color)
+getCurrentColor()
+play(move)
+getColors()
+getHints()
+getLevelState()
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>490</x><y>160</y><w>100</w><h>40</h></coordinates><panel_attributes>LevelImpl
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>580</x><y>160</y><w>70</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>50;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>640</x><y>620</y><w>140</w><h>140</h></coordinates><panel_attributes>Color
+--
+getColorId()
+getRValue()
+getGValue()
+getBValue()
+equals()
+hashCode()
+toString()
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>630</x><y>160</y><w>170</w><h>180</h></coordinates><panel_attributes>ColorGrid
+{innerclass
+GridCellPosition
+innerclass}
+{innerclass
+--
+getNumRows()
+getNumCols()
+getColorOfEntry()
+setColor()
+setColorFlood()
+getAvailableColorIds()
+getNeighborPositions()
+toString()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>420</x><y>160</y><w>90</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;70;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>290</x><y>370</y><w>140</w><h>190</h></coordinates><panel_attributes>/LevelBuilder/
+--
+getNumRows()
+getNumCols()
+getColorAt(row, col)
+getColors()
+numMoveRemaining()
+switchColor(color)
+getCurrentColor()
+setColor(color, row, col)
+changeGridSize(numRows, numCols)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>490</x><y>370</y><w>130</w><h>40</h></coordinates><panel_attributes>LevelBuilderImpl
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>560</x><y>300</y><w>90</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>70;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>420</x><y>370</y><w>90</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;70;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>530</x><y>620</y><w>100</w><h>30</h></coordinates><panel_attributes>ColorRepository</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>790</x><y>620</y><w>100</w><h>30</h></coordinates><panel_attributes>SimpleClass</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>90</x><y>150</y><w>100</w><h>30</h></coordinates><panel_attributes>LevelRepositiory</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>180</x><y>140</y><w>130</w><h>40</h></coordinates><panel_attributes>/creates many/
+lt=.</panel_attributes><additional_attributes>10;20;110;20</additional_attributes></element></diagram>
