@@ -1,10 +1,7 @@
 package service;
 
-import model.Color;
-import model.ColorGrid;
+import model.*;
 import model.ColorGrid.GridCellPosition;
-import model.ColorRepository;
-import model.Move;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,6 +11,18 @@ import java.util.stream.Collectors;
  * TODO: need implementation
  */
 public class LevelSolver {
+
+    private static LevelSolver instance;
+
+    private LevelSolver(){
+
+    }
+
+    public static LevelSolver getInstance(){
+        if(instance == null)
+            instance = new LevelSolver();
+        return instance;
+    }
 
     public List<Move> solveColorGrid(ColorGrid grid)
     {
