@@ -4,9 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-import model.Color;
-import model.Level;
-import model.Move;
+import model.*;
 import view.ViewEnum;
 
 public class LevelController {
@@ -50,7 +48,8 @@ public class LevelController {
     }
 
     public void handleRestartBtn() {
-        level.restart();
+        Level level = LevelRepository.getInstance().loadLevel(this.level.getLevelId());
+        ViewSwitcher.switchView(ViewEnum.LEVEL, level);
     }
 
     public void handleMoveToMenuBtn() {

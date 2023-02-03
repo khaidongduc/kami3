@@ -3,8 +3,11 @@ package model;
 import utils.Observable;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * a level repository that manages all Levels (list and create)
@@ -32,22 +35,27 @@ public class LevelRepository extends Observable {
         return instance;
     }
 
-    /**
-     * get a Level by levelId
-     * @param levelId the levelId
-     * @return the Level generated
-     */
-    public Level getLevel(int levelId){
-        return new LevelImpl(levelId);
-    }
 
-    /**
-     * assign an id and save the level into hard drive
-     * @param level the level
-     */
-    public void saveLevel(Level level){
-        // TODO: LevelBuilder
-        notifyObservers();
+    public LevelImpl loadLevel(int levelId){
+        try {
+            String relPath = String.format("levels/%s", levelId);
+            File file = new File(getClass().getResource(relPath).getPath());
+            Scanner scanner = new Scanner(file);
+            int numRows = scanner.nextInt();
+            int numCols = scanner.nextInt();
+            ColorGrid grid = new ColorGrid(numRows, numCols);
+            for (int i = 0; i < numRows; ++i){
+                for (int j = 0; j < numCols; ++j) {
+                    int colorId = scanner.nextInt();
+                    if(grid.getColorOfEntry(i, j) != colorId) grid.setColor(colorId, i, j);
+                }
+            }
+            int maxNumTurn = scanner.nextInt();
+            Color curColor = ColorRepository.getInstance().getColor(grid.getAvailableColorIds().stream().findFirst().get());
+            return new LevelImpl(grid, curColor, maxNumTurn, levelId);
+        } catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
     }
 
     /**
@@ -56,7 +64,24 @@ public class LevelRepository extends Observable {
      * @param levelBuilder the levelBuilder
      */
     public void saveLevel(LevelBuilder levelBuilder){
-        // TODO: LevelBuilder
+        File folder = new File(getClass().getResource("levels").getPath());
+        try {
+            String fileName = "/"+(folder.listFiles().length+1);
+            FileWriter fw = new FileWriter(folder+fileName);
+            fw.write(levelBuilder.getNumRows() +" "+ levelBuilder.getNumCols() + "\n");
+            for(int i = 0; i < levelBuilder.getNumRows(); i++){
+                String line = Integer.toString(levelBuilder.getColorAt(i,0).getColorId());
+                for(int j = 1; j < levelBuilder.getNumCols(); j++){
+                    line = line + " " + levelBuilder.getColorAt(i,j).getColorId();
+                }
+                line += "\n";
+                fw.write(line);
+            }
+            fw.write(Integer.toString(levelBuilder.getMinNumMoves()));
+            fw.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         notifyObservers();
     }
 

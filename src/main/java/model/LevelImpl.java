@@ -21,43 +21,16 @@ public class LevelImpl extends Level {
     private int maxNumTurn;
     private Color curColor;
 
-    /**
-     * initialization by levelId
-     * @param levelId the levelId
-     */
-    public LevelImpl(int levelId){
+    public LevelImpl(ColorGrid grid, Color curColor, int maxNumTurn, int levelId){
         super();
-        importLevel(levelId);
+        this.grid = grid;
+        this.curColor = curColor;
+        this.maxNumTurn = maxNumTurn;
+        this.levelId = levelId;
+        this.curNumTurn = 0;
+        notifyObservers();
     }
 
-    /**
-     * import a level by its id
-     * @param levelId the levelId
-     */
-    @Override
-    public void importLevel(int levelId){
-        try {
-            String relPath = String.format("levels/%s", levelId);
-            File file = new File(getClass().getResource(relPath).getPath());
-            Scanner scanner = new Scanner(file);
-            this.levelId = Integer.parseInt(file.getName());
-            int numRows = scanner.nextInt();
-            int numCols = scanner.nextInt();
-            grid = new ColorGrid(numRows, numCols);
-            for (int i = 0; i < numRows; ++i){
-                for (int j = 0; j < numCols; ++j) {
-                    int colorId = scanner.nextInt();
-                    if(grid.getColorOfEntry(i, j) != colorId) grid.setColor(colorId, i, j);
-                }
-            }
-            this.maxNumTurn = scanner.nextInt();
-            this.curNumTurn = 0;
-            this.curColor = ColorRepository.getInstance().getColor(grid.getAvailableColorIds().stream().findFirst().get());
-            notifyObservers();
-        } catch (Exception ex){
-            throw new RuntimeException(ex);
-        }
-    }
 
     /**
      * get the levelId
@@ -145,14 +118,6 @@ public class LevelImpl extends Level {
         grid.setColorFlood(move.getColor().getColorId(), move.getRow(), move.getCol());
         ++curNumTurn;
         notifyObservers();
-    }
-
-    /**
-     * restart the level;
-     */
-    @Override
-    public void restart() {
-        importLevel(getLevelId());
     }
 
     /**
