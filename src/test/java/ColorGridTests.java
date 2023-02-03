@@ -97,11 +97,6 @@ public class ColorGridTests {
 
     }
 
-    @Test
-    public void testToString(){
-        //to do
-    }
-
     private boolean setContains(ArrayList<Integer> a, Set<Integer> s){
         for (int i : s){
             if (!a.contains(i)){
