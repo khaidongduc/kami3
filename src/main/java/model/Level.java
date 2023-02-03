@@ -19,12 +19,6 @@ public abstract class Level extends Observable {
     }
 
     /**
-     * import a level by its id
-     * @param levelId the levelId
-     */
-    public abstract void importLevel(int levelId);
-
-    /**
      * get the levelId
      * @return the levelId
      */
@@ -80,11 +74,6 @@ public abstract class Level extends Observable {
      * @throws IllegalArgumentException index out of bound
      */
     public abstract void play(Move move);
-
-    /**
-     * restart the level;
-     */
-    public abstract void restart();
 
     /**
      * get the color palette of this level

@@ -7,7 +7,11 @@ import javafx.scene.layout.GridPane;
 import model.Color;
 import model.LevelBuilder;
 import model.LevelBuilderImpl;
+import model.LevelRepository;
 import view.ViewEnum;
+
+import javax.swing.*;
+import java.text.NumberFormat;
 
 public class BuildController {
 
@@ -42,7 +46,21 @@ public class BuildController {
     public void handleExitBtn(ActionEvent e){ViewSwitcher.switchView(ViewEnum.MENU);}
 
     //Save functionality is not implemented.
-    public void handleSaveBtn(ActionEvent e){level.restart();}
+    public void handleSaveBtn(ActionEvent e){
+        LevelRepository.getInstance().saveLevel(this.level);
+        level.restart();
+    }
+
+    public void handleResizeBtn(String rowInput, String colInput){
+        try{
+            int rows = Integer.parseInt(rowInput);
+            int cols = Integer.parseInt(colInput);
+            if(0 < rows && 0 < cols){
+                this.level = new LevelBuilderImpl(rows,cols);
+                ViewSwitcher.switchView(ViewEnum.BUILDER,this.level);
+            }
+        }catch(NumberFormatException e){}
+    }
 
     public void setLevel(LevelBuilder level){this.level = level;}
 
