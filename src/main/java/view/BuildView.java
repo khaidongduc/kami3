@@ -3,10 +3,7 @@ package view;
 import controller.BuildController;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import model.Color;
 import model.ColorRepository;
@@ -95,10 +92,10 @@ public class BuildView  implements View, Observer {
             button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
             button.setOnAction(buildController::handleChooseColorBtn);
             button.setUserData(color);
-            colorChoiceGrid.add(button, count++, 0);
+            colorChoiceGrid.add(button, 0,count++);
             colorToChooseButton.put(color, button);
         }
-        parent.setBottom(colorChoiceGrid);
+        parent.setRight(colorChoiceGrid);
 
         // Exit, restart, and save buttons
         GridPane optionsGrid = new GridPane();
@@ -110,13 +107,26 @@ public class BuildView  implements View, Observer {
         Button restartBtn = new Button("Restart");
         Button saveBtn = new Button("Save");
         Button exitBtn = new Button("Exit");
+        Label rowLabel = new Label("Number of rows:");
+        Label colLabel = new Label("Number of cols:");
+        TextField rowInput = new TextField();
+        TextField colInput = new TextField();
+        Button resizeBtn = new Button("Resize");
+        resizeBtn.setOnAction(event -> {
+            buildController.handleResizeBtn(rowInput.getText(),colInput.getText());
+        });
         restartBtn.setOnAction(buildController::handleRestartBtn);
         saveBtn.setOnAction(buildController::handleSaveBtn);
         exitBtn.setOnAction(buildController::handleExitBtn);
         optionsGrid.add(exitBtn,0,0);
         optionsGrid.add(restartBtn,0,1);
         optionsGrid.add(saveBtn,0,2);
-        parent.setRight(optionsGrid);
+        optionsGrid.add(rowLabel,1,0);
+        optionsGrid.add(rowInput,2,0);
+        optionsGrid.add(colLabel,1,1);
+        optionsGrid.add(colInput,2,1);
+        optionsGrid.add(resizeBtn,2,2);
+        parent.setBottom(optionsGrid);
 
         update();
     }

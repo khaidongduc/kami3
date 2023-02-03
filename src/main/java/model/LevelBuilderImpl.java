@@ -8,8 +8,8 @@ import java.util.Scanner;
 
 
 public class LevelBuilderImpl extends LevelBuilder{
-    private static final int ROWS = 5;
-    private static final int COLS = 5;
+    private static final int DEFAULT_ROWS = 5;
+    private static final int DEFAULT_COLS = 5;
 
     private int numRows, numCols;
     private ColorGrid grid;
@@ -19,11 +19,19 @@ public class LevelBuilderImpl extends LevelBuilder{
 
     public LevelBuilderImpl() {
         super();
-        this.numRows = ROWS;
-        this.numCols = COLS;
+        this.numRows = DEFAULT_ROWS;
+        this.numCols = DEFAULT_COLS;
         restart();
 
     }
+
+    public LevelBuilderImpl(int rows, int cols){
+        super();
+        this.numRows = rows;
+        this.numCols = cols;
+        restart();
+    }
+
     @Override
     public int getNumRows() {return numRows;}
 
