@@ -1,7 +1,6 @@
 package service;
 
 import com.sun.tools.jdeps.Graph;
-import jdk.javadoc.internal.doclets.toolkit.taglets.snippet.Style;
 import model.Color;
 import model.ColorGrid;
 

@@ -1,5 +1,7 @@
 package model;
 
+import service.LevelSolver;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -85,5 +87,10 @@ public class LevelBuilderImpl extends LevelBuilder{
         this.grid = new ColorGrid(this.numRows, this.numCols);
         this.curColor = ColorRepository.getInstance().getColor(grid.getAvailableColorIds().stream().findFirst().get());
         notifyObservers();
+    }
+
+    @Override
+    public int getMinNumMoves() {
+        return LevelSolver.getInstance().solveColorGrid(this.grid).size();
     }
 }

@@ -66,17 +66,18 @@ public class LevelRepository extends Observable {
     public void saveLevel(LevelBuilder levelBuilder){
         File folder = new File(getClass().getResource("levels").getPath());
         try {
-            String fileName = "/"+Integer.toString(folder.listFiles().length+1);
-            FileWriter fw = new FileWriter(folder.toString()+fileName);
+            String fileName = "/"+(folder.listFiles().length+1);
+            FileWriter fw = new FileWriter(folder+fileName);
             fw.write(levelBuilder.getNumRows() +" "+ levelBuilder.getNumCols() + "\n");
             for(int i = 0; i < levelBuilder.getNumRows(); i++){
                 String line = Integer.toString(levelBuilder.getColorAt(i,0).getColorId());
                 for(int j = 1; j < levelBuilder.getNumCols(); j++){
-                    line += " " + Integer.toString(levelBuilder.getColorAt(i,j).getColorId());
+                    line = line + " " + levelBuilder.getColorAt(i,j).getColorId();
                 }
                 line += "\n";
                 fw.write(line);
             }
+            fw.write(Integer.toString(levelBuilder.getMinNumMoves()));
             fw.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
