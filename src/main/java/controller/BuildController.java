@@ -7,6 +7,7 @@ import javafx.scene.layout.GridPane;
 import model.Color;
 import model.LevelBuilder;
 import model.LevelBuilderImpl;
+import model.LevelRepository;
 import view.ViewEnum;
 
 public class BuildController {
@@ -42,7 +43,10 @@ public class BuildController {
     public void handleExitBtn(ActionEvent e){ViewSwitcher.switchView(ViewEnum.MENU);}
 
     //Save functionality is not implemented.
-    public void handleSaveBtn(ActionEvent e){level.restart();}
+    public void handleSaveBtn(ActionEvent e){
+        LevelRepository.getInstance().saveLevel(this.level);
+        level.restart();
+    }
 
     public void setLevel(LevelBuilder level){this.level = level;}
 

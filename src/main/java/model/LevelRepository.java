@@ -3,6 +3,8 @@ package model;
 import utils.Observable;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -55,14 +57,6 @@ public class LevelRepository extends Observable {
             throw new RuntimeException(ex);
         }
     }
-    /**
-     * assign an id and save the level into hard drive
-     * @param level the level
-     */
-    public void saveLevel(Level level){
-        // TODO: LevelBuilder
-        notifyObservers();
-    }
 
     /**
      * convert the levelBuilder to a level,
@@ -70,7 +64,23 @@ public class LevelRepository extends Observable {
      * @param levelBuilder the levelBuilder
      */
     public void saveLevel(LevelBuilder levelBuilder){
-        // TODO: LevelBuilder
+        File folder = new File(getClass().getResource("levels").getPath());
+        try {
+            String fileName = "/"+Integer.toString(folder.listFiles().length+1);
+            FileWriter fw = new FileWriter(folder.toString()+fileName);
+            fw.write(levelBuilder.getNumRows() +" "+ levelBuilder.getNumCols() + "\n");
+            for(int i = 0; i < levelBuilder.getNumRows(); i++){
+                String line = Integer.toString(levelBuilder.getColorAt(i,0).getColorId());
+                for(int j = 1; j < levelBuilder.getNumCols(); j++){
+                    line += " " + Integer.toString(levelBuilder.getColorAt(i,j).getColorId());
+                }
+                line += "\n";
+                fw.write(line);
+            }
+            fw.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         notifyObservers();
     }
 

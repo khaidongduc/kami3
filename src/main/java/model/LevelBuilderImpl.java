@@ -74,7 +74,7 @@ public class LevelBuilderImpl extends LevelBuilder{
 
     @Override
     public void restart() {
-        grid = new ColorGrid(this.numRows, this.numCols);
+        this.grid = new ColorGrid(this.numRows, this.numCols);
         this.curColor = ColorRepository.getInstance().getColor(grid.getAvailableColorIds().stream().findFirst().get());
         notifyObservers();
     }
