@@ -1,0 +1,15 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>9</zoom_level><element><id>UMLInterface</id><coordinates><x>333</x><y>38</y><w>72</w><h>81</h></coordinates><panel_attributes>Observer
+--
+update()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>360</x><y>110</y><w>27</w><h>81</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>UMLInterface</id><coordinates><x>297</x><y>155</y><w>144</w><h>90</h></coordinates><panel_attributes>View
+--
+getScene()
+bindModel(Object model)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>324</x><y>380</y><w>90</w><h>27</h></coordinates><panel_attributes>ConcreteView
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>360</x><y>236</y><w>27</w><h>162</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;160</additional_attributes></element><element><id>UMLClass</id><coordinates><x>630</x><y>56</y><w>153</w><h>90</h></coordinates><panel_attributes>/Observable/
+-
+Set&lt;Observer&gt; observers
+-
+attach(Observer observer)
+detach(Observer observer)
+notifyObservers()
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>405</x><y>56</y><w>243</w><h>27</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>250;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>657</x><y>380</y><w>99</w><h>27</h></coordinates><panel_attributes>ObservableModel
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>693</x><y>137</y><w>27</w><h>261</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;270</additional_attributes></element><element><id>Relation</id><coordinates><x>405</x><y>380</y><w>270</w><h>27</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>280;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>477</x><y>506</y><w>90</w><h>27</h></coordinates><panel_attributes>Controller</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>360</x><y>398</y><w>162</w><h>126</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>160;120;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>540</x><y>398</y><w>171</w><h>126</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>170;10;10;120</additional_attributes></element></diagram>
