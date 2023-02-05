@@ -13,7 +13,7 @@ public class MenuController {
     public void handleMoveToLevelBtn(ActionEvent actionEvent) {
         Button target = (Button) actionEvent.getTarget();
         LevelInfo info = (LevelInfo) target.getUserData();
-        Level level = LevelRepository.getInstance().loadLevel(info.getLevelId());
+        Level level = LevelRepository.getInstance().loadLevel(info);
         ViewSwitcher.switchView(ViewEnum.LEVEL, level);
     }
 

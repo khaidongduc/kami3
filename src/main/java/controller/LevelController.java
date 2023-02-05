@@ -48,7 +48,7 @@ public class LevelController {
     }
 
     public void handleRestartBtn() {
-        Level level = LevelRepository.getInstance().loadLevel(this.level.getLevelId());
+        Level level = LevelRepository.getInstance().loadLevel(this.level.getLevelInfo());
         ViewSwitcher.switchView(ViewEnum.LEVEL, level);
     }
 
