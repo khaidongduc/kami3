@@ -1,5 +1,7 @@
 package edu.union.model;
 
+import edu.union.Config;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -23,12 +25,9 @@ public class ColorRepository {
     private ColorRepository(){
         idCount = 0;
         colorMap = new HashMap<>();
-
-        addColor(new Color(255, 0, 0));
-        addColor(new Color(0, 255, 0));
-        addColor(new Color(0, 0, 255));
-        addColor(new Color(0, 255, 255));
-
+        for (Color color : Config.DEFAULT_COLORS){
+            addColor(color);
+        }
     }
 
     /**
