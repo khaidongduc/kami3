@@ -18,11 +18,13 @@ public abstract class Level extends Observable {
         super();
     }
 
+
+
     /**
      * get the levelId
      * @return the levelId
      */
-    public abstract int getLevelId();
+    public abstract LevelInfo getLevelInfo();
 
     /**
      * get the number of rows in the color grid associated with a level

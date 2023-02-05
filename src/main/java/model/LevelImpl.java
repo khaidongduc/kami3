@@ -15,18 +15,18 @@ import java.util.Scanner;
  */
 public class LevelImpl extends Level {
 
-    private int levelId;
+    private LevelInfo levelInfo;
     private ColorGrid grid;
     private int curNumTurn;
     private int maxNumTurn;
     private Color curColor;
 
-    public LevelImpl(ColorGrid grid, Color curColor, int maxNumTurn, int levelId){
+    public LevelImpl(ColorGrid grid, Color curColor, int maxNumTurn, LevelInfo levelInfo){
         super();
         this.grid = grid;
         this.curColor = curColor;
         this.maxNumTurn = maxNumTurn;
-        this.levelId = levelId;
+        this.levelInfo = levelInfo;
         this.curNumTurn = 0;
         notifyObservers();
     }
@@ -37,8 +37,8 @@ public class LevelImpl extends Level {
      * @return the levelId
      */
     @Override
-    public int getLevelId(){
-        return levelId;
+    public LevelInfo getLevelInfo(){
+        return levelInfo;
     }
 
     /**
