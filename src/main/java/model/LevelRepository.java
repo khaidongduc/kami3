@@ -42,9 +42,9 @@ public class LevelRepository extends Observable {
     }
 
 
-    public LevelImpl loadLevel(int levelId){
+    public LevelImpl loadLevel(LevelInfo levelInfo){
         try {
-            String relPath = String.format("levels/%s", levelId);
+            String relPath = String.format("levels/%s", levelInfo.getLevelId());
             File file = new File(getClass().getResource(relPath).getPath());
             Scanner scanner = new Scanner(file);
             int numRows = scanner.nextInt();
@@ -58,7 +58,7 @@ public class LevelRepository extends Observable {
             }
             int maxNumTurn = scanner.nextInt();
             Color curColor = ColorRepository.getInstance().getColor(grid.getAvailableColorIds().stream().findFirst().get());
-            return new LevelImpl(grid, curColor, maxNumTurn, levelId);
+            return new LevelImpl(grid, curColor, maxNumTurn, levelInfo);
         } catch (Exception ex){
             throw new RuntimeException(ex);
         }

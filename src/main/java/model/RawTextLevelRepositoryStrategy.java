@@ -9,7 +9,7 @@ public class RawTextLevelRepositoryStrategy implements LevelRepositoryStrategy {
     }
 
     @Override
-    public Level loadLevel(int levelId) {
+    public Level loadLevel(LevelInfo levelInfo) {
         return null;
     }
 
