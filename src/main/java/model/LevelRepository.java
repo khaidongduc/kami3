@@ -18,11 +18,17 @@ import java.util.Scanner;
 public class LevelRepository extends Observable {
     private static LevelRepository instance;
 
+    private LevelRepositoryStrategy levelRepositoryStrategy;
+
     /**
      * basic initialization
      */
     private LevelRepository(){
 
+    }
+
+    public void setLevelRepositoryStrategy(LevelRepositoryStrategy levelRepositoryStrategy) {
+        this.levelRepositoryStrategy = levelRepositoryStrategy;
     }
 
     /**
