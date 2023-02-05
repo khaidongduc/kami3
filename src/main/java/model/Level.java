@@ -21,8 +21,8 @@ public abstract class Level extends Observable {
 
 
     /**
-     * get the levelId
-     * @return the levelId
+     * get the levelInfo
+     * @return the levelInfo
      */
     public abstract LevelInfo getLevelInfo();
 

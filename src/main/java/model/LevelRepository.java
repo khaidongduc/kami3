@@ -42,6 +42,11 @@ public class LevelRepository extends Observable {
     }
 
 
+    /**
+     * load a level using a LevelInfo
+     * @param levelInfo the levelInfo
+     * @return the corresponding Level object
+     */
     public LevelImpl loadLevel(LevelInfo levelInfo){
         try {
             String relPath = String.format("levels/%s", levelInfo.getLevelId());
