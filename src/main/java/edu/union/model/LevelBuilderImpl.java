@@ -1,13 +1,12 @@
 package edu.union.model;
 
+import edu.union.Config;
 import edu.union.service.LevelSolver;
 
 import java.util.List;
 
 
 public class LevelBuilderImpl extends LevelBuilder{
-    private static final int DEFAULT_ROWS = 5;
-    private static final int DEFAULT_COLS = 5;
 
     private int numRows, numCols;
     private ColorGrid grid;
@@ -17,8 +16,8 @@ public class LevelBuilderImpl extends LevelBuilder{
 
     public LevelBuilderImpl() {
         super();
-        this.numRows = DEFAULT_ROWS;
-        this.numCols = DEFAULT_COLS;
+        this.numRows = Config.DEFAULT_BUILDER_ROWS;
+        this.numCols = Config.DEFAULT_BUILDER_COLS;
         restart();
 
     }
