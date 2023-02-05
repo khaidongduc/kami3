@@ -43,7 +43,7 @@ public class BuildController {
         }
     }
     public void handleRestartBtn(ActionEvent e){level.restart();}
-    public void handleExitBtn(ActionEvent e){ViewSwitcher.switchView(ViewEnum.MENU);}
+    public void handleExitBtn(ActionEvent e){ViewSwitcher.getInstance().switchView(ViewEnum.MENU);}
 
     //Save functionality is not implemented.
     public void handleSaveBtn(ActionEvent e){
@@ -57,7 +57,7 @@ public class BuildController {
             int cols = Integer.parseInt(colInput);
             if(0 < rows && 0 < cols){
                 this.level = new LevelBuilderImpl(rows,cols);
-                ViewSwitcher.switchView(ViewEnum.BUILDER,this.level);
+                ViewSwitcher.getInstance().switchView(ViewEnum.BUILDER,this.level);
             }
         }catch(NumberFormatException e){}
     }

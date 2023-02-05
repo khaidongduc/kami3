@@ -14,10 +14,10 @@ public class MenuController {
         Button target = (Button) actionEvent.getTarget();
         LevelInfo info = (LevelInfo) target.getUserData();
         Level level = LevelRepository.getInstance().loadLevel(info);
-        ViewSwitcher.switchView(ViewEnum.LEVEL, level);
+        ViewSwitcher.getInstance().switchView(ViewEnum.LEVEL, level);
     }
 
     public void handleMoveToBuilderBtn(ActionEvent actionEvent) {
-        ViewSwitcher.switchView(ViewEnum.BUILDER);
+        ViewSwitcher.getInstance().switchView(ViewEnum.BUILDER);
     }
 }

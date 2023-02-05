@@ -8,18 +8,35 @@ import java.util.EnumMap;
 
 /**
  * a view switcher to supporting switching between views in controller
+ * Singleton
  */
 public class ViewSwitcher {
 
-    private static Stage stage;
-    private static final EnumMap<ViewEnum, View> viewMap = new EnumMap<ViewEnum, View>(ViewEnum.class);
+    private Stage stage;
+    private final EnumMap<ViewEnum, View> viewMap;
+
+    private static ViewSwitcher instance;
+
+    private ViewSwitcher(){
+        viewMap = new EnumMap<ViewEnum, View>(ViewEnum.class);
+    }
+
+    /**
+     * return a singleton instance of ViewSwitcher
+     * @return an instance of ViewSwitcher
+     */
+    public static ViewSwitcher getInstance(){
+        if(instance == null)
+            instance = new ViewSwitcher();
+        return instance;
+    }
 
     /**
      * set the root stage to manipulate
      * @param stage the root stage
      */
-    public static void setStage(Stage stage){
-        ViewSwitcher.stage = stage;
+    public void setStage(Stage stage){
+        this.stage = stage;
     }
 
     /**
@@ -27,7 +44,7 @@ public class ViewSwitcher {
      * @param viewEnum the view enum
      * @param view the view
      */
-    public static void addView(ViewEnum viewEnum, View view){
+    public void addView(ViewEnum viewEnum, View view){
         viewMap.put(viewEnum, view);
     }
 
@@ -36,7 +53,7 @@ public class ViewSwitcher {
      * @param viewEnum the view enum
      * @throws IllegalArgumentException if viewEnum is not in the viewMap
      */
-    public static void switchView(ViewEnum viewEnum){
+    public void switchView(ViewEnum viewEnum){
         if(!viewMap.containsKey(viewEnum))
             throw new IllegalArgumentException(viewEnum + "not switchable");
         View view = viewMap.get(viewEnum);
@@ -51,7 +68,7 @@ public class ViewSwitcher {
      * @throws IllegalArgumentException if viewEnum is not in the viewMap
      * @throws IllegalArgumentException if bind the model into the view fail
      */
-    public static void switchView(ViewEnum viewEnum, Object model){
+    public void switchView(ViewEnum viewEnum, Object model){
         if(!viewMap.containsKey(viewEnum))
             throw new IllegalArgumentException(viewEnum + "not switchable");
         View view = viewMap.get(viewEnum);

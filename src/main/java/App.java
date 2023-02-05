@@ -13,20 +13,21 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
+        ViewSwitcher viewSwitcher = ViewSwitcher.getInstance();
 
-        ViewSwitcher.setStage(stage);
+        viewSwitcher.setStage(stage);
 
         MenuController menuController = new MenuController();
         MenuView menuView = new MenuView(menuController);
-        ViewSwitcher.addView(ViewEnum.MENU, menuView);
+        viewSwitcher.addView(ViewEnum.MENU, menuView);
 
         LevelController levelController = new LevelController();
         LevelView levelView = new LevelView(levelController);
-        ViewSwitcher.addView(ViewEnum.LEVEL, levelView);
+        viewSwitcher.addView(ViewEnum.LEVEL, levelView);
 
         BuildController buildController = new BuildController();
         BuildView buildView = new BuildView(buildController);
-        ViewSwitcher.addView(ViewEnum.BUILDER, buildView);
+        viewSwitcher.addView(ViewEnum.BUILDER, buildView);
 
         stage.setScene(menuView.getScene());
         stage.show();

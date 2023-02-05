@@ -49,10 +49,10 @@ public class LevelController {
 
     public void handleRestartBtn() {
         Level level = LevelRepository.getInstance().loadLevel(this.level.getLevelInfo());
-        ViewSwitcher.switchView(ViewEnum.LEVEL, level);
+        ViewSwitcher.getInstance().switchView(ViewEnum.LEVEL, level);
     }
 
     public void handleMoveToMenuBtn() {
-        ViewSwitcher.switchView(ViewEnum.MENU);
+        ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
     }
 }
