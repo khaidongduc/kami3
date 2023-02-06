@@ -12,16 +12,16 @@ import edu.union.view.ViewEnum;
 
 public class BuildController {
 
-    private LevelBuilder level;
+    private LevelBuilder levelBuilder;
     public BuildController(){
-        level = new LevelBuilderImpl();
+        levelBuilder = new LevelBuilderImpl();
     }
 
     public void handleChooseColorBtn(ActionEvent action){
         try{
             Button targetButton = (Button) action.getTarget();
             Color color = (Color) targetButton.getUserData();
-            level.switchColor(color);
+            levelBuilder.switchColor(color);
             System.out.println(color);
         }catch(Exception e){
             Alert alert = new Alert(Alert.AlertType.WARNING, e.toString());
@@ -33,19 +33,21 @@ public class BuildController {
             Button targetButton = (Button) action.getTarget();
             int row = GridPane.getRowIndex(targetButton);
             int col = GridPane.getColumnIndex(targetButton);
-            level.setColor(level.getCurrentColor(),row,col);
+            levelBuilder.setColor(levelBuilder.getCurrentColor(),row,col);
         }catch(Exception e){
             Alert alert = new Alert(Alert.AlertType.WARNING, e.toString());
             alert.show();
         }
     }
-    public void handleRestartBtn(ActionEvent e){level.restart();}
+    public void handleRestartBtn(ActionEvent e){
+        levelBuilder.restart();}
     public void handleExitBtn(ActionEvent e){ViewSwitcher.getInstance().switchView(ViewEnum.MENU);}
 
     //Save functionality is not implemented.
     public void handleSaveBtn(ActionEvent e){
-        LevelRepository.getInstance().saveLevel(this.level);
-        level.restart();
+        LevelRepository.getInstance().saveLevel(this.levelBuilder);
+        levelBuilder.restart();
+        ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
     }
 
     public void handleResizeBtn(String rowInput, String colInput){
@@ -53,14 +55,14 @@ public class BuildController {
             int rows = Integer.parseInt(rowInput);
             int cols = Integer.parseInt(colInput);
             if(0 < rows && 0 < cols){
-                this.level = new LevelBuilderImpl(rows,cols);
-                ViewSwitcher.getInstance().switchView(ViewEnum.BUILDER,this.level);
+                this.levelBuilder = new LevelBuilderImpl(rows,cols);
+                ViewSwitcher.getInstance().switchView(ViewEnum.BUILDER,this.levelBuilder);
             }
         }catch(NumberFormatException e){}
     }
 
-    public void setLevel(LevelBuilder level){this.level = level;}
+    public void setLevelBuilder(LevelBuilder levelBuilder){this.levelBuilder = levelBuilder;}
 
-    public LevelBuilder getLevel(){return this.level;}
+    public LevelBuilder getLevelBuilder(){return this.levelBuilder;}
 
 }

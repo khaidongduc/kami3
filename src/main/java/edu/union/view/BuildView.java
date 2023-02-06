@@ -28,7 +28,7 @@ public class BuildView  implements View, Observer {
         this.parent = new BorderPane();
         this.scene = new Scene(this.parent, 400, 400);
 
-        this.level = buildController.getLevel();
+        this.level = buildController.getLevelBuilder();
         level.attach(this);
         bindModel(level);
     }
@@ -161,7 +161,7 @@ public class BuildView  implements View, Observer {
             this.level.detach(this);
         }
         level.attach(this);
-        this.buildController.setLevel(level);
+        this.buildController.setLevelBuilder(level);
         this.level = level;
         renderView();
     }
