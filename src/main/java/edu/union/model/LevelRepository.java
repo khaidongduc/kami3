@@ -1,5 +1,6 @@
 package edu.union.model;
 
+import edu.union.service.LevelSolver;
 import edu.union.utils.Observable;
 
 import java.io.File;
@@ -96,7 +97,11 @@ public class LevelRepository extends Observable {
                 line += "\n";
                 fw.write(line);
             }
-            fw.write(Integer.toString(levelBuilder.getMinNumMoves()));
+            List<Move> hints = LevelSolver.getInstance().solveColorGrid(levelBuilder.getGrid());
+            fw.write(Integer.toString(hints.size()) + "\n");
+            for(Move move : hints){
+                fw.write(move.getColor().getColorId() + " " + move.getRow() + " " + move.getCol() + "\n");
+            }
             fw.close();
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -30,6 +30,9 @@ public class LevelBuilderImpl extends LevelBuilder{
     }
 
     @Override
+    public ColorGrid getGrid() {return grid;}
+
+    @Override
     public int getNumRows() {return numRows;}
 
     @Override
@@ -84,8 +87,4 @@ public class LevelBuilderImpl extends LevelBuilder{
         notifyObservers();
     }
 
-    @Override
-    public int getMinNumMoves() {
-        return LevelSolver.getInstance().solveColorGrid(this.grid).size();
-    }
 }

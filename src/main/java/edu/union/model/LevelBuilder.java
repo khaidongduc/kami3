@@ -32,6 +32,12 @@ public abstract class LevelBuilder extends Observable {
     public abstract int getNumCols();
 
     /**
+     * get the grid associated with this levelBuilder
+     * @return the grid associated with this levelBuilde
+     */
+    public abstract ColorGrid getGrid();
+
+    /**
      * get the color at a specified cell
      * @param row the row
      * @param col the column
@@ -93,9 +99,4 @@ public abstract class LevelBuilder extends Observable {
      */
     public abstract void restart();
 
-    /**
-     * Get the minimum number of moves needed to solve a built board.
-     * @return: The integer value of the minimum number of moves needed to solve the Kami Board.
-     */
-    public abstract int getMinNumMoves();
 }
