@@ -75,6 +75,19 @@ public class Color {
         return bValue;
     }
 
+    public String getReadableColor(String original){
+        switch (original) {
+            case "RGB(0,0,255)":
+                return "blue";
+            case "RGB(0,255,0)":
+                return "green";
+            case "RGB(255,0,0)":
+                return "red";
+            default:
+                return "light blue";
+        }
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

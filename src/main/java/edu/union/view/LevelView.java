@@ -137,12 +137,16 @@ public class LevelView implements View, Observer {
         exitBtn.setOnAction(event -> levelController.handleMoveToMenuBtn());
         getHintsBtn.setOnAction(event -> {
 
+            levelController.handleRestartBtn();
             List<Move> hints = level.getHints();
             for(Move move : hints){
                 Color color = move.getColor();
-                System.out.println(String.format("RGB(%d,%d,%d) row:%d col:%d",
+                String readableColor = color.getReadableColor(String.format("RGB(%d,%d,%d)", color.getRValue(),
+                                color.getGValue(), color.getBValue()));
+                System.out.println(readableColor + String.format(" row:%d col:%d",
                         color.getRValue(), color.getBValue(), color.getGValue(),
                         move.getRow(), move.getCol()));
+                //pass this string
             }
 
         });

@@ -1,11 +1,14 @@
 package edu.union.controller;
 
 import javafx.event.ActionEvent;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import edu.union.model.*;
 import edu.union.view.ViewEnum;
+import javafx.stage.Stage;
 
 public class LevelController {
 
@@ -54,6 +57,11 @@ public class LevelController {
 
     public void handleMoveToMenuBtn() {
         ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
+    }
+
+    public void handleGetHintsBtn()
+    {
+        //to do
     }
 
 

@@ -9,7 +9,8 @@ import org.junit.runners.Suite;
                 ColorTests.class,
                 ColorGridTests.class,
                 ColorRepositoryTests.class,
-                LevelImplTests.class
+                LevelImplTests.class,
+                MoveTests.class
         }
 )
 
