@@ -16,14 +16,14 @@ public class LevelImpl extends Level {
     private LevelInfo levelInfo;
     private ColorGrid grid;
     private int curNumTurn;
-    private int maxNumTurn;
+    private List<Move> hints;
     private Color curColor;
 
-    public LevelImpl(ColorGrid grid, Color curColor, int maxNumTurn, LevelInfo levelInfo){
+    public LevelImpl(ColorGrid grid, Color curColor, List<Move> hints, LevelInfo levelInfo){
         super();
         this.grid = grid;
         this.curColor = curColor;
-        this.maxNumTurn = maxNumTurn;
+        this.hints = hints;
         this.levelInfo = levelInfo;
         this.curNumTurn = 0;
         notifyObservers();
@@ -76,7 +76,7 @@ public class LevelImpl extends Level {
      */
     @Override
     public int numMoveRemaining() {
-        return maxNumTurn - curNumTurn;
+        return hints.size() - curNumTurn;
     }
 
     /**
@@ -133,8 +133,7 @@ public class LevelImpl extends Level {
      */
     @Override
     public List<Move> getHints() {
-        //TODO: implement
-        return null;
+        return hints;
     }
 
     /**

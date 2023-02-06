@@ -55,4 +55,6 @@ public class LevelController {
     public void handleMoveToMenuBtn() {
         ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
     }
+
+
 }

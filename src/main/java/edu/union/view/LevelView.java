@@ -1,6 +1,7 @@
 package edu.union.view;
 
 import edu.union.controller.LevelController;
+import edu.union.model.Move;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -116,10 +117,41 @@ public class LevelView implements View, Observer {
             button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
             button.setOnAction(levelController::handleChooseColorBtn);
             button.setUserData(color);
-            colorChoiceGrid.add(button, count++, 0);
+            colorChoiceGrid.add(button, 0, count++);
             colorToChooseButton.put(color, button);
         }
-        parent.setBottom(colorChoiceGrid);
+        parent.setRight(colorChoiceGrid);
+
+
+        GridPane optionsGrid = new GridPane();
+        optionsGrid.setPrefHeight(100);
+        optionsGrid.setHgap(10);
+        optionsGrid.setVgap(10);
+        optionsGrid.setPadding(new Insets(10, 10, 10, 10));
+        optionsGrid.setGridLinesVisible(false);
+        Button restartBtn = new Button("Restart");
+        Button exitBtn = new Button("Exit");
+        Button getHintsBtn = new Button("Get Hints");
+
+        restartBtn.setOnAction(event -> levelController.handleRestartBtn());
+        exitBtn.setOnAction(event -> levelController.handleMoveToMenuBtn());
+        getHintsBtn.setOnAction(event -> {
+
+            List<Move> hints = level.getHints();
+            for(Move move : hints){
+                Color color = move.getColor();
+                System.out.println(String.format("RGB(%d,%d,%d) row:%d col:%d",
+                        color.getRValue(), color.getBValue(), color.getGValue(),
+                        move.getRow(), move.getCol()));
+            }
+
+        });
+        optionsGrid.add(exitBtn,0,0);
+        optionsGrid.add(restartBtn,0,1);
+        optionsGrid.add(getHintsBtn,1,1);
+
+
+        parent.setBottom(optionsGrid);
 
         ButtonType RESTART = new ButtonType("Restart");
         ButtonType MOVE_TO_MENU = new ButtonType("Move to Menu");
