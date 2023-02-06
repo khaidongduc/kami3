@@ -5,6 +5,7 @@ import edu.union.utils.Observable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -62,8 +63,15 @@ public class LevelRepository extends Observable {
                 }
             }
             int maxNumTurn = scanner.nextInt();
+            ArrayList<Move> hints = new ArrayList<>();
+            for(int i = 0 ; i < maxNumTurn ; ++ i){
+                int colorId = scanner.nextInt(), row = scanner.nextInt(), col = scanner.nextInt();
+                Color color = ColorRepository.getInstance().getColor(colorId);
+                Move move = new Move(color, row, col);
+                hints.add(move);
+            }
             Color curColor = ColorRepository.getInstance().getColor(grid.getAvailableColorIds().stream().findFirst().get());
-            return new LevelImpl(grid, curColor, maxNumTurn, levelInfo);
+            return new LevelImpl(grid, curColor, hints, levelInfo);
         } catch (Exception ex){
             throw new RuntimeException(ex);
         }

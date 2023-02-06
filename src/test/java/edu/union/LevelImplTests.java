@@ -1,14 +1,13 @@
 package edu.union;
 
-import edu.union.model.Color;
-import edu.union.model.ColorGrid;
-import edu.union.model.LevelImpl;
-import edu.union.model.LevelInfo;
+import edu.union.model.*;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -21,7 +20,8 @@ public class LevelImplTests {
     @Before
     public void setUp(){
         grid = new ColorGrid(5, 5);
-        level = new LevelImpl(grid, color, 3, new LevelInfo(1));
+        level = new LevelImpl(grid, color, new ArrayList<Move>(){
+        }, new LevelInfo(1));
     }
 
     @After
@@ -32,7 +32,7 @@ public class LevelImplTests {
         System.out.println(level);
         assertEquals(5, level.getNumRows());
         assertEquals(5, level.getNumCols());
-        assertEquals(3, level.numMoveRemaining());
+        assertEquals(0, level.numMoveRemaining());
     }
 
     //@Test(expected = RuntimeException.class)
