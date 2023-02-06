@@ -1,14 +1,12 @@
 package edu.union.controller;
 
+import edu.union.service.LevelRepository;
 import javafx.event.ActionEvent;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import edu.union.model.*;
 import edu.union.view.ViewEnum;
-import javafx.stage.Stage;
 
 public class LevelController {
 

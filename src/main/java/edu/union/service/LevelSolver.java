@@ -2,6 +2,7 @@ package edu.union.service;
 
 import edu.union.model.*;
 import edu.union.model.ColorGrid.GridCellPosition;
+import edu.union.utils.ColoredGraph;
 
 import java.util.*;
 import java.util.stream.Collectors;

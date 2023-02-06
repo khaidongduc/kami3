@@ -1,7 +1,7 @@
 package edu.union;
 
 import edu.union.model.Color;
-import edu.union.model.ColorRepository;
+import edu.union.service.ColorRepository;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;

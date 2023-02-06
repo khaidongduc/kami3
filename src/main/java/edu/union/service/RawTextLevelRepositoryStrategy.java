@@ -1,4 +1,8 @@
-package edu.union.model;
+package edu.union.service;
+
+import edu.union.model.Level;
+import edu.union.model.LevelBuilder;
+import edu.union.model.LevelInfo;
 
 import java.util.List;
 

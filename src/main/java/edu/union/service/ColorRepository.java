@@ -1,6 +1,7 @@
-package edu.union.model;
+package edu.union.service;
 
 import edu.union.Config;
+import edu.union.model.Color;
 
 import java.util.*;
 import java.util.stream.Collectors;

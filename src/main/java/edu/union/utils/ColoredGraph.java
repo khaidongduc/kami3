@@ -1,8 +1,12 @@
-package edu.union.service;
+package edu.union.utils;
 
 import java.util.*;
 import java.util.UUID;
 
+/**
+ * a helper class for LevelSolver
+ * @param <V> the type of the vertex
+ */
 public class ColoredGraph <V> {
 
     private String uuid;

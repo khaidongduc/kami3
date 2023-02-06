@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import edu.union.model.Color;
-import edu.union.model.ColorRepository;
+import edu.union.service.ColorRepository;
 import edu.union.model.LevelBuilder;
 import edu.union.utils.Observer;
 

@@ -1,16 +1,11 @@
 package edu.union;
 import edu.union.model.Color;
-import edu.union.model.ColorGrid;
-import edu.union.model.ColorRepository;
 import edu.union.model.Move;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
-import java.util.ArrayList;
-import java.util.Set;
 
 import static org.junit.Assert.*;
 

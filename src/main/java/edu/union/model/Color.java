@@ -50,7 +50,7 @@ public class Color {
      * package-private
      * @param colorId the new colorId
      */
-    void setColorId(int colorId){
+    public void setColorId(int colorId){
         this.colorId = colorId;
     }
 

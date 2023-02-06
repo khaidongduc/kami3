@@ -7,7 +7,7 @@ import javafx.scene.layout.GridPane;
 import edu.union.model.Color;
 import edu.union.model.LevelBuilder;
 import edu.union.model.LevelBuilderImpl;
-import edu.union.model.LevelRepository;
+import edu.union.service.LevelRepository;
 import edu.union.view.ViewEnum;
 
 public class BuildController {

@@ -1,5 +1,7 @@
 package edu.union.model;
 
+import edu.union.service.ColorRepository;
+
 import java.util.List;
 
 /**

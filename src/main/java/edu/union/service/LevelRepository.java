@@ -1,6 +1,6 @@
-package edu.union.model;
+package edu.union.service;
 
-import edu.union.service.LevelSolver;
+import edu.union.model.*;
 import edu.union.utils.Observable;
 
 import java.io.File;
@@ -49,7 +49,7 @@ public class LevelRepository extends Observable {
     public LevelImpl loadLevel(LevelInfo levelInfo){
         try {
             String relPath = String.format("levels/%s", levelInfo.getLevelId());
-            File file = new File(getClass().getResource(relPath).getPath());
+            File file = new File(Level.class.getResource(relPath).getPath());
             Scanner scanner = new Scanner(file);
             int numRows = scanner.nextInt();
             int numCols = scanner.nextInt();
@@ -81,11 +81,11 @@ public class LevelRepository extends Observable {
      * @param levelBuilder the levelBuilder
      */
     public void saveLevel(LevelBuilder levelBuilder){
-        File folder = new File(getClass().getResource("levels").getPath());
+        File folder = new File(Level.class.getResource("levels").getPath());
         try {
-            String fileName = "/"+(folder.listFiles().length+1);
+            String fileName = "/"+ (folder.listFiles().length + 1);
             FileWriter fw = new FileWriter(folder+fileName);
-            fw.write(levelBuilder.getNumRows() +" "+ levelBuilder.getNumCols() + "\n");
+            fw.write(levelBuilder.getNumRows() + " " + levelBuilder.getNumCols() + "\n");
             for(int i = 0; i < levelBuilder.getNumRows(); i++){
                 String line = Integer.toString(levelBuilder.getColorAt(i,0).getColorId());
                 for(int j = 1; j < levelBuilder.getNumCols(); j++){
@@ -111,7 +111,7 @@ public class LevelRepository extends Observable {
      * @return the List of all LevelInfo
      */
     public List<LevelInfo> listLevelInfo(){
-        File folder = new File(getClass().getResource("levels").getPath());
+        File folder = new File(Level.class.getResource("levels").getPath());
         LinkedList<LevelInfo> levelInfos = new LinkedList<>();
         for(File file : folder.listFiles()){
             levelInfos.add(new LevelInfo(Integer.parseInt(file.getName())));

@@ -9,7 +9,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import edu.union.model.LevelInfo;
-import edu.union.model.LevelRepository;
+import edu.union.service.LevelRepository;
 import edu.union.utils.Observer;
 
 import java.util.List;

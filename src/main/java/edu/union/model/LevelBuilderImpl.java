@@ -1,7 +1,7 @@
 package edu.union.model;
 
 import edu.union.Config;
-import edu.union.service.LevelSolver;
+import edu.union.service.ColorRepository;
 
 import java.util.List;
 
