@@ -8,22 +8,36 @@ import java.util.stream.Collectors;
 
 /**
  * edu.union.service class to solve a level
- * TODO: need implementation
+ * only method solveColorGrid which return a list of Move
  */
 public class LevelSolver {
 
     private static LevelSolver instance;
 
+    /**
+     * basic constructor
+     */
     private LevelSolver(){
 
     }
 
+    /**
+     * get the instance of a singleton class
+     * @return the instance
+     */
     public static LevelSolver getInstance(){
         if(instance == null)
             instance = new LevelSolver();
         return instance;
     }
 
+    /**
+     * solve the ColorGrid grid
+     * return a list of move on a grid and that to make it mono-color in the least number of moves
+     *
+     * @param grid the color grid
+     * @return the list of moves as solutions
+     */
     public List<Move> solveColorGrid(ColorGrid grid)
     {
         ColoredGraph<GridCellPosition> graph = new ColoredGraph<>();
