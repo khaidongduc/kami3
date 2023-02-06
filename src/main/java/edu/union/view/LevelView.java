@@ -141,10 +141,11 @@ public class LevelView implements View, Observer {
             List<Move> hints = level.getHints();
             for(Move move : hints){
                 Color color = move.getColor();
+
                 String readableColor = color.getReadableColor(String.format("RGB(%d,%d,%d)", color.getRValue(),
                                 color.getGValue(), color.getBValue()));
                 System.out.println(readableColor + String.format(" row:%d col:%d",
-                        color.getRValue(), color.getBValue(), color.getGValue(),
+                        color.getRValue(), color.getGValue(), color.getBValue(),
                         move.getRow(), move.getCol()));
                 //pass this string
             }

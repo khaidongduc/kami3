@@ -89,9 +89,9 @@ public class LevelSolver {
                 sourceGraph.setVertexColor(vertex, orgColor);
             }
         }
-        List<Move> solution = new ArrayList<>();
+        LinkedList<Move> solution = new LinkedList<>();
         while(prevGraph.get(foundResult) != null){
-            solution.add(moves.get(foundResult));
+            solution.addFirst(moves.get(foundResult));
             foundResult = prevGraph.get(foundResult);
         }
         return solution;
