@@ -4,6 +4,7 @@ import edu.union.controller.BuildController;
 import edu.union.controller.LevelController;
 import edu.union.controller.MenuController;
 import edu.union.controller.ViewSwitcher;
+import edu.union.service.LevelRepository;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import edu.union.view.BuildView;
@@ -14,6 +15,8 @@ import edu.union.view.ViewEnum;
 public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
+
+        LevelRepository.getInstance().setLevelRepositoryStrategy(Config.levelRepositoryStrategy);
 
         ViewSwitcher viewSwitcher = ViewSwitcher.getInstance();
 

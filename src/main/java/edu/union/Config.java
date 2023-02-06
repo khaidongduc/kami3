@@ -1,8 +1,12 @@
 package edu.union;
 
 import edu.union.model.Color;
+import edu.union.service.LevelRepositoryStrategy;
+import edu.union.service.RawTextLevelRepositoryStrategy;
 
 public class Config {
+
+    public static final LevelRepositoryStrategy levelRepositoryStrategy = new RawTextLevelRepositoryStrategy();
 
     public static final Integer DEFAULT_BUILDER_ROWS = 5;
     public static final Integer DEFAULT_BUILDER_COLS = 5;
