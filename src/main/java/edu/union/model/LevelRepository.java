@@ -6,10 +6,7 @@ import edu.union.utils.Observable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * a level repository that manages all Levels (list and create)
@@ -119,6 +116,7 @@ public class LevelRepository extends Observable {
         for(File file : folder.listFiles()){
             levelInfos.add(new LevelInfo(Integer.parseInt(file.getName())));
         }
+        levelInfos.sort(Comparator.comparingInt(LevelInfo::getLevelId));
         return levelInfos;
     }
 
