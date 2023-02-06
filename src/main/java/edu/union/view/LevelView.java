@@ -141,7 +141,7 @@ public class LevelView implements View, Observer {
             for(Move move : hints){
                 Color color = move.getColor();
                 System.out.println(String.format("RGB(%d,%d,%d) row:%d col:%d",
-                        color.getRValue(), color.getBValue(), color.getGValue(),
+                        color.getRValue(), color.getGValue(), color.getBValue(),
                         move.getRow(), move.getCol()));
             }
 
