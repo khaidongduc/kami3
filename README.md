@@ -19,8 +19,11 @@ TODO:
 The app makes use of MVC architecture pattern
 
 - The model-view relationship is an observable-observer relationship
+<!---
 - The controller mediates the action from the view to the model. This is a one-way mediator pattern from view to model with controller
-  as the mediator. This is mediator pattern because there is no interaction from model to view.
+  as the mediator. This is mediator pattern because there is no interaction from model to view. 
+-->
+
 - There are several iterator pattern embed into the data structure provided by java.
 - There is a FactoryMethod to construct a Level object provided by LevelRepostiory.loadLevel(). All exact Level construction logic
   is here. A FactoryMethod to construct the save file for a Level is LevelRepository.saveLevel().
