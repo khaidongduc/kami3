@@ -63,4 +63,15 @@ public class LevelBuilderImplTests {
     public void testSetColor(){
         assertEquals(green, builder.getColorAt(0, 0));
     }
+
+    @Test
+    public void testChangeGridSize(){
+        builder.changeGridSize(2, 3);
+        ColorGrid grid = builder.getGrid();
+        assertEquals(3, grid.getNumCols());
+        assertEquals(2, grid.getNumRows());
+
+        assertEquals(3, builder.getNumCols());
+        assertEquals(2, builder.getNumRows());
+    }
 }
