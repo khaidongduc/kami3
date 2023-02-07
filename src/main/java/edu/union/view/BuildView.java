@@ -1,6 +1,7 @@
 package edu.union.view;
 
 import edu.union.controller.BuildController;
+import edu.union.utils.Observable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -155,7 +156,7 @@ public class BuildView  implements View, Observer {
     public Scene getScene() {return scene;}
 
     @Override
-    public void bindModel(Object obj){
+    public void bindModel(Observable obj){
         LevelBuilder level = (LevelBuilder) obj;
         if(this.level != null){
             this.level.detach(this);

@@ -1,6 +1,7 @@
 package edu.union.view;
 
 import edu.union.controller.MenuController;
+import edu.union.utils.Observable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -40,7 +41,7 @@ public class MenuView implements View, Observer {
     }
 
     @Override
-    public void bindModel(Object model) {
+    public void bindModel(Observable model) {
         LevelRepository levelRepository = (LevelRepository) model;
         if(this.levelRepository != null)
             this.levelRepository.detach(this);
