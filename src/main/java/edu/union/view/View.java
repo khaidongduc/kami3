@@ -1,5 +1,6 @@
 package edu.union.view;
 
+import edu.union.utils.Observable;
 import javafx.scene.Scene;
 
 /**
@@ -18,5 +19,5 @@ public interface View {
      * bind the edu.union.view to a new edu.union.model
      * @throws IllegalArgumentException if the edu.union.model is not the right type to that edu.union.view
      */
-    void bindModel(Object model);
+    void bindModel(Observable observableModel);
 }

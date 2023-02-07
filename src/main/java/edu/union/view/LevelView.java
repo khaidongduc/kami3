@@ -2,6 +2,7 @@ package edu.union.view;
 
 import edu.union.controller.LevelController;
 import edu.union.model.Move;
+import edu.union.utils.Observable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -47,7 +48,7 @@ public class LevelView implements View, Observer {
     }
 
     @Override
-    public void bindModel(Object obj){
+    public void bindModel(Observable obj){
         Level level = (Level) obj;
         if(this.level != null)
             this.level.detach(this);

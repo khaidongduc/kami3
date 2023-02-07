@@ -1,5 +1,6 @@
 package edu.union.controller;
 
+import edu.union.utils.Observable;
 import javafx.stage.Stage;
 import edu.union.view.View;
 import edu.union.view.ViewEnum;
@@ -68,7 +69,7 @@ public class ViewSwitcher {
      * @throws IllegalArgumentException if viewEnum is not in the viewMap
      * @throws IllegalArgumentException if bind the edu.union.model into the edu.union.view fail
      */
-    public void switchView(ViewEnum viewEnum, Object model){
+    public void switchView(ViewEnum viewEnum, Observable model){
         if(!viewMap.containsKey(viewEnum))
             throw new IllegalArgumentException(viewEnum + "not switchable");
         View view = viewMap.get(viewEnum);
