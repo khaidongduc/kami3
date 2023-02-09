@@ -37,7 +37,7 @@ public class ColorGridTests {
     }
 
     @Test
-    public void testSetGetColor(){
+    public void testSet_GetColor(){
         ColorRepository repo = ColorRepository.getInstance();
         c.setColor(2, 0, 0);
         assertEquals(2, c.getColorOfEntry(0, 0));

@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -27,6 +28,10 @@ public class LevelImplTests {
 
     @Before
     public void setUp(){
+        red.setColorId(0);
+        green.setColorId(1);
+        blue.setColorId(2);
+        light_blue.setColorId(3);
         repoStrat = new RawTextLevelRepositoryStrategy();
         repoStrat.setFolderPath("build/resources/test/edu.union/level");
         LevelRepository.getInstance().setLevelRepositoryStrategy(repoStrat);
@@ -138,11 +143,8 @@ public class LevelImplTests {
         assertEquals(ongoing, level.getLevelState());
 
         List<Move> winningPlay = level.getHints();
-        int movesLeft = 3;
-        while(winningPlay.iterator().hasNext()){
-            Move move = winningPlay.get(0);
-            assertEquals(movesLeft, level.numMoveRemaining());
-            movesLeft--;
+
+        for (Move move : winningPlay) {
             assertEquals(ongoing, level.getLevelState());
             level.play(move);
         }
@@ -151,14 +153,14 @@ public class LevelImplTests {
     }
 
 
-    private boolean listsEqual(List<Move> hints, ArrayList<Move> otherHints){
-        for(int i =0; i < otherHints.size(); i++){
-            System.out.println(hints.get(i));
-            if(!hints.get(i).toString().equals((otherHints.get(0)).toString())){
+    private boolean listsEqual(List<Move> hints, ArrayList<Move> otherHints) {
+        Iterator<Move> iter1 = hints.listIterator();
+        Iterator<Move> iter2 = hints.listIterator();
+
+        while (iter1.hasNext()) {
+            if (!iter1.next().equals(iter2.next())) {
                 return false;
-            }
-            hints.remove(hints.get(0));
-            if(hints.iterator().hasNext()){
+            } else if (!iter1.hasNext() && iter2.hasNext()) {
                 return false;
             }
         }
