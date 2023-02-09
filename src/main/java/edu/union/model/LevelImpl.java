@@ -89,6 +89,9 @@ public class LevelImpl extends Level {
      */
     @Override
     public void switchColor(Color color) {
+        if(!getColors().contains(color)) {
+            throw new IllegalArgumentException("This color does not exist in this level");
+        }
         this.curColor = color;
         notifyObservers();
     }

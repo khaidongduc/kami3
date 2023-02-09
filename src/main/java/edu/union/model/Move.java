@@ -47,5 +47,10 @@ public class Move {
         return color;
     }
 
-
+    public String toString(){
+        String toReturn = getColor().toString() + " ";
+        toReturn += "row:" + getRow() + " ";
+        toReturn += "col:" + getCol();
+        return toReturn;
+    }
 }

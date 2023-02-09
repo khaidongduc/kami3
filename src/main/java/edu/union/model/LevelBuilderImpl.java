@@ -49,7 +49,6 @@ public class LevelBuilderImpl extends LevelBuilder{
         return ColorRepository.getInstance().listColors(grid.getAvailableColorIds());
     }
 
-
     @Override
     public void switchColor(Color color) {
         this.curColor = color;
