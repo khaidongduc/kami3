@@ -1,2 +1,4 @@
-package edu.union;public class LevelRepositoryTests {
+package edu.union;
+
+public class LevelRepositoryTests {
 }

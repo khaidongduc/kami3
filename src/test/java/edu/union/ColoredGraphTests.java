@@ -1,2 +1,4 @@
-package edu.union;public class ColoredGraphTests {
+package edu.union;
+
+public class ColoredGraphTests {
 }

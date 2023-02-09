@@ -1,2 +1,4 @@
-package edu.union;public class LevelSolverTests {
+package edu.union;
+
+public class LevelSolverTests {
 }
