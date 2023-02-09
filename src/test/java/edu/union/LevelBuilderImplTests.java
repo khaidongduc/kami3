@@ -23,6 +23,10 @@ public class LevelBuilderImplTests {
 
     @Before
     public void setUp(){
+        red.setColorId(0);
+        green.setColorId(1);
+        blue.setColorId(2);
+        light_blue.setColorId(3);
         builder = new LevelBuilderImpl(4, 6);
     }
 
@@ -61,7 +65,11 @@ public class LevelBuilderImplTests {
 
     @Test
     public void testSetColor(){
+        builder.setColor(green, 0, 0);
         assertEquals(green, builder.getColorAt(0, 0));
+
+        builder.setColor(blue, 0, 0);
+        assertEquals(blue, builder.getColorAt(0, 0));
     }
 
     @Test
@@ -73,5 +81,25 @@ public class LevelBuilderImplTests {
 
         assertEquals(3, builder.getNumCols());
         assertEquals(2, builder.getNumRows());
+    }
+
+    @Test
+    public void testRestart(){
+        for (int i = 0; i <builder.getNumCols(); i++){
+            builder.setColor(green, 0, i);
+        }
+        for (int i = 0; i <builder.getNumCols(); i++){
+            builder.setColor(blue, 1, i);
+        }
+        for (int i = 0; i <builder.getNumCols(); i++){
+            builder.setColor(light_blue, 2, i);
+        }
+
+        builder.restart();
+        for (int i = 0; i < builder.getNumRows(); i++){
+            for (int j = 0; j < builder.getNumCols(); j++){
+                assertEquals(red, builder.getColorAt(i, j));
+            }
+        }
     }
 }
