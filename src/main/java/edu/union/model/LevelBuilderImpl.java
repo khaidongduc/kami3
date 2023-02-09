@@ -12,8 +12,6 @@ public class LevelBuilderImpl extends LevelBuilder{
     private ColorGrid grid;
     private Color curColor;
 
-    private int maxNumTurn;
-
     public LevelBuilderImpl() {
         super();
         this.numRows = Config.DEFAULT_BUILDER_ROWS;
