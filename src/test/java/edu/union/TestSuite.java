@@ -15,7 +15,7 @@ import org.junit.runners.Suite;
                 LevelBuilderImpl.class,
                 ColoredGraphTests.class,
                 LevelSolverTests.class,
-                LevelRepositoryTests.class
+                LevelRepositoryStrategyTests.class
         }
 )
 
