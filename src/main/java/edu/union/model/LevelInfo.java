@@ -25,4 +25,7 @@ public class LevelInfo {
         return levelId;
     }
 
+    public String toString(){
+        return String.valueOf(levelId);
+    }
 }
