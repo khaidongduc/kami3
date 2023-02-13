@@ -4,14 +4,16 @@ import edu.union.model.Level;
 import edu.union.model.LevelBuilder;
 import edu.union.model.LevelInfo;
 
-import java.util.List;
+import java.util.*;
 
 public class LevelRepositoryManager {
 
     private static LevelRepositoryManager instance;
 
-    private LevelRepositoryManager(){
+    private final Map<String, LevelRepository> levelRepositoryMap;
 
+    private LevelRepositoryManager(){
+        levelRepositoryMap = new HashMap<>();
     }
 
     public static LevelRepositoryManager getInstance(){
@@ -22,19 +24,21 @@ public class LevelRepositoryManager {
     }
 
     public void register(String levelType, LevelRepository levelRepository){
-
+        levelRepositoryMap.put(levelType, levelRepository);
     }
 
     public Level loadLevel(LevelInfo levelInfo){
-        return null;
+        return levelRepositoryMap.get(levelInfo.getLevelType()).loadLevel(levelInfo);
     }
 
     public void saveLevel(LevelBuilder levelBuilder){
-
+        levelRepositoryMap.get(levelBuilder.getType()).saveLevel(levelBuilder);
     }
 
     public List<LevelInfo> listLevelInfos(){
-        return null;
+        List<LevelInfo> res = new ArrayList<>();
+        res.add(new LevelInfo(1, "RectangleGridLevel"));
+        return res;
     }
 
 }
