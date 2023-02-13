@@ -24,15 +24,14 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
      * ensure to initialize Observable
      */
     public Level(ColoredGraph<V> graph,
-                 Color curColor,
                  List<Move<V>> hints,
                  LevelInfo levelInfo) {
         super();
         this.graph = graph;
-        this.curColor = curColor;
         this.hints = hints;
         this.levelInfo = levelInfo;
         this.curNumTurn = 0;
+        this.curColor = getColors().iterator().next(); // first color in the graph
     }
 
 
