@@ -102,7 +102,7 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
         if (numMoveRemaining() == 0){
             throw new IllegalArgumentException("No move left");
         }
-        graph.colorFloodFill(move.getColoredVertex(), move.getColor().getColorId());
+        graph.colorFloodFill(move.getVertex(), move.getColor().getColorId());
         ++curNumTurn;
         notifyObservers();
     }
