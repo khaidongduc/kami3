@@ -175,7 +175,7 @@ public class LevelView implements View, Observer {
     }
 
     @Override
-    public void update() {
+    public void update() {//update() should just call renderView
         // color grid
         for(int i = 0 ; i < level.getNumRows() ; ++ i) {
             for (int j = 0; j < level.getNumCols(); ++j) {
