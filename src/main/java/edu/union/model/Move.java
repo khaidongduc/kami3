@@ -1,42 +1,31 @@
 package edu.union.model;
+import edu.union.model.ColoredGraph.ColoredVertex;
 
 /**
  * Basic class containing data on a move that can be made on a level
  */
-public class Move {
+public class Move <V extends ColoredVertex>{
 
-    private final int row;
-    private final int col;
     private final Color color;
-
+    private final V vertex;
     /**
      * initialization
      * note that create with index out of bound is accepted
      * but should be rejected when passed into Level
      * @param color the color of the move
-     * @param row the row of the move
-     * @param col the col of the move
+     * @oaram vertex the vertex we are moving
      */
-    public Move(Color color, int row, int col){
+    public Move(Color color, V vertex){
         this.color = color;
-        this.row = row;
-        this.col = col;
+        this.vertex = vertex;
     }
 
     /**
-     * row getter
-     * @return the row
+     * Vertex getter
+     * @return the vertex
      */
-    public int getRow() {
-        return row;
-    }
-
-    /**
-     * col getter
-     * @return the column
-     */
-    public int getCol() {
-        return col;
+    public V getVertex() {
+        return this.vertex;
     }
 
     /**
@@ -48,9 +37,6 @@ public class Move {
     }
 
     public String toString(){
-        String toReturn = getColor().toString() + " ";
-        toReturn += "row:" + getRow() + " ";
-        toReturn += "col:" + getCol();
-        return toReturn;
+        return vertex.toString() + color.toString();
     }
 }
