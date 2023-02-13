@@ -1,0 +1,194 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>6</zoom_level><element><id>UMLClass</id><coordinates><x>456</x><y>432</y><w>150</w><h>30</h></coordinates><panel_attributes>/ColoredVertex/
+-
+/+adjacentTo(vertex: ColoredVertex): boolean/
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>234</x><y>432</y><w>198</w><h>156</h></coordinates><panel_attributes>template=V
+ColoredGraph
+--
++ColoredGraph()
++ColoredGraph(graph: ColoredGraph)
++getVertexSet(): Set&lt;V&gt;
++getNeighbors(vertex: V): Set&lt;V&gt;
++addVertex(vertex:V, color:int)
++addEdge(source:V, end:V)
++removeEdge(source:V, end:V)
++getVertexColor(vertex:V): int
++setVertexColor(vertex:V, color:int)
++getNumVertices():int
++buildGraphWithAdjacency()
++pruneGraph(): ColoredGraph&lt;V&gt;
++colorFloodFill(vertex:V, color:int)
++getColorIds(): List&lt;Integer&gt;
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>426</x><y>432</y><w>42</w><h>18</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>50;10;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>150</x><y>618</y><w>150</w><h>126</h></coordinates><panel_attributes>Algorithm for buildGraphWithAdjacency()
+--
+
+for(V vertex : getVertexSet()){
+    for(V anotherVertex : getVertexSet()) 
+	removeEdge(vertex, anotherVertex);
+}
+for(V vertex : getVertexSet()){
+    for(V anotherVertex : getVertexSet()) 
+	if(vertex.adjacentTo(anotherVertex)){
+       		addEdge(vertex, anotherVertex);
+    	}
+}
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>342</x><y>246</y><w>144</w><h>156</h></coordinates><panel_attributes>template=V
+/Level/
+-
+# levelInfo: LevelInfo
+# graph: ColoredGraph
+# curNumTurn: int
+# hints: List&lt;Move&lt;V&gt; &gt;
+# curColor: Color
+--
++Level(graph: ColoredGraph&lt;V&gt;, 
+			levelInfo: LevelInfo,
+			hints: List&lt; Move&lt;Vl&gt; &gt;)
++numMoveRemaining(): int
++switchColor(color: Color)
++getCurrentColor(): Color
++play(move: Move&lt;V&gt;)
++getColors(): List&lt;Color&gt;
++getLevelState(): LevelState
++getColorAt(vertex: V)
++getHints(): List&lt; Move&lt;V&gt; &gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>480</x><y>252</y><w>18</w><h>192</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;300;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>498</x><y>510</y><w>126</w><h>54</h></coordinates><panel_attributes>RectangleGridCell
+--
++row: int
++col: int
+--
++adjacentTo(o: ColoredVertex)
+
+
+bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>516</x><y>456</y><w>18</w><h>66</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>UMLClass</id><coordinates><x>342</x><y>210</y><w>108</w><h>18</h></coordinates><panel_attributes>/Level&lt;RectangleGridCell&gt;/
+
+
+bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>396</x><y>222</y><w>18</w><h>42</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;50;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>420</x><y>450</y><w>48</w><h>18</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;60;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>528</x><y>210</y><w>156</w><h>90</h></coordinates><panel_attributes>RectangleGridLevel
+--
++RectangleGridLevel(
+		graph: ColoredGraph&lt;RectangleGridCell&gt;, 
+		levelInfo: LevelInfo,
+		hints: List&lt; Move&lt;RectangleGridCell&gt; &gt;)
++getNumRows()
++getNumCols()
+
+
+bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>444</x><y>210</y><w>96</w><h>18</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;140;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>330</x><y>618</y><w>144</w><h>114</h></coordinates><panel_attributes>template=V
+/LevelBuilder/
+--
++RESULT_CLASS: null
+# graph: ColoredGraph
+# curColor: Color
+--
++getColors(): List&lt;Color&gt;
++switchColor(color: Color)
++getCurrentColor(): Color
++setColor(color:Color, vertex:V)
++setColorFlood(color:Color, vertex:V)
++restart()
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>372</x><y>582</y><w>36</w><h>54</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-&gt;
+graph</panel_attributes><additional_attributes>10;70;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>462</x><y>456</y><w>18</w><h>174</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;268</additional_attributes></element><element><id>UMLClass</id><coordinates><x>510</x><y>690</y><w>168</w><h>66</h></coordinates><panel_attributes>RectangleGridLevelBuilder
+--
++RESULT_CLASS: RectangleGridLevel.class
++RectangleGridLevelBuilder(rows:int, cols: int)
++getNumRows()
++getNumCols()
++changeGridSize(rows: int, cols: int)
+
+
+
+bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>510</x><y>636</y><w>108</w><h>18</h></coordinates><panel_attributes>/LevelBuilder&lt;RectangleGridCell&gt;/
+
+
+bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>462</x><y>636</y><w>60</w><h>18</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;80;10</additional_attributes></element><element><id>Relation</id><coordinates><x>558</x><y>648</y><w>18</w><h>54</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>UMLClass</id><coordinates><x>696</x><y>570</y><w>168</w><h>84</h></coordinates><panel_attributes>Color
+--
++Color(rValue:int, bValue:int, gValue:int)
++Color(id:int, rValue:int, bValue:int, gValue:int)
++getRValue():int
++getGValue():int
++getBValue():int
++getId():int
++setId(id: int)
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>648</x><y>456</y><w>168</w><h>78</h></coordinates><panel_attributes>ColorRepository
+--
+- instance: ColorRepository
+--
++ getInstance(): ColorRepository
++ listColors(): List&lt;Color&gt;
++ listColors(ids: List&lt;Integers&gt;): List&lt;Color&gt;
++ addColor(Color color)
++ getColor(id: int): Color
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>180</x><y>276</y><w>102</w><h>48</h></coordinates><panel_attributes>LevelInfo
+--
++ LevelInfo(id: int, type: str)
++ getLevelType(): str
++ getLevelId(): int</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>222</x><y>336</y><w>60</w><h>54</h></coordinates><panel_attributes>LevelState
+--
+ONGOING
+WIN
+LOSE</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>750</x><y>528</y><w>18</w><h>54</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>UMLClass</id><coordinates><x>876</x><y>432</y><w>216</w><h>66</h></coordinates><panel_attributes>RectangleGridLevelRepository
+--
+- instance: RectangleGridLevelRepository
+--
++ getInstance(): RectangleGridLevelRepository
++ setLevelRepositoryStrategy(strat: LevelRepositoryStrategy)
++ loadLevel(levelInfo: LevelInfo)
++ saveLevel(levelBuilder: LevelBuilder)
+
+
+bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>888</x><y>540</y><w>180</w><h>54</h></coordinates><panel_attributes>ColoredGraphSolver
+--
+- instance: ColoredGraphSolver
+--
++ getInstance(): ColoredGraphSolver
++ solve(graph: ColoredGraph&lt;V&gt;): List&lt; Move&lt;V&gt; &gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>972</x><y>492</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=&lt;..
+uses</panel_attributes><additional_attributes>10;80;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>972</x><y>306</y><w>42</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-&gt;
+strategy</panel_attributes><additional_attributes>10;80;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>906</x><y>276</y><w>144</w><h>36</h></coordinates><panel_attributes>/RectangleGridLevelRepositoryStrategy/
+--
+ConvertToFileContent(Level level)
+LoadFromFileContent(File file): Level
+
+
+
+bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>864</x><y>204</y><w>210</w><h>30</h></coordinates><panel_attributes>TextRectangleGridLevelRepositoryStrategy
+
+bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>972</x><y>228</y><w>18</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;80;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>678</x><y>210</y><w>198</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;.
+creates</panel_attributes><additional_attributes>10;20;310;20</additional_attributes></element><element><id>Relation</id><coordinates><x>660</x><y>294</y><w>30</w><h>174</h></coordinates><panel_attributes>lt=&lt;..
+uses</panel_attributes><additional_attributes>10;270;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>660</x><y>528</y><w>30</w><h>174</h></coordinates><panel_attributes>lt=&lt;.
+uses</panel_attributes><additional_attributes>10;10;10;270</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1128</x><y>432</y><w>210</w><h>54</h></coordinates><panel_attributes>LevelRepositoryManager
+--
++register(levelTypeStr: str, levelRepository: levelRepository)
++loadLevel(levelInfo: LevelInfo): Level
++saveLevel(levelBuilder builder)
++listLevels(): List&lt;LevelInfo&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>912</x><y>354</y><w>138</w><h>36</h></coordinates><panel_attributes>/LevelRepository/
+--
+/#loadLevel(levelnfo: LevelInfo)/
+/#saveLevel(levelBuilder: LevelBuilder)/
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>972</x><y>384</y><w>18</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>1044</x><y>366</y><w>192</w><h>78</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>300;110;300;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>276</x><y>282</y><w>78</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-&gt;
+levelInfo</panel_attributes><additional_attributes>110;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>276</x><y>348</y><w>78</w><h>24</h></coordinates><panel_attributes>lt=&lt;..
+uses</panel_attributes><additional_attributes>10;20;110;20</additional_attributes></element><element><id>UMLNote</id><coordinates><x>1074</x><y>546</y><w>84</w><h>42</h></coordinates><panel_attributes>verifying the type 
+of the object 
+passed in 
+is the right type
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>684</x><y>690</y><w>120</w><h>42</h></coordinates><panel_attributes>need to specify RESULT_CLASS
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>366</x><y>396</y><w>36</w><h>54</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-&gt;
+graph</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>UMLClass</id><coordinates><x>876</x><y>720</y><w>192</w><h>36</h></coordinates><panel_attributes>LevelBuilderFactory
+--
+createLevelBuilder(levelType: str, params: List&lt;str&gt;)
+register(levelType: str, levelBuilderClass: Class)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>672</x><y>732</y><w>216</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;.
+creates</panel_attributes><additional_attributes>10;20;340;20</additional_attributes></element><element><id>Relation</id><coordinates><x>114</x><y>546</y><w>132</w><h>102</h></coordinates><panel_attributes>lt=&lt;&lt;-
+</panel_attributes><additional_attributes>200;10;150;10;10;90;10;150;50;150</additional_attributes></element><element><id>UMLClass</id><coordinates><x>528</x><y>108</y><w>156</w><h>90</h></coordinates><panel_attributes>OtherGridLevel
+--
++OtherGridLevel(
+		graph: ColoredGraph&lt;OtherGridCell&gt;, 
+		levelInfo: LevelInfo,
+		hints: List&lt; Move&lt;OtherGridCell&gt; &gt;)
++getNumRows()
++getNumCols()
+
+
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element></diagram>
