@@ -8,13 +8,15 @@ package edu.union.model;
  */
 public class LevelInfo {
     private final int levelId;
+    private final String levelType;
 
     /**
      * initialized with levelId
      * @param levelId the levelId
      */
-    public LevelInfo(int levelId){
+    public LevelInfo(int levelId, String levelType){
         this.levelId = levelId;
+        this.levelType = levelType;
     }
 
     /**
@@ -23,6 +25,14 @@ public class LevelInfo {
      */
     public int getLevelId(){
         return levelId;
+    }
+
+    /**
+     * get the levelId
+     * @return the leveId
+     */
+    public String getLevelType(){
+        return levelType;
     }
 
     public String toString(){
