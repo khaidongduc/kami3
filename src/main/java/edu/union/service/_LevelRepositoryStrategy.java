@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * an interface for a strategy in saving and loading level
  */
-public interface LevelRepositoryStrategy {
+public interface _LevelRepositoryStrategy {
     /**
      * load level from a levelInfo
      * @param levelInfo the levelInfo

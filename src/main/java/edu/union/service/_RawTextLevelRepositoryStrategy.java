@@ -10,14 +10,14 @@ import java.util.*;
 /**
  * a strategy where level is saved in raw text format
  */
-public class RawTextLevelRepositoryStrategy implements LevelRepositoryStrategy {
+public class _RawTextLevelRepositoryStrategy implements _LevelRepositoryStrategy {
 
     public static String DEFAULT_FOLDER_PATH = Level.class.getResource("levels/text/").getPath();
 
 
     public String folderPath;
 
-    public RawTextLevelRepositoryStrategy(){
+    public _RawTextLevelRepositoryStrategy(){
         folderPath = DEFAULT_FOLDER_PATH;
     }
 

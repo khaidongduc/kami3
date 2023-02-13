@@ -3,9 +3,6 @@ package edu.union.service;
 import edu.union.model.*;
 import edu.union.utils.Observable;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -14,19 +11,19 @@ import java.util.*;
  *
  * @author Khai Dong
  */
-public class LevelRepository extends Observable {
-    private static LevelRepository instance;
+public class _LevelRepository extends Observable {
+    private static _LevelRepository instance;
 
-    private LevelRepositoryStrategy levelRepositoryStrategy;
+    private _LevelRepositoryStrategy levelRepositoryStrategy;
 
     /**
      * basic initialization
      */
-    private LevelRepository(){
+    private _LevelRepository(){
 
     }
 
-    public void setLevelRepositoryStrategy(LevelRepositoryStrategy levelRepositoryStrategy) {
+    public void setLevelRepositoryStrategy(_LevelRepositoryStrategy levelRepositoryStrategy) {
         this.levelRepositoryStrategy = levelRepositoryStrategy;
     }
 
@@ -34,9 +31,9 @@ public class LevelRepository extends Observable {
      * get an instance or create an instance if it does not exist
      * @return the instance
      */
-    public static LevelRepository getInstance(){
+    public static _LevelRepository getInstance(){
         if(instance == null)
-            instance = new LevelRepository();
+            instance = new _LevelRepository();
         return instance;
     }
 
