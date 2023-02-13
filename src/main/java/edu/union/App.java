@@ -18,6 +18,10 @@ public class App extends Application {
 
         LevelRepository.getInstance().setLevelRepositoryStrategy(Config.levelRepositoryStrategy);
 
+        // makr a level builder object
+        // register that objecct with the builderfactory
+        //
+
         ViewSwitcher viewSwitcher = ViewSwitcher.getInstance();
 
         viewSwitcher.setStage(stage);
