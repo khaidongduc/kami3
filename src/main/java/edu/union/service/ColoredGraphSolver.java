@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
  * edu.union.service class to solve a level
  * only method solveColorGrid which return a list of Move
  */
-public class LevelSolver {
+public class ColoredGraphSolver {
 
-    private static LevelSolver instance;
+    private static ColoredGraphSolver instance;
 
     private static final int DEFAULT_MAX_NUM_STEPS = 5;
 
@@ -21,7 +21,7 @@ public class LevelSolver {
     /**
      * basic constructor
      */
-    private LevelSolver(){
+    private ColoredGraphSolver(){
         maxNumSteps = DEFAULT_MAX_NUM_STEPS;
     }
 
@@ -29,9 +29,9 @@ public class LevelSolver {
      * get the instance of a singleton class
      * @return the instance
      */
-    public static LevelSolver getInstance(){
+    public static ColoredGraphSolver getInstance(){
         if(instance == null)
-            instance = new LevelSolver();
+            instance = new ColoredGraphSolver();
         return instance;
     }
 
@@ -46,7 +46,7 @@ public class LevelSolver {
      * @param graph the color grid
      * @return the list of moves as solutions
      */
-    public <V extends ColoredVertex> List<Move<V>> solveColorGrid(ColoredGraph<V> graph)
+    public <V extends ColoredVertex> List<Move<V>> solveColoredGraph(ColoredGraph<V> graph)
     {
         Queue<ColoredGraph<V>> queue = new LinkedList<>();
         Map<ColoredGraph<V>, ColoredGraph<V>> prevGraph = new HashMap<>();
@@ -76,7 +76,7 @@ public class LevelSolver {
                     moves.put(nextGraph, new Move<V>(ColorRepository.getInstance().getColor(color), vertex));
 
                     int nextDistance = distances.get(sourceGraph) + 1;
-                    if(nextDistance > 5){
+                    if(nextDistance > this.maxNumSteps){
                         throw new RuntimeException("unable to solve");
                     }
                     distances.put(nextGraph, nextDistance);

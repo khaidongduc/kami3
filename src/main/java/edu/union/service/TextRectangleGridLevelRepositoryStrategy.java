@@ -1,8 +1,6 @@
 package edu.union.service;
 
-import com.sun.tools.jdeps.Graph;
 import edu.union.model.*;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -75,7 +73,7 @@ public class TextRectangleGridLevelRepositoryStrategy implements LevelRepository
                 line += "\n";
                 fw.write(line);
             }
-            List<Move<RectangleGridCell>> hints = LevelSolver.getInstance().solveColorGrid(levelBuilder.getGraph());
+            List<Move<RectangleGridCell>> hints = ColoredGraphSolver.getInstance().solveColoredGraph(levelBuilder.getGraph());
             fw.write(Integer.toString(hints.size()) + "\n");
             for(Move<RectangleGridCell> move : hints){
                 fw.write(move.getColor().getColorId() + " "
