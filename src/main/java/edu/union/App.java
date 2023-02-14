@@ -16,6 +16,10 @@ public class App extends Application {
         levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, RectangleGridLevelRepository.getInstance());
 
 
+        // makr a level builder object
+        // register that objecct with the builderfactory
+        //
+
         ViewSwitcher viewSwitcher = ViewSwitcher.getInstance();
 
         viewSwitcher.setStage(stage);
