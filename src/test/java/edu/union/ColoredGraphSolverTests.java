@@ -3,6 +3,7 @@ package edu.union;
 import edu.union.model.*;
 import edu.union.service.ColoredGraphSolver;
 import edu.union.service.LevelRepositoryManager;
+import edu.union.service.RectangleGridLevelRepository;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
@@ -27,6 +28,10 @@ public class ColoredGraphSolverTests {
 
     @Before
     public void setUp(){
+        LevelRepositoryManager levelRepositoryManager = LevelRepositoryManager.getInstance();
+        levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, RectangleGridLevelRepository.getInstance());
+        levelRepositoryManager.setFolderPath("build/resources/test/edu.union/level");
+        repositoryManager = levelRepositoryManager;
         red.setColorId(0);
         green.setColorId(1);
         blue.setColorId(2);
@@ -46,8 +51,7 @@ public class ColoredGraphSolverTests {
 
     @Test
     public void testSolver_1(){
-        repositoryManager = LevelRepositoryManager.getInstance();
-        repositoryManager.setFolderPath("build/resources/test/edu.union/level");
+
         level = (RectangleGridLevel) repositoryManager.loadLevel(new LevelInfo(1, LevelType.RECTANGLE_GRID_LEVEL, "build/resources/test/edu.union/level/1"));
 
         List<Move<RectangleGridCell>> hints = level.getHints();
@@ -60,8 +64,6 @@ public class ColoredGraphSolverTests {
 
     @Test
     public void testSolver_2(){
-        repositoryManager = LevelRepositoryManager.getInstance();
-        repositoryManager.setFolderPath("build/resources/test/edu.union/level");
         level = (RectangleGridLevel) repositoryManager.loadLevel(new LevelInfo(2, LevelType.RECTANGLE_GRID_LEVEL, "build/resources/test/edu.union/level/2"));
 
         List<Move<RectangleGridCell>> hints = level.getHints();
@@ -74,8 +76,6 @@ public class ColoredGraphSolverTests {
 
     @Test
     public void testSolver_3(){
-        repositoryManager = LevelRepositoryManager.getInstance();
-        repositoryManager.setFolderPath("build/resources/test/edu.union/level");
         level = (RectangleGridLevel) repositoryManager.loadLevel(new LevelInfo(30, LevelType.RECTANGLE_GRID_LEVEL, "build/resources/test/edu.union/level/30"));
 
         List<Move<RectangleGridCell>> hints = level.getHints();
@@ -86,29 +86,35 @@ public class ColoredGraphSolverTests {
         assertEquals(win, level.getLevelState());
     }
 
-    // this one is failing right now, but we'll need to add the exception to
-    // this so laptops don't die when they try to run this
     @Test(expected = RuntimeException.class)
     public void testSolver_ManyChanges(){
         solver.setMaxNumSteps(6);
+        graph.addVertex(new RectangleGridCell(0, 0), red.getColorId());
         graph.addVertex(new RectangleGridCell(0, 1), green.getColorId());
         graph.addVertex(new RectangleGridCell(0, 2), blue.getColorId());
         graph.addVertex(new RectangleGridCell(0, 3), light_blue.getColorId());
+        graph.addVertex(new RectangleGridCell(0, 4), red.getColorId());
         graph.addVertex(new RectangleGridCell(1, 0), green.getColorId());
         graph.addVertex(new RectangleGridCell(1, 1), blue.getColorId());
         graph.addVertex(new RectangleGridCell(1, 2), light_blue.getColorId());
+        graph.addVertex(new RectangleGridCell(1, 3), red.getColorId());
         graph.addVertex(new RectangleGridCell(1, 4), green.getColorId());
         graph.addVertex(new RectangleGridCell(2, 0), blue.getColorId());
         graph.addVertex(new RectangleGridCell(2, 1), light_blue.getColorId());
+        graph.addVertex(new RectangleGridCell(2, 2), red.getColorId());
         graph.addVertex(new RectangleGridCell(2, 3), green.getColorId());
         graph.addVertex(new RectangleGridCell(2, 4), blue.getColorId());
         graph.addVertex(new RectangleGridCell(3, 0), light_blue.getColorId());
+        graph.addVertex(new RectangleGridCell(3, 1), red.getColorId());
         graph.addVertex(new RectangleGridCell(3, 2), green.getColorId());
         graph.addVertex(new RectangleGridCell(3, 3), blue.getColorId());
         graph.addVertex(new RectangleGridCell(3, 4), light_blue.getColorId());
+        graph.addVertex(new RectangleGridCell(4, 0), red.getColorId());
         graph.addVertex(new RectangleGridCell(4, 1), green.getColorId());
         graph.addVertex(new RectangleGridCell(4, 2), blue.getColorId());
         graph.addVertex(new RectangleGridCell(4, 3), light_blue.getColorId());
+        graph.addVertex(new RectangleGridCell(4, 4), red.getColorId());
         List<Move<RectangleGridCell>> hints = solver.solveColoredGraph(graph);
+        throw new RuntimeException();
     }
 }
