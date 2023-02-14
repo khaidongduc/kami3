@@ -136,7 +136,7 @@ public class BuildView  implements View, Observer {
         optionsGrid.add(colInput,2,1);
         optionsGrid.add(resizeBtn,2,2);
         parent.setBottom(optionsGrid);
-        
+
     }
 
     @Override

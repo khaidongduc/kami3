@@ -2,6 +2,7 @@ package edu.union.controller;
 
 import edu.union.model.*;
 import edu.union.service.LevelBuilderFactory;
+import edu.union.service.LevelRepositoryManager;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -52,8 +53,8 @@ public class BuildController {
 
     //Save functionality is not implemented.
     public void handleSaveBtn(ActionEvent e){
-        //LevelRepository.getInstance().saveLevel(this.levelBuilder);
-        //levelBuilder.restart();
+        LevelRepositoryManager.getInstance().saveLevel(this.levelBuilder);
+        levelBuilder.restart();
         ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
     }
 

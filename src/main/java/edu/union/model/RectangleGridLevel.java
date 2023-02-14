@@ -26,6 +26,8 @@ public class RectangleGridLevel extends Level<RectangleGridCell> {
             numRows = Math.max(numRows, cell.row);
             numCols = Math.max(numCols, cell.col);
         }
+        numRows += 1;
+        numCols += 1;
     }
 
     @Override
