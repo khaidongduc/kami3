@@ -104,4 +104,14 @@ public class ColoredGraphTests {
         assertEquals(3, prunedGraph.getNumVertices());
         assertEquals(3, prunedGraph.getColorIds().size());
     }
+
+    @Test
+    public void testAddEdge(){
+        graph.addVertex(new RectangleGridCell(2, 0), red.getColorId());
+        graph.addVertex(new RectangleGridCell(2, 1), red.getColorId());
+        graph.addEdge(new RectangleGridCell(2, 0), new RectangleGridCell(2, 1));
+
+        Set<RectangleGridCell> neighbors = graph.getNeighbors(new RectangleGridCell(2, 0));
+        assertTrue(neighbors.contains(new RectangleGridCell(2, 1)));
+    }
 }
