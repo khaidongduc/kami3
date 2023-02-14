@@ -58,10 +58,10 @@ public class TextRectangleGridLevelRepositoryStrategy implements LevelRepository
     }
 
     @Override
-    public void saveToFile(LevelBuilder lb) {
+    public void saveToFile(LevelBuilder lb, String folderPath) {
         RectangleGridLevelBuilder levelBuilder = (RectangleGridLevelBuilder) lb;
 
-        File folder = new File("abc");
+        File folder = new File(folderPath);
         try {
             String fileName = "/"+ (folder.listFiles().length + 1);
             FileWriter fw = new FileWriter(folder+fileName);

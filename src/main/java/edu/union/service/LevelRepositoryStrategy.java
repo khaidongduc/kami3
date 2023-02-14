@@ -8,5 +8,5 @@ import java.io.File;
 
 public interface LevelRepositoryStrategy {
     Level loadFromFile(LevelInfo levelInfo);
-    void saveToFile(LevelBuilder levelBuilder);
+    void saveToFile(LevelBuilder levelBuilder, String folderPath);
 }

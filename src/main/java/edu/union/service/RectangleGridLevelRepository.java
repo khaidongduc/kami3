@@ -44,8 +44,8 @@ public class RectangleGridLevelRepository extends LevelRepository {
      * assign an id and save the level into hard drive
      * @param levelBuilder the levelBuilder
      */
-    public void saveLevel(LevelBuilder levelBuilder){
-        strategy.saveToFile(levelBuilder);
+    public void saveLevel(LevelBuilder levelBuilder, String folderPath){
+        strategy.saveToFile(levelBuilder, folderPath);
     }
 
 }

@@ -13,10 +13,13 @@ import java.util.*;
 public class LevelRepositoryManager extends Observable {
 
     private static LevelRepositoryManager instance;
+    private static final String DEFAULT_FOLDER_PATH = Level.class.getResource("levels").getPath();
 
     private final Map<String, LevelRepository> levelRepositoryMap;
+    private String folderPath;
 
     private LevelRepositoryManager(){
+        folderPath = DEFAULT_FOLDER_PATH;
         levelRepositoryMap = new HashMap<>();
     }
 
@@ -25,6 +28,10 @@ public class LevelRepositoryManager extends Observable {
             instance = new LevelRepositoryManager();
         }
         return instance;
+    }
+
+    public void setFolderPath(String folderPath){
+        this.folderPath = folderPath;
     }
 
     public void register(String levelType, LevelRepository levelRepository){
@@ -36,13 +43,13 @@ public class LevelRepositoryManager extends Observable {
     }
 
     public void saveLevel(LevelBuilder levelBuilder){
-        levelRepositoryMap.get(levelBuilder.getType()).saveLevel(levelBuilder);
+        levelRepositoryMap.get(levelBuilder.getType()).saveLevel(levelBuilder, folderPath);
         notifyObservers();
     }
 
     public List<LevelInfo> listLevelInfos(){
         try {
-            File folder = new File(Level.class.getResource("levels").getPath());
+            File folder = new File(folderPath);
             List<LevelInfo> res = new LinkedList<>();
             for (File file : folder.listFiles()) {
                 Scanner scanner = new Scanner(file);
