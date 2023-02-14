@@ -19,7 +19,7 @@ import java.util.List;
 public class MenuView implements View, Observer {
 
     public final int GRID_NUM_COLUMNS = 2;
-    private LevelRepositoryManager LevelRepositoryManager;
+    private LevelRepositoryManager levelRepositoryManager;
 
     private final MenuController menuController;
     private final Scene scene;
@@ -44,10 +44,10 @@ public class MenuView implements View, Observer {
     @Override
     public void bindModel(Observable model) {
         LevelRepositoryManager LevelRepositoryManager = (LevelRepositoryManager) model;
-        if(this.LevelRepositoryManager != null)
-            this.LevelRepositoryManager.detach(this);
-        this.LevelRepositoryManager = LevelRepositoryManager;
-        this.LevelRepositoryManager.attach(this);
+        if(this.levelRepositoryManager != null)
+            this.levelRepositoryManager.detach(this);
+        this.levelRepositoryManager = LevelRepositoryManager;
+        this.levelRepositoryManager.attach(this);
         renderView();
     }
 
@@ -66,7 +66,7 @@ public class MenuView implements View, Observer {
         levelGridPane.setGridLinesVisible(false);
         levelGridPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-        List<LevelInfo> levelInfoList = this.LevelRepositoryManager.listLevelInfos();
+        List<LevelInfo> levelInfoList = this.levelRepositoryManager.listLevelInfos();
 
         int gridNumRows = (levelInfoList.size() + GRID_NUM_COLUMNS - 1) / GRID_NUM_COLUMNS;
         for(int i = 0; i < GRID_NUM_COLUMNS; ++ i) {
