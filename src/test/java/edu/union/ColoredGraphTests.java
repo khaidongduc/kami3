@@ -138,4 +138,22 @@ public class ColoredGraphTests {
     public void testGetNumOfVertices(){
         assertEquals(10, graph.getNumVertices());
     }
+
+    @Test
+    public void testBuildGraphWithAdjacency(){
+        ColoredGraph<RectangleGridCell> smallGraph = new ColoredGraph<>();
+        smallGraph.addVertex(new RectangleGridCell(0, 0), red.getColorId());
+        smallGraph.addVertex(new RectangleGridCell(0, 1), red.getColorId());
+        smallGraph.addVertex(new RectangleGridCell(0, 2), green.getColorId());
+
+        Set<RectangleGridCell> neighbors00 = graph.getNeighbors(new RectangleGridCell(0, 0));
+        assertTrue(neighbors00.contains(new RectangleGridCell(0, 1)));
+
+        Set<RectangleGridCell> neighbors01 = graph.getNeighbors(new RectangleGridCell(0, 1));
+        assertTrue(neighbors01.contains(new RectangleGridCell(0, 0)));
+        assertTrue(neighbors01.contains(new RectangleGridCell(0, 2)));
+
+        Set<RectangleGridCell> neighbors02 = graph.getNeighbors(new RectangleGridCell(0, 2));
+        assertTrue(neighbors02.contains(new RectangleGridCell(0, 1)));
+    }
 }
