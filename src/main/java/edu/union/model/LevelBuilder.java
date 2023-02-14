@@ -13,11 +13,10 @@ import java.util.Set;
  *
  * @author Khai Dong
  */
-public abstract class LevelBuilder <V extends ColoredVertex> extends Observable {
+public abstract class LevelBuilder <V extends ColoredVertex> extends Observable implements Cloneable {
 
     protected ColoredGraph<V> graph;
     protected Color curColor;
-    public abstract String getType();
 
     public abstract String getLevelType();
 
@@ -115,4 +114,11 @@ public abstract class LevelBuilder <V extends ColoredVertex> extends Observable 
         notifyObservers();
     }
 
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e){
+            return null;
+        }
+    }
 }
