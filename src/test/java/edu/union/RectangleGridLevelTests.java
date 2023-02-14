@@ -2,6 +2,7 @@ package edu.union;
 
 import edu.union.model.*;
 import edu.union.service.LevelRepositoryManager;
+import edu.union.service.RectangleGridLevelRepository;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
@@ -9,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 @RunWith(JUnit4.class)
 public class RectangleGridLevelTests {
     private RectangleGridLevel level;
-    private LevelRepositoryManager levelRepositoryManager;
+    private LevelRepositoryManager repositoryManager;
 
     private final Color red = new Color(255, 0, 0);
     private final Color green = new Color(0, 255, 0);
@@ -28,13 +28,15 @@ public class RectangleGridLevelTests {
 
     @Before
     public void setUp(){
+        LevelRepositoryManager levelRepositoryManager = LevelRepositoryManager.getInstance();
+        levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, RectangleGridLevelRepository.getInstance());
         red.setColorId(0);
         green.setColorId(1);
         blue.setColorId(2);
         light_blue.setColorId(3);
-        levelRepositoryManager = LevelRepositoryManager.getInstance();
-        levelRepositoryManager.setFolderPath("build/resources/test/edu.union/level");
-        level = (RectangleGridLevel) levelRepositoryManager.loadLevel(new LevelInfo(1, LevelType.RECTANGLE_GRID_LEVEL, "build/resources/test/edu.union/level/1"));
+        repositoryManager = LevelRepositoryManager.getInstance();
+        repositoryManager.setFolderPath("build/resources/test/edu.union/level");
+        level = (RectangleGridLevel) repositoryManager.loadLevel(new LevelInfo(1, LevelType.RECTANGLE_GRID_LEVEL, "build/resources/test/edu.union/level/1"));
     }
 
     @After
