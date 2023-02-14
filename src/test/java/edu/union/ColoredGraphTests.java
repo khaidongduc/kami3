@@ -114,4 +114,11 @@ public class ColoredGraphTests {
         Set<RectangleGridCell> neighbors = graph.getNeighbors(new RectangleGridCell(2, 0));
         assertTrue(neighbors.contains(new RectangleGridCell(2, 1)));
     }
+
+    @Test
+    public void testRemoveEdge(){
+        graph.removeEdge(new RectangleGridCell(0, 0), new RectangleGridCell(0, 1));
+        Set<RectangleGridCell> neighbors = graph.getNeighbors(new RectangleGridCell(0, 0));
+        assertFalse(neighbors.contains(new RectangleGridCell(0, 1)));
+    }
 }
