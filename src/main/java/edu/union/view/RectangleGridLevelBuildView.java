@@ -25,6 +25,11 @@ public class RectangleGridLevelBuildView implements View, Observer {
     private Button[][] buttonGrid;
     private Map<Color,Button> colorToChooseButton;
     private Alert resultAlert;
+
+    /**
+     * Makes a view object for a rectangle grid builder
+     * @param buildController the rectangle level build controller
+     */
     public RectangleGridLevelBuildView(RectangleGridLevelBuildController buildController) {
         this.buildController = buildController;
         this.parent = new BorderPane();
@@ -35,6 +40,9 @@ public class RectangleGridLevelBuildView implements View, Observer {
         bindModel(level);
     }
 
+    /**
+     * Renders the view for the rectangle level builder
+     */
     private void renderView() {
         this.parent = new BorderPane();
         scene.setRoot(this.parent);
@@ -138,14 +146,25 @@ public class RectangleGridLevelBuildView implements View, Observer {
 
     }
 
+    /**
+     * Updates the observers
+     */
     @Override
     public void update() {
         this.renderView();
     }
 
+    /**
+     * Gets the scene of the rectangle level builder view
+     * @return returns the scene of the rectangle level builder
+     */
     @Override
     public Scene getScene() {return scene;}
 
+    /**
+     * Binds the model
+     * @param obj the object being bound
+     */
     @Override
     public void bindModel(Observable obj){
         RectangleGridLevelBuilder level = (RectangleGridLevelBuilder) obj;

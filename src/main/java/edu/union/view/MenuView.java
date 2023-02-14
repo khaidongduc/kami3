@@ -145,7 +145,7 @@ public class MenuView implements View, Observer {
     }
 
     /**
-     * Updates the view
+     * Updates the observers
      */
     @Override
     public void update() {
