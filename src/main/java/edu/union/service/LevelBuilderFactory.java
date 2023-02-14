@@ -4,13 +4,16 @@ import edu.union.model.LevelBuilder;
 import edu.union.model.RectangleGridLevelBuilder;
 
 import java.util.AbstractMap;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class LevelBuilderFactory {
 
     private static LevelBuilderFactory instance;
     private AbstractMap<String,LevelBuilder> map;
     public LevelBuilderFactory(){
-
+        map = new HashMap<>();
     }
 
     public static LevelBuilderFactory getInstance(){

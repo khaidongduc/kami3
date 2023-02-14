@@ -1,13 +1,11 @@
 package edu.union.controller;
 
-import edu.union.model.RectangleGridCell;
-import edu.union.model.RectangleGridLevelBuilder;
+import edu.union.model.*;
+import edu.union.service.LevelBuilderFactory;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-import edu.union.model.Color;
-import edu.union.model.LevelBuilder;
 import edu.union.service.LevelRepository;
 import edu.union.view.ViewEnum;
 
@@ -15,7 +13,11 @@ public class BuildController {
 
     private RectangleGridLevelBuilder levelBuilder;
     public BuildController(){
-        levelBuilder = null;
+        try {
+            this.levelBuilder = (RectangleGridLevelBuilder) LevelBuilderFactory.getInstance().createLevelBuilder(LevelType.RECTANGLE_GRID_LEVEL);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void handleChooseColorBtn(ActionEvent action){
