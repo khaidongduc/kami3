@@ -1,9 +1,12 @@
 package edu.union.service;
 
+import edu.union.model.Level;
+import edu.union.model.LevelBuilder;
+import edu.union.model.LevelInfo;
+
 import java.io.File;
-import java.util.logging.Level;
 
 public interface LevelRepositoryStrategy {
-    Level loadFromFile(File file);
-    void saveToFile(Level level);
+    Level loadFromFile(LevelInfo levelInfo);
+    void saveToFile(LevelBuilder levelBuilder);
 }
