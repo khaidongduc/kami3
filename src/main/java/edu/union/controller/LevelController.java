@@ -30,7 +30,7 @@ public class LevelController {
             Button targetButton = (Button) actionEvent.getTarget();
             int row = GridPane.getRowIndex(targetButton);
             int col = GridPane.getColumnIndex(targetButton);
-            level.play(new Move(level.getCurrentColor(), new RectangleGridCell(row, col)));
+            level.play(new Move<>(level.getCurrentColor(), new RectangleGridCell(row, col)));
         } catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.WARNING, e.toString());
             alert.show();
