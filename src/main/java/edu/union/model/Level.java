@@ -34,6 +34,7 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
         this.curColor = getColors().iterator().next(); // first color in the graph
     }
 
+    public abstract String getLevelType();
 
     /**
      * get the levelInfo

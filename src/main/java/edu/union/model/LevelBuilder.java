@@ -18,7 +18,7 @@ public abstract class LevelBuilder <V extends ColoredVertex> extends Observable 
     protected ColoredGraph<V> graph;
     protected Color curColor;
 
-    public abstract String getType();
+    public abstract String getLevelType();
 
     /**
      * basic initialization calling Observable constructor
