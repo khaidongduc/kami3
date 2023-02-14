@@ -1,6 +1,7 @@
 package edu.union.controller;
 
 import edu.union.service.LevelRepository;
+import edu.union.service.LevelRepositoryManager;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import edu.union.model.*;
@@ -11,7 +12,7 @@ public class MenuController {
     public void handleMoveToLevelBtn(ActionEvent actionEvent) {
         Button target = (Button) actionEvent.getTarget();
         LevelInfo info = (LevelInfo) target.getUserData();
-        Level level = LevelRepository.getInstance().loadLevel(info);
+        Level level = LevelRepositoryManager.getInstance().loadLevel(info);
         ViewSwitcher.getInstance().switchView(ViewEnum.LEVEL, level);
     }
 

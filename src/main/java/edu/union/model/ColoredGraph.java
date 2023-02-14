@@ -1,17 +1,22 @@
-package edu.union.utils;
+package edu.union.model;
 
 import java.util.*;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * a helper class for LevelSolver
  * @param <V> the type of the vertex
  */
-public class ColoredGraph <V> {
+public class ColoredGraph <V extends ColoredGraph.ColoredVertex> {
 
-    private String uuid;
-    private Map<V, Set<V>> adjVertices;
-    private Map<V, Integer> colorMap;
+    private final String uuid;
+    private final Map<V, Set<V>> adjVertices;
+    private final Map<V, Integer> colorMap;
+
+    public String getUUID(){
+        return this.uuid;
+    }
 
     public ColoredGraph(){
         this.adjVertices = new HashMap<>();
@@ -31,9 +36,6 @@ public class ColoredGraph <V> {
         }
     }
 
-    public String getUUID(){
-        return this.uuid;
-    }
 
     public Set<V> getVertexSet(){
         return adjVertices.keySet();
@@ -43,8 +45,7 @@ public class ColoredGraph <V> {
         return adjVertices.get(vertex);
     }
 
-    public void addVertex(V vertex, int color)
-    {
+    public void addVertex(V vertex, int color) {
         if(adjVertices.containsKey(vertex))
             throw new IllegalArgumentException("graph already has this vertex");
         if(color < 0)
@@ -58,6 +59,12 @@ public class ColoredGraph <V> {
         adjVertices.get(end).add(start);
     }
 
+    public void removeEdge(V start, V end){
+        adjVertices.get(start).remove(end);
+        adjVertices.get(end).remove(start);
+    }
+
+
     public int getVertexColor(V vertex){
         return colorMap.get(vertex);
     }
@@ -68,6 +75,17 @@ public class ColoredGraph <V> {
 
     public int getNumVertices(){
         return adjVertices.size();
+    }
+
+    public void buildGraphWithAdjacency(){
+        for(V vertex : getVertexSet()){
+            for(V anotherVertex : getVertexSet()) removeEdge(vertex, anotherVertex);
+        }
+        for(V vertex : getVertexSet()){
+            for(V anotherVertex : getVertexSet()) if(vertex.adjacentTo(anotherVertex)){
+                addEdge(vertex, anotherVertex);
+            }
+        }
     }
 
     public ColoredGraph<V> pruneGraph(){
@@ -92,7 +110,7 @@ public class ColoredGraph <V> {
         return res;
     }
 
-    private void colorFloodFill(V vertex, int i) {
+    public void colorFloodFill(V vertex, int i) {
         Queue<V> queue = new LinkedList<>();
         queue.add(vertex);
         int orgColor = this.getVertexColor(vertex);
@@ -121,4 +139,15 @@ public class ColoredGraph <V> {
         return Objects.hash(uuid);
     }
 
+    public List<Integer> getColorIds() {
+        return colorMap.values().stream().distinct().collect(Collectors.toList());
+    }
+
+    public abstract static class ColoredVertex {
+
+        public boolean adjacentTo(ColoredVertex vertex){
+            return true;
+        }
+
+    }
 }

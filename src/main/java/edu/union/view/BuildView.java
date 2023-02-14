@@ -1,6 +1,8 @@
 package edu.union.view;
 
 import edu.union.controller.BuildController;
+import edu.union.model.RectangleGridCell;
+import edu.union.model.RectangleGridLevelBuilder;
 import edu.union.utils.Observable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -19,7 +21,7 @@ public class BuildView  implements View, Observer {
     private final BuildController buildController;
     private final Scene scene;
     private BorderPane parent;
-    private LevelBuilder level;
+    private RectangleGridLevelBuilder level;
 
     private Button[][] buttonGrid;
     private Map<Color,Button> colorToChooseButton;
@@ -46,21 +48,21 @@ public class BuildView  implements View, Observer {
         colorGridPane.setPadding(new Insets(10, 10, 10, 10));
         colorGridPane.setGridLinesVisible(false);
         colorGridPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        for(int i = 0 ; i < level.getNumCols() ; ++ i) {
+        for(int i = 0 ; i < level.getRows() ; ++ i) {
             ColumnConstraints columnConstraints = new ColumnConstraints();
             columnConstraints.setFillWidth(true);
             columnConstraints.setHgrow(Priority.ALWAYS);
             colorGridPane.getColumnConstraints().add(columnConstraints);
         }
-        for(int i = 0 ; i < level.getNumCols() ; ++ i) {
+        for(int i = 0 ; i < level.getCols() ; ++ i) {
             RowConstraints rowConstraints = new RowConstraints();
             rowConstraints.setFillHeight(true);
             rowConstraints.setVgrow(Priority.ALWAYS);
             colorGridPane.getRowConstraints().add(rowConstraints);
         }
-        buttonGrid = new Button[level.getNumRows()][level.getNumCols()];
-        for(int i = 0 ; i < level.getNumRows() ; ++ i) {
-            for (int j = 0; j < level.getNumCols(); ++j) {
+        buttonGrid = new Button[level.getRows()][level.getCols()];
+        for(int i = 0 ; i < level.getRows() ; ++ i) {
+            for (int j = 0; j < level.getCols(); ++j) {
                 Button button = new Button();
                 button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 GridPane.setFillWidth(button, true);
@@ -134,9 +136,9 @@ public class BuildView  implements View, Observer {
     @Override
     public void update() {
         // color grid
-        for(int i = 0 ; i < level.getNumRows() ; ++ i) {
-            for (int j = 0; j < level.getNumCols(); ++j) {
-                Color color = level.getColorAt(i, j);
+        for(int i = 0 ; i < level.getRows() ; ++ i) {
+            for (int j = 0; j < level.getCols(); ++j) {
+                Color color = level.getColorAt(new RectangleGridCell(i, j));
                 Button button = buttonGrid[i][j];
                 button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
                         color.getRValue(), color.getGValue(), color.getBValue()));
@@ -157,7 +159,7 @@ public class BuildView  implements View, Observer {
 
     @Override
     public void bindModel(Observable obj){
-        LevelBuilder level = (LevelBuilder) obj;
+        RectangleGridLevelBuilder level = (RectangleGridLevelBuilder) obj;
         if(this.level != null){
             this.level.detach(this);
         }

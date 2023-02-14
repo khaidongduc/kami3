@@ -1,8 +1,7 @@
 package edu.union.service;
 
 import edu.union.model.*;
-import edu.union.model.ColorGrid.GridCellPosition;
-import edu.union.utils.ColoredGraph;
+import edu.union.model.ColoredGraph.ColoredVertex;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,42 +35,24 @@ public class LevelSolver {
      * solve the ColorGrid grid
      * return a list of move on a grid and that to make it mono-color in the least number of moves
      *
-     * @param grid the color grid
+     * @param graph the color grid
      * @return the list of moves as solutions
      */
-    public List<Move> solveColorGrid(ColorGrid grid)
+    public <V extends ColoredVertex> List<Move<V>> solveColorGrid(ColoredGraph<V> graph)
     {
-        ColoredGraph<GridCellPosition> graph = new ColoredGraph<>();
+        Queue<ColoredGraph<V>> queue = new LinkedList<>();
+        Map<ColoredGraph<V>, ColoredGraph<V>> prevGraph = new HashMap<>();
+        Map<ColoredGraph<V>, Move<V>> moves = new HashMap<>();
 
-        int numRows = grid.getNumRows();
-        int numCols = grid.getNumCols();
-        for(int i = 0 ; i < numRows ; ++ i){
-            for(int j = 0 ; j < numCols ; ++ j){
-                graph.addVertex(new GridCellPosition(i, j), grid.getColorOfEntry(i, j));
-            }
-        }
-        for(int i = 0 ; i < numRows ; ++ i){
-            for(int j = 0 ; j < numCols ; ++ j){
-                GridCellPosition cell = new GridCellPosition(i, j);
-                for(GridCellPosition adjCell : grid.getNeighborPositions(cell)){
-                    graph.addEdge(cell, adjCell);
-                }
-            }
-        }
-
-        Queue<ColoredGraph<GridCellPosition>> queue = new LinkedList<>();
-        Map<ColoredGraph<GridCellPosition>, ColoredGraph<GridCellPosition>> prevGraph = new HashMap<>();
-        Map<ColoredGraph<GridCellPosition>, Move> moves = new HashMap<>();
-
-        ColoredGraph<GridCellPosition> startGraph = graph.pruneGraph();
+        ColoredGraph<V> startGraph = graph.pruneGraph();
         queue.add(startGraph);
         prevGraph.put(startGraph, null);
         moves.put(startGraph, null);
 
-        ColoredGraph<GridCellPosition> foundResult = null;
+        ColoredGraph<V> foundResult = null;
         while(!queue.isEmpty() && foundResult == null){
-            ColoredGraph<GridCellPosition> sourceGraph = queue.poll();
-            for(GridCellPosition vertex : sourceGraph.getVertexSet()){
+            ColoredGraph<V> sourceGraph = queue.poll();
+            for(V vertex : sourceGraph.getVertexSet()){
                 int orgColor = sourceGraph.getVertexColor(vertex);
                 Set<Integer> possibleColors = sourceGraph.getNeighbors(vertex).stream()
                         .map(sourceGraph::getVertexColor).collect(Collectors.toSet());
@@ -79,10 +60,10 @@ public class LevelSolver {
 
                 for(Integer color : possibleColors){
                     sourceGraph.setVertexColor(vertex, color);
-                    ColoredGraph<GridCellPosition> nextGraph = sourceGraph.pruneGraph();
+                    ColoredGraph<V> nextGraph = sourceGraph.pruneGraph();
                     queue.add(nextGraph);
                     prevGraph.put(nextGraph, sourceGraph);
-                    moves.put(nextGraph, new Move(ColorRepository.getInstance().getColor(color), vertex.row, vertex.col));
+                    moves.put(nextGraph, new Move<V>(ColorRepository.getInstance().getColor(color), vertex));
                     if(nextGraph.getNumVertices() == 1){
                         foundResult = nextGraph;
                     }
@@ -90,7 +71,7 @@ public class LevelSolver {
                 sourceGraph.setVertexColor(vertex, orgColor);
             }
         }
-        LinkedList<Move> solution = new LinkedList<>();
+        LinkedList<Move<V>> solution = new LinkedList<>();
         while(prevGraph.get(foundResult) != null){
             solution.addFirst(moves.get(foundResult));
             foundResult = prevGraph.get(foundResult);

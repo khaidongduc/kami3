@@ -1,15 +1,12 @@
 package edu.union.view;
 
 import edu.union.controller.LevelController;
-import edu.union.model.Move;
+import edu.union.model.*;
 import edu.union.utils.Observable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import edu.union.model.Color;
-import edu.union.model.Level;
-import edu.union.model.LevelState;
 import edu.union.utils.Observer;
 
 import java.util.HashMap;
@@ -19,7 +16,7 @@ import java.util.Map;
 public class LevelView implements View, Observer {
 
     private final LevelController levelController;
-    private Level level;
+    private RectangleGridLevel level;
 
     private final Scene scene;
     private BorderPane parent;
@@ -41,7 +38,7 @@ public class LevelView implements View, Observer {
         this.scene = new Scene(this.parent, 400, 400);
     }
 
-    public LevelView(LevelController levelController, Level level){
+    public LevelView(LevelController levelController, RectangleGridLevel level){
         this(levelController);
         level.attach(this);
         bindModel(level);
@@ -49,7 +46,7 @@ public class LevelView implements View, Observer {
 
     @Override
     public void bindModel(Observable obj){
-        Level level = (Level) obj;
+        RectangleGridLevel level = (RectangleGridLevel) obj;
         if(this.level != null)
             this.level.detach(this);
         level.attach(this);
@@ -139,14 +136,14 @@ public class LevelView implements View, Observer {
         getHintsBtn.setOnAction(event -> {
 
             levelController.handleRestartBtn();
-            List<Move> hints = level.getHints();
-            for(Move move : hints){
+            List<Move<RectangleGridCell>> hints = level.getHints();
+            for(Move<RectangleGridCell> move : hints){
                 Color color = move.getColor();
 
                 String readableColor = color.getReadableColor(String.format("RGB(%d,%d,%d)", color.getRValue(),
                                 color.getGValue(), color.getBValue()));
                 System.out.println(readableColor + String.format(" row:%d col:%d",
-                        move.getRow(), move.getCol()));
+                        move.getVertex().row, move.getVertex().col));
                 //pass this string
             }
 
@@ -179,7 +176,7 @@ public class LevelView implements View, Observer {
         // color grid
         for(int i = 0 ; i < level.getNumRows() ; ++ i) {
             for (int j = 0; j < level.getNumCols(); ++j) {
-                Color color = level.getColorAt(i, j);
+                Color color = level.getColorAt(new RectangleGridCell(i, j));
                 Button button = buttonGrid[i][j];
                 button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
                         color.getRValue(), color.getGValue(), color.getBValue()));
