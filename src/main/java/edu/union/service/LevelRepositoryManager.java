@@ -1,6 +1,5 @@
 package edu.union.service;
 
-import edu.union.Config;
 import edu.union.model.Level;
 import edu.union.model.LevelBuilder;
 import edu.union.model.LevelInfo;
@@ -10,6 +9,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+/**
+ * managing the levelRepository of different type of Level
+ * singleton
+ */
 public class LevelRepositoryManager extends Observable {
 
     private static LevelRepositoryManager instance;
@@ -18,11 +21,18 @@ public class LevelRepositoryManager extends Observable {
     private final Map<String, LevelRepository> levelRepositoryMap;
     private String folderPath;
 
+    /**
+     * basic constructor
+     */
     private LevelRepositoryManager(){
         folderPath = DEFAULT_FOLDER_PATH;
         levelRepositoryMap = new HashMap<>();
     }
 
+    /**
+     * return a singleton instance of this type
+     * @return the instance
+     */
     public static LevelRepositoryManager getInstance(){
         if(instance == null){
             instance = new LevelRepositoryManager();
@@ -30,14 +40,28 @@ public class LevelRepositoryManager extends Observable {
         return instance;
     }
 
+    /**
+     * set the folderPath where the levels will be saved
+     * @param folderPath the folderPath
+     */
     public void setFolderPath(String folderPath){
         this.folderPath = folderPath;
     }
 
+    /**
+     * register a repository under a levelType
+     * @param levelType the levelType
+     * @param levelRepository the levelRepository
+     */
     public void register(String levelType, LevelRepository levelRepository){
         levelRepositoryMap.put(levelType, levelRepository);
     }
 
+    /**
+     * load a level using the levelInfo
+     * @param levelInfo the levelInfo
+     * @return the level
+     */
     public Level loadLevel(LevelInfo levelInfo){
         String levelType = levelInfo.getLevelType();
         if(!levelRepositoryMap.containsKey(levelType))
@@ -50,6 +74,10 @@ public class LevelRepositoryManager extends Observable {
         notifyObservers();
     }
 
+    /**
+     * list the available levelInfos
+     * @return the List of levelInfo
+     */
     public List<LevelInfo> listLevelInfos(){
         try {
             File folder = new File(folderPath);

@@ -35,6 +35,11 @@ public class ColoredGraphSolver {
         return instance;
     }
 
+    /**
+     * set the maximum of number of steps the solver would provide
+     * if it takes more than this number of steps, the solving will fail
+     * @param maxNumSteps the maximum of number of steps
+     */
     public void setMaxNumSteps(int maxNumSteps){
         this.maxNumSteps = maxNumSteps;
     }
@@ -45,6 +50,7 @@ public class ColoredGraphSolver {
      *
      * @param graph the color grid
      * @return the list of moves as solutions
+     * @throws RuntimeException if the graph is unsolvable under the constraint
      */
     public <V extends ColoredVertex> List<Move<V>> solveColoredGraph(ColoredGraph<V> graph)
     {

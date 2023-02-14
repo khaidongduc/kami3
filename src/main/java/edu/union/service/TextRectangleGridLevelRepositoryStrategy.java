@@ -18,6 +18,10 @@ public class TextRectangleGridLevelRepositoryStrategy implements LevelRepository
 
     }
 
+    /**
+     * singleton's getInstance()
+     * @return the instance
+     */
     public static TextRectangleGridLevelRepositoryStrategy getInstance(){
         if(instance == null){
             instance = new TextRectangleGridLevelRepositoryStrategy();
@@ -25,6 +29,12 @@ public class TextRectangleGridLevelRepositoryStrategy implements LevelRepository
         return instance;
     }
 
+    /**
+     * load a RectangleGridLevel using a levelInfo
+     * if levelInfo is wrong, will throw a runtime exception
+     * @param levelInfo the levelInfo
+     * @return the associated level
+     */
     @Override
     public Level loadFromFile(LevelInfo levelInfo) {
         try {
@@ -55,6 +65,12 @@ public class TextRectangleGridLevelRepositoryStrategy implements LevelRepository
         }
     }
 
+    /**
+     * save a RectangleGridLevelBuilder
+     * if levelBuilder is of wrong type, will throw a runtime exception
+     * @param lb the LevelBuilder
+     * @param folderPath the path of the folder where the file is saved
+     */
     @Override
     public void saveToFile(LevelBuilder lb, String folderPath) {
         RectangleGridLevelBuilder levelBuilder = (RectangleGridLevelBuilder) lb;
