@@ -2,7 +2,7 @@ package edu.union;
 
 import edu.union.model.*;
 import edu.union.service.LevelRepository;
-import edu.union.service.LevelSolver;
+import edu.union.service.ColoredGraphSolver;
 import edu.union.service.RawTextLevelRepositoryStrategy;
 import org.junit.Test;
 import org.junit.Before;
@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
 public class LevelSolverTests {
-    private LevelSolver solver = LevelSolver.getInstance();
+    private ColoredGraphSolver solver = ColoredGraphSolver.getInstance();
     private ColorGrid grid;
     private Level level;
     private RawTextLevelRepositoryStrategy repoStrat;
@@ -41,7 +41,7 @@ public class LevelSolverTests {
     @Test
     public void testSolver_MonochromaticGrid(){
         ColorGrid grid1 = new ColorGrid();
-        List<Move> hints = solver.solveColorGrid(grid1);
+        List<Move> hints = solver.solveColoredGraph(grid1);
         assertTrue(hints.isEmpty());
     }
 
@@ -114,6 +114,6 @@ public class LevelSolverTests {
         grid.setColor(light_blue.getColorId(), 4, 2);
         grid.setColor(green.getColorId(), 4, 3);
         grid.setColor(blue.getColorId(), 4, 4);
-        List<Move> hints = solver.solveColorGrid(grid);
+        List<Move> hints = solver.solveColoredGraph(grid);
     }
 }

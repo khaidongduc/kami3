@@ -10,25 +10,33 @@ import java.util.stream.Collectors;
  * edu.union.service class to solve a level
  * only method solveColorGrid which return a list of Move
  */
-public class LevelSolver {
+public class ColoredGraphSolver {
 
-    private static LevelSolver instance;
+    private static ColoredGraphSolver instance;
+
+    private static final int DEFAULT_MAX_NUM_STEPS = 5;
+
+    private int maxNumSteps;
 
     /**
      * basic constructor
      */
-    private LevelSolver(){
-
+    private ColoredGraphSolver(){
+        maxNumSteps = DEFAULT_MAX_NUM_STEPS;
     }
 
     /**
      * get the instance of a singleton class
      * @return the instance
      */
-    public static LevelSolver getInstance(){
+    public static ColoredGraphSolver getInstance(){
         if(instance == null)
-            instance = new LevelSolver();
+            instance = new ColoredGraphSolver();
         return instance;
+    }
+
+    public void setMaxNumSteps(int maxNumSteps){
+        this.maxNumSteps = maxNumSteps;
     }
 
     /**
@@ -38,16 +46,18 @@ public class LevelSolver {
      * @param graph the color grid
      * @return the list of moves as solutions
      */
-    public <V extends ColoredVertex> List<Move<V>> solveColorGrid(ColoredGraph<V> graph)
+    public <V extends ColoredVertex> List<Move<V>> solveColoredGraph(ColoredGraph<V> graph)
     {
         Queue<ColoredGraph<V>> queue = new LinkedList<>();
         Map<ColoredGraph<V>, ColoredGraph<V>> prevGraph = new HashMap<>();
         Map<ColoredGraph<V>, Move<V>> moves = new HashMap<>();
+        Map<ColoredGraph<V>, Integer> distances = new HashMap<>();
 
         ColoredGraph<V> startGraph = graph.pruneGraph();
         queue.add(startGraph);
         prevGraph.put(startGraph, null);
         moves.put(startGraph, null);
+        distances.put(startGraph, 0);
 
         ColoredGraph<V> foundResult = null;
         while(!queue.isEmpty() && foundResult == null){
@@ -64,6 +74,13 @@ public class LevelSolver {
                     queue.add(nextGraph);
                     prevGraph.put(nextGraph, sourceGraph);
                     moves.put(nextGraph, new Move<V>(ColorRepository.getInstance().getColor(color), vertex));
+
+                    int nextDistance = distances.get(sourceGraph) + 1;
+                    if(nextDistance > this.maxNumSteps){
+                        throw new RuntimeException("unable to solve");
+                    }
+                    distances.put(nextGraph, nextDistance);
+
                     if(nextGraph.getNumVertices() == 1){
                         foundResult = nextGraph;
                     }
