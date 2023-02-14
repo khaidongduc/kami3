@@ -30,15 +30,26 @@ public class RectangleGridLevel extends Level<RectangleGridCell> {
         numCols += 1;
     }
 
+    /**
+     * return the levelType
+     * @return the levelType
+     */
     @Override
     public String getLevelType() {
         return LevelType.RECTANGLE_GRID_LEVEL;
     }
 
+    /**
+     * @return number of rows in the rectangleGridLevel
+     */
     public int getNumRows(){
         return this.numRows;
     }
 
+    /**
+     *
+     * @return number of cols in the rectangleGridLevel
+     */
     public int getNumCols(){
         return this.numCols;
     }

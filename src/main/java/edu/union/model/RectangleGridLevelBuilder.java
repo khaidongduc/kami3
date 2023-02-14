@@ -25,6 +25,11 @@ public class RectangleGridLevelBuilder extends LevelBuilder<RectangleGridCell> i
         this.numCols = cols;
     }
 
+    /**
+     * change the grid size of the RectangleGridLevelBuilder
+     * @param rows new # of rows
+     * @param cols new # of cols
+     */
     public void changeGridSize(int rows, int cols){
         this.graph = new ColoredGraph<RectangleGridCell>();
         for(int i = 0; i < rows; i++){
@@ -38,15 +43,27 @@ public class RectangleGridLevelBuilder extends LevelBuilder<RectangleGridCell> i
         notifyObservers();
     }
 
+    /**
+     * the level type of this levelBuilder
+     * @return the level type
+     */
     @Override
     public String getLevelType() {
         return LevelType.RECTANGLE_GRID_LEVEL;
     }
 
+    /**
+     * return the number of rows
+     * @return the # of rows
+     */
     public int getRows(){
         return this.numRows;
     }
 
+    /**
+     * return the number of rows
+     * @return the # of rows
+     */
     public int getCols(){
         return this.numCols;
     }

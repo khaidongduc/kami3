@@ -3,7 +3,8 @@ package edu.union.model;
 import edu.union.service.ColorRepository;
 import edu.union.utils.Observable;
 import edu.union.model.ColoredGraph.ColoredVertex;
-
+import edu.union.model.Color;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +32,8 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
         this.hints = hints;
         this.levelInfo = levelInfo;
         this.curNumTurn = 0;
-        this.curColor = getColors().iterator().next(); // first color in the graph
+        this.curColor = getColors().stream().min(Comparator.comparingInt(Color::getColorId))
+                .get(); // first color in the graph
     }
 
     public abstract String getLevelType();
@@ -78,6 +80,8 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
      * @throws IllegalArgumentException if the color does not exist within palette, or it is the same color as the previous one
      */
     public void switchColor(Color color){
+        if(!getColors().contains(color))
+            throw new IllegalArgumentException("color not existed in this level");
         this.curColor = color;
         notifyObservers();
     }

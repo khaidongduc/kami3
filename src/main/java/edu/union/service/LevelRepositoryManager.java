@@ -39,7 +39,10 @@ public class LevelRepositoryManager extends Observable {
     }
 
     public Level loadLevel(LevelInfo levelInfo){
-        return levelRepositoryMap.get(levelInfo.getLevelType()).loadLevel(levelInfo);
+        String levelType = levelInfo.getLevelType();
+        if(!levelRepositoryMap.containsKey(levelType))
+            throw new RuntimeException("no repo existed for this info");
+        return levelRepositoryMap.get(levelType).loadLevel(levelInfo);
     }
 
     public void saveLevel(LevelBuilder levelBuilder){
