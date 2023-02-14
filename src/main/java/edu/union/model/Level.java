@@ -80,6 +80,8 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
      * @throws IllegalArgumentException if the color does not exist within palette, or it is the same color as the previous one
      */
     public void switchColor(Color color){
+        if(!getColors().contains(color))
+            throw new IllegalArgumentException("color not existed in this level");
         this.curColor = color;
         notifyObservers();
     }
