@@ -83,12 +83,13 @@ public class ColoredGraph <V extends ColoredGraph.ColoredVertex> {
 
     /**
      * add a bidirectional edge, ignore if edge already exist
+     * ignore loop edges
      * @param start the start the edge
      * @param end the end of the edge
      */
     public void addEdge(V start, V end){
         if(start.equals(end))
-            throw new IllegalArgumentException("no loop edges");
+            return;
         adjVertices.get(start).add(end);
         adjVertices.get(end).add(start);
     }

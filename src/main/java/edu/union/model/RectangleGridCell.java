@@ -3,11 +3,19 @@ package edu.union.model;
 import java.util.Objects;
 
 
+/**
+ * a cell in RectangleGridLevel and RectangleGridLevelBuilder
+ */
 public class RectangleGridCell extends ColoredGraph.ColoredVertex {
 
     public final int row;
     public final int col;
 
+    /**
+     * constructor
+     * @param row the row of the cell
+     * @param col the col of the cell
+     */
     public RectangleGridCell(int row, int col) {
         this.row = row;
         this.col = col;
@@ -26,6 +34,12 @@ public class RectangleGridCell extends ColoredGraph.ColoredVertex {
         return Objects.hash(row, col);
     }
 
+    /**
+     * define how a RectangleGridCell can be adjacent
+     * other type passed in will be ignored
+     * @param o the other vertex
+     * @return true if 2 vertex are adjacent
+     */
     @Override
     public boolean adjacentTo(ColoredGraph.ColoredVertex o) {
         if (this == o) return false;

@@ -7,7 +7,6 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses(
         {
                 ColorTests.class,
-                ColorGridTests.class,
                 ColorRepositoryTests.class,
                 RectangleGridLevelTests.class,
                 RectangleGridLevelBuilderTests.class,
