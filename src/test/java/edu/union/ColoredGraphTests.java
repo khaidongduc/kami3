@@ -125,6 +125,13 @@ public class ColoredGraphTests {
     @Test
     public void testGetVertexColor(){
         int colorId = graph.getVertexColor(new RectangleGridCell(0, 0));
-        assertEquals(0, colorId);
+        assertEquals(red.getColorId(), colorId);
+    }
+
+    @Test
+    public void testSetVertexColor(){
+        graph.setVertexColor(new RectangleGridCell(0, 0), green.getColorId());
+        int colorId = graph.getVertexColor(new RectangleGridCell(0, 0));
+        assertEquals(green.getColorId(), colorId);
     }
 }
