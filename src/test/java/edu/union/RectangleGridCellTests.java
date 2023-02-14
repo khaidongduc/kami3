@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
 public class RectangleGridCellTests {
-    RectangleGridCell cell;
+    private RectangleGridCell cell;
     @Before
     public void setUp(){
         cell = new RectangleGridCell(1,1);
