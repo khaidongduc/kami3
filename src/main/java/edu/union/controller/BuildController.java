@@ -20,6 +20,10 @@ public class BuildController {
         }
     }
 
+    public BuildController(RectangleGridLevelBuilder level){
+        this.levelBuilder = level;
+    }
+
     public void handleChooseColorBtn(ActionEvent action){
         try{
             Button targetButton = (Button) action.getTarget();
@@ -58,8 +62,10 @@ public class BuildController {
             int rows = Integer.parseInt(rowInput);
             int cols = Integer.parseInt(colInput);
             if(0 < rows && 0 < cols){
+                this.levelBuilder.changeGridSize(rows,cols);
                 ViewSwitcher.getInstance().switchView(ViewEnum.BUILDER,this.levelBuilder);
             }
+
         }
         catch(NumberFormatException ignored){
 

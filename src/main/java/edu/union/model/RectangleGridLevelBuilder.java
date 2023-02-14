@@ -26,7 +26,16 @@ public class RectangleGridLevelBuilder extends LevelBuilder<RectangleGridCell> i
     }
 
     public void changeGridSize(int rows, int cols){
-
+        this.graph = new ColoredGraph<RectangleGridCell>();
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+                graph.addVertex(new RectangleGridCell(i,j),0);
+            }
+        }
+        graph.buildGraphWithAdjacency();
+        this.numRows = rows;
+        this.numCols = cols;
+        notifyObservers();
     }
 
     @Override

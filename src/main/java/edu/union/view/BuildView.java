@@ -64,12 +64,16 @@ public class BuildView  implements View, Observer {
         for(int i = 0 ; i < level.getRows() ; ++ i) {
             for (int j = 0; j < level.getCols(); ++j) {
                 Button button = new Button();
+                Color color = level.getColorAt(new RectangleGridCell(i, j));
+                button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
+                        color.getRValue(), color.getGValue(), color.getBValue()));
                 button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 GridPane.setFillWidth(button, true);
                 GridPane.setFillHeight(button, true);
                 button.setOnAction(buildController::handleColorGridBtn);
                 buttonGrid[i][j] = button;
                 colorGridPane.add(button, j, i);
+
             }
         }
 
@@ -97,6 +101,9 @@ public class BuildView  implements View, Observer {
             colorChoiceGrid.add(button, 0,count++);
             colorToChooseButton.put(color, button);
         }
+        Button curColorChooseButton = colorToChooseButton.get(level.getCurrentColor());
+        curColorChooseButton.setBorder(new Border(new BorderStroke(javafx.scene.paint.Color.BLACK,
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         parent.setRight(colorChoiceGrid);
 
         // Exit, restart, and save buttons
@@ -129,29 +136,12 @@ public class BuildView  implements View, Observer {
         optionsGrid.add(colInput,2,1);
         optionsGrid.add(resizeBtn,2,2);
         parent.setBottom(optionsGrid);
-
-        update();
+        
     }
 
     @Override
     public void update() {
-        // color grid
-        for(int i = 0 ; i < level.getRows() ; ++ i) {
-            for (int j = 0; j < level.getCols(); ++j) {
-                Color color = level.getColorAt(new RectangleGridCell(i, j));
-                Button button = buttonGrid[i][j];
-                button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
-                        color.getRValue(), color.getGValue(), color.getBValue()));
-
-            }
-        }
-        // current color
-        for(Button button : colorToChooseButton.values()){
-            button.setBorder(new Border(new BorderStroke[]{}));
-        }
-        Button curColorChooseButton = colorToChooseButton.get(level.getCurrentColor());
-        curColorChooseButton.setBorder(new Border(new BorderStroke(javafx.scene.paint.Color.BLACK,
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        this.renderView();
     }
 
     @Override
