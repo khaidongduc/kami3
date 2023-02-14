@@ -88,7 +88,7 @@ public class ColoredGraphSolverTests {
 
     @Test(expected = RuntimeException.class)
     public void testSolver_ManyChanges(){
-        solver.setMaxNumSteps(6);
+        solver.setMaxNumSteps(5);
         graph.addVertex(new RectangleGridCell(0, 0), red.getColorId());
         graph.addVertex(new RectangleGridCell(0, 1), green.getColorId());
         graph.addVertex(new RectangleGridCell(0, 2), blue.getColorId());
@@ -114,6 +114,7 @@ public class ColoredGraphSolverTests {
         graph.addVertex(new RectangleGridCell(4, 2), blue.getColorId());
         graph.addVertex(new RectangleGridCell(4, 3), light_blue.getColorId());
         graph.addVertex(new RectangleGridCell(4, 4), red.getColorId());
+        graph.buildGraphWithAdjacency();
         List<Move<RectangleGridCell>> hints = solver.solveColoredGraph(graph);
     }
 }
