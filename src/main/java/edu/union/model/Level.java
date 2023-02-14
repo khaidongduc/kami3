@@ -24,17 +24,17 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
      * ensure to initialize Observable
      */
     public Level(ColoredGraph<V> graph,
-                 Color curColor,
                  List<Move<V>> hints,
                  LevelInfo levelInfo) {
         super();
         this.graph = graph;
-        this.curColor = curColor;
         this.hints = hints;
         this.levelInfo = levelInfo;
         this.curNumTurn = 0;
+        this.curColor = getColors().iterator().next(); // first color in the graph
     }
 
+    public abstract String getLevelType();
 
     /**
      * get the levelInfo
@@ -102,7 +102,7 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
         if (numMoveRemaining() == 0){
             throw new IllegalArgumentException("No move left");
         }
-        graph.colorFloodFill(move.getColoredVertex(), move.getColor().getColorId());
+        graph.colorFloodFill(move.getVertex(), move.getColor().getColorId());
         ++curNumTurn;
         notifyObservers();
     }
@@ -111,7 +111,7 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
      * get the color palette of this level
      * @return List of colors
      */
-    public Iterable<Color> getColors(){
+    public List<Color> getColors(){
         return ColorRepository.getInstance().listColors(graph.getColorIds());
     }
 
@@ -119,7 +119,7 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
      * return hints to solve this level
      * @return the hints
      */
-    public Iterable<Move<V>> getHints(){
+    public List<Move<V>> getHints(){
         return hints;
     }
 

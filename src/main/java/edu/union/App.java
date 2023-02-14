@@ -1,22 +1,20 @@
 package edu.union;
 
-import edu.union.controller.BuildController;
-import edu.union.controller.LevelController;
-import edu.union.controller.MenuController;
-import edu.union.controller.ViewSwitcher;
-import edu.union.service.LevelRepository;
+import edu.union.model.*;
+import edu.union.controller.*;
+import edu.union.view.*;
+import edu.union.service.LevelRepositoryManager;
+import edu.union.service.RectangleGridLevelRepository;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import edu.union.view.BuildView;
-import edu.union.view.LevelView;
-import edu.union.view.MenuView;
-import edu.union.view.ViewEnum;
 
 public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        LevelRepository.getInstance().setLevelRepositoryStrategy(Config.levelRepositoryStrategy);
+        LevelRepositoryManager levelRepositoryManager = LevelRepositoryManager.getInstance();
+        levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, RectangleGridLevelRepository.getInstance());
+
 
         // makr a level builder object
         // register that objecct with the builderfactory
@@ -34,9 +32,9 @@ public class App extends Application {
         LevelView levelView = new LevelView(levelController);
         viewSwitcher.addView(ViewEnum.LEVEL, levelView);
 
-        BuildController buildController = new BuildController();
-        BuildView buildView = new BuildView(buildController);
-        viewSwitcher.addView(ViewEnum.BUILDER, buildView);
+//        BuildController buildController = new BuildController();
+//        BuildView buildView = new BuildView(buildController);
+//        viewSwitcher.addView(ViewEnum.BUILDER, buildView);
 
         stage.setScene(menuView.getScene());
         stage.show();

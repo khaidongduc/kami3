@@ -4,7 +4,10 @@ import java.awt.*;
 
 public class RectangleGridLevelBuilder extends LevelBuilder<RectangleGridCell>{
 
-    public final String TYPE = "Rectangle"
+    private int numRows;
+    private int numCols;
+
+    public final String TYPE = "Rectangle";
     /**
      * basic initialization calling Observable constructor
      *
@@ -17,10 +20,24 @@ public class RectangleGridLevelBuilder extends LevelBuilder<RectangleGridCell>{
                 graph.addVertex(new RectangleGridCell(i,j),0);
             }
         }
+        graph.buildGraphWithAdjacency();
+
+        this.numRows = rows;
+        this.numCols = cols;
+
     }
 
     @Override
-    public String getType(){
-        return TYPE;
+    public String getLevelType() {
+        return LevelType.RECTANGLE_GRID_LEVEL;
     }
+
+    public int getRows(){
+        return this.numRows;
+    }
+
+    public int getCols(){
+        return this.numCols;
+    }
+
 }
