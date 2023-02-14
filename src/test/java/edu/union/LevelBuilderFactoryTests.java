@@ -1,9 +1,6 @@
 package edu.union;
 
-import edu.union.model.Color;
-import edu.union.model.ColoredGraph;
-import edu.union.model.Move;
-import edu.union.model.RectangleGridCell;
+import edu.union.model.*;
 import edu.union.service.LevelBuilderFactory;
 import org.junit.Test;
 import org.junit.Before;
@@ -24,4 +21,15 @@ public class LevelBuilderFactoryTests {
 
     @After
     public void tearDown(){builderFactory = null;}
+
+    @Test
+    public void testRegister() throws Exception {
+        LevelBuilderFactory.getInstance().register(LevelType.RECTANGLE_GRID_LEVEL, new RectangleGridLevelBuilder(5, 5));
+        RectangleGridLevelBuilder builder = (RectangleGridLevelBuilder) LevelBuilderFactory.getInstance().createLevelBuilder(LevelType.RECTANGLE_GRID_LEVEL);
+    }
+
+    @Test(expected = Exception.class)
+    public void testCreateLevelBuilder_NoKey() throws Exception {
+        RectangleGridLevelBuilder builder = (RectangleGridLevelBuilder) LevelBuilderFactory.getInstance().createLevelBuilder(LevelType.RECTANGLE_GRID_LEVEL);
+    }
 }
