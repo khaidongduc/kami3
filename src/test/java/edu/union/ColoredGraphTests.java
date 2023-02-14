@@ -55,7 +55,6 @@ public class ColoredGraphTests {
 
     @Test
     public void testColoredGraph(){
-        assertEquals(10, graph.getNumVertices());
         Set<RectangleGridCell> verts = graph.getVertexSet();
         assertTrue(verts.contains(new RectangleGridCell(0, 0)));
         assertTrue(verts.contains(new RectangleGridCell(0, 1)));
@@ -133,5 +132,10 @@ public class ColoredGraphTests {
         graph.setVertexColor(new RectangleGridCell(0, 0), green.getColorId());
         int colorId = graph.getVertexColor(new RectangleGridCell(0, 0));
         assertEquals(green.getColorId(), colorId);
+    }
+
+    @Test
+    public void testGetNumOfVertices(){
+        assertEquals(10, graph.getNumVertices());
     }
 }
