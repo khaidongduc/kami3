@@ -59,6 +59,7 @@ public class LevelRepositoryManager extends Observable {
                         file.getPath())
                 );
             }
+            res.sort(Comparator.comparingInt(LevelInfo::getLevelId));
             return res;
         }catch (FileNotFoundException ignored){
 
