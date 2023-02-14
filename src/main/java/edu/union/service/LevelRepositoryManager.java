@@ -6,6 +6,8 @@ import edu.union.model.LevelBuilder;
 import edu.union.model.LevelInfo;
 import edu.union.utils.Observable;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class LevelRepositoryManager extends Observable {
@@ -39,7 +41,22 @@ public class LevelRepositoryManager extends Observable {
     }
 
     public List<LevelInfo> listLevelInfos(){
-        return Config.levelInfos;
+        try {
+            File folder = new File(Level.class.getResource("levels").getPath());
+            List<LevelInfo> res = new LinkedList<>();
+            for (File file : folder.listFiles()) {
+                Scanner scanner = new Scanner(file);
+                res.add(
+                    new LevelInfo(Integer.parseInt(file.getName()),
+                        scanner.next(),
+                        file.getPath())
+                );
+            }
+            return res;
+        }catch (FileNotFoundException ignored){
+
+        }
+        return null;
     }
 
 }

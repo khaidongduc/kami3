@@ -15,11 +15,4 @@ public class Config {
             new Color(0, 255, 255)
     };
 
-    public static final ArrayList<LevelInfo> levelInfos = new ArrayList<LevelInfo>(
-        Arrays.asList(
-            new LevelInfo(1, "RectangleGridLevel",
-            "C:\\Users\\khaid\\projs\\csc-260\\kami3\\src\\main\\resources\\edu\\union\\model\\levels\\text\\1")
-        )
-    );
-
 }
