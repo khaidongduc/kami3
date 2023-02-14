@@ -98,7 +98,7 @@ public class ColoredGraphTests {
     }
 
     @Test
-    public void testPrune(){
+    public void testPruneGraph(){
         ColoredGraph<RectangleGridCell> prunedGraph = graph.pruneGraph();
         assertEquals(3, prunedGraph.getNumVertices());
         assertEquals(3, prunedGraph.getColorIds().size());
@@ -156,4 +156,14 @@ public class ColoredGraphTests {
         Set<RectangleGridCell> neighbors02 = graph.getNeighbors(new RectangleGridCell(0, 2));
         assertTrue(neighbors02.contains(new RectangleGridCell(0, 1)));
     }
+
+    @Test
+    public void testColorFloodFill(){
+        graph.colorFloodFill(new RectangleGridCell(0, 0), green.getColorId());
+
+        for(int i = 0; i < 5; i++){
+            assertEquals(graph.getVertexColor(new RectangleGridCell(0, i)), green.getColorId());
+        }
+    }
+
 }
