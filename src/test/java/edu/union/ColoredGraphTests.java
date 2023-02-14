@@ -145,6 +145,7 @@ public class ColoredGraphTests {
         smallGraph.addVertex(new RectangleGridCell(0, 0), red.getColorId());
         smallGraph.addVertex(new RectangleGridCell(0, 1), red.getColorId());
         smallGraph.addVertex(new RectangleGridCell(0, 2), green.getColorId());
+        smallGraph.buildGraphWithAdjacency();
 
         Set<RectangleGridCell> neighbors00 = graph.getNeighbors(new RectangleGridCell(0, 0));
         assertTrue(neighbors00.contains(new RectangleGridCell(0, 1)));
@@ -166,4 +167,20 @@ public class ColoredGraphTests {
         }
     }
 
+    @Test
+    public void testEquals(){
+        ColoredGraph<RectangleGridCell> smallGraph1 = new ColoredGraph<>();
+        smallGraph1.addVertex(new RectangleGridCell(0, 0), red.getColorId());
+        smallGraph1.addVertex(new RectangleGridCell(0, 1), red.getColorId());
+        smallGraph1.addVertex(new RectangleGridCell(0, 2), green.getColorId());
+        smallGraph1.buildGraphWithAdjacency();
+
+        ColoredGraph<RectangleGridCell> smallGraph2 = new ColoredGraph<>();
+        smallGraph2.addVertex(new RectangleGridCell(0, 0), red.getColorId());
+        smallGraph2.addVertex(new RectangleGridCell(0, 1), red.getColorId());
+        smallGraph2.addVertex(new RectangleGridCell(0, 2), green.getColorId());
+        smallGraph2.buildGraphWithAdjacency();
+
+        assertTrue(smallGraph1.equals(smallGraph2));
+    }
 }
