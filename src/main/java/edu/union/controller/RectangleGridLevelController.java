@@ -1,6 +1,5 @@
 package edu.union.controller;
 
-import edu.union.service.LevelRepository;
 import edu.union.service.LevelRepositoryManager;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
@@ -9,15 +8,15 @@ import javafx.scene.layout.GridPane;
 import edu.union.model.*;
 import edu.union.view.ViewEnum;
 
-public class LevelController {
+public class RectangleGridLevelController {
 
     private RectangleGridLevel level;
 
-    public LevelController() {
+    public RectangleGridLevelController() {
 
     }
 
-    public LevelController(RectangleGridLevel level){
+    public RectangleGridLevelController(RectangleGridLevel level){
         setLevel(level);
     }
 

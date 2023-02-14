@@ -1,6 +1,6 @@
 package edu.union.view;
 
-import edu.union.controller.BuildController;
+import edu.union.controller.RectangleGridLevelBuildController;
 import edu.union.model.RectangleGridCell;
 import edu.union.model.RectangleGridLevelBuilder;
 import edu.union.utils.Observable;
@@ -10,15 +10,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import edu.union.model.Color;
 import edu.union.service.ColorRepository;
-import edu.union.model.LevelBuilder;
 import edu.union.utils.Observer;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BuildView  implements View, Observer {
-    private final BuildController buildController;
+public class RectangleGridLevelBuildView implements View, Observer {
+    private final RectangleGridLevelBuildController buildController;
     private final Scene scene;
     private BorderPane parent;
     private RectangleGridLevelBuilder level;
@@ -26,7 +25,7 @@ public class BuildView  implements View, Observer {
     private Button[][] buttonGrid;
     private Map<Color,Button> colorToChooseButton;
     private Alert resultAlert;
-    public BuildView(BuildController buildController) {
+    public RectangleGridLevelBuildView(RectangleGridLevelBuildController buildController) {
         this.buildController = buildController;
         this.parent = new BorderPane();
         this.scene = new Scene(this.parent, 400, 400);

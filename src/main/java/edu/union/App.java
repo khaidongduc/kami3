@@ -28,12 +28,12 @@ public class App extends Application {
         MenuView menuView = new MenuView(menuController);
         viewSwitcher.addView(ViewEnum.MENU, menuView);
 
-        LevelController levelController = new LevelController();
-        LevelView levelView = new LevelView(levelController);
+        RectangleGridLevelController levelController = new RectangleGridLevelController();
+        RectangleGridLevelView levelView = new RectangleGridLevelView(levelController);
         viewSwitcher.addView(ViewEnum.LEVEL, levelView);
 
-        BuildController buildController = new BuildController();
-        BuildView buildView = new BuildView(buildController);
+        RectangleGridLevelBuildController buildController = new RectangleGridLevelBuildController();
+        RectangleGridLevelBuildView buildView = new RectangleGridLevelBuildView(buildController);
         viewSwitcher.addView(ViewEnum.BUILDER, buildView);
 
         stage.setScene(menuView.getScene());

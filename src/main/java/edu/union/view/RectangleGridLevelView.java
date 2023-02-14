@@ -1,6 +1,6 @@
 package edu.union.view;
 
-import edu.union.controller.LevelController;
+import edu.union.controller.RectangleGridLevelController;
 import edu.union.model.*;
 import edu.union.utils.Observable;
 import javafx.geometry.Insets;
@@ -13,9 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LevelView implements View, Observer {
+public class RectangleGridLevelView implements View, Observer {
 
-    private final LevelController levelController;
+    private final RectangleGridLevelController levelController;
     private RectangleGridLevel level;
 
     private final Scene scene;
@@ -32,13 +32,13 @@ public class LevelView implements View, Observer {
         return scene;
     }
 
-    public LevelView(LevelController levelController){
+    public RectangleGridLevelView(RectangleGridLevelController levelController){
         this.levelController = levelController;
         this.parent = new BorderPane();
         this.scene = new Scene(this.parent, 400, 400);
     }
 
-    public LevelView(LevelController levelController, RectangleGridLevel level){
+    public RectangleGridLevelView(RectangleGridLevelController levelController, RectangleGridLevel level){
         this(levelController);
         level.attach(this);
         bindModel(level);

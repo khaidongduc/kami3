@@ -7,13 +7,12 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-import edu.union.service.LevelRepository;
 import edu.union.view.ViewEnum;
 
-public class BuildController {
+public class RectangleGridLevelBuildController {
 
     private RectangleGridLevelBuilder levelBuilder;
-    public BuildController(){
+    public RectangleGridLevelBuildController(){
         try {
             this.levelBuilder = (RectangleGridLevelBuilder) LevelBuilderFactory.getInstance().createLevelBuilder(LevelType.RECTANGLE_GRID_LEVEL);
         } catch (Exception e) {
@@ -21,7 +20,7 @@ public class BuildController {
         }
     }
 
-    public BuildController(RectangleGridLevelBuilder level){
+    public RectangleGridLevelBuildController(RectangleGridLevelBuilder level){
         this.levelBuilder = level;
     }
 
