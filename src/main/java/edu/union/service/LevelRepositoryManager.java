@@ -1,5 +1,6 @@
 package edu.union.service;
 
+import edu.union.Config;
 import edu.union.model.Level;
 import edu.union.model.LevelBuilder;
 import edu.union.model.LevelInfo;
@@ -38,10 +39,7 @@ public class LevelRepositoryManager extends Observable {
     }
 
     public List<LevelInfo> listLevelInfos(){
-        List<LevelInfo> res = new ArrayList<>();
-        res.add(new LevelInfo(1, "RectangleGridLevel",
-                "C:\\Users\\khaid\\projs\\csc-260\\kami3\\src\\main\\resources\\edu\\union\\model\\levels\\text\\1"));
-        return res;
+        return Config.levelInfos;
     }
 
 }
