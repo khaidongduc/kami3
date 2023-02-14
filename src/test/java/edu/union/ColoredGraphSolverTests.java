@@ -115,6 +115,5 @@ public class ColoredGraphSolverTests {
         graph.addVertex(new RectangleGridCell(4, 3), light_blue.getColorId());
         graph.addVertex(new RectangleGridCell(4, 4), red.getColorId());
         List<Move<RectangleGridCell>> hints = solver.solveColoredGraph(graph);
-        throw new RuntimeException();
     }
 }
