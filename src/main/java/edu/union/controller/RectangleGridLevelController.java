@@ -56,11 +56,4 @@ public class RectangleGridLevelController {
     public void handleMoveToMenuBtn() {
         ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
     }
-
-    public void handleGetHintsBtn()
-    {
-        //to do
-    }
-
-
 }
