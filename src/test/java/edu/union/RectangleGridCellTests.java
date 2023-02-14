@@ -22,4 +22,20 @@ public class RectangleGridCellTests {
 
     @After
     public void tearDown(){cell = null;}
+
+    @Test
+    public void testAdjacentTo(){
+        RectangleGridCell neighbor0 = new RectangleGridCell(0, 0);
+        RectangleGridCell neighbor1 = new RectangleGridCell(1, 0);
+        RectangleGridCell neighbor2 = new RectangleGridCell(0, 1);
+        RectangleGridCell neighbor3 = new RectangleGridCell(1, 2);
+        RectangleGridCell neighbor4 = new RectangleGridCell(2, 1);
+
+        assertTrue(cell.adjacentTo(neighbor1));
+        assertTrue(cell.adjacentTo(neighbor2));
+        assertTrue(cell.adjacentTo(neighbor3));
+        assertTrue(cell.adjacentTo(neighbor4));
+        assertFalse(cell.adjacentTo(neighbor0));
+
+    }
 }
