@@ -3,10 +3,11 @@ package edu.union.service;
 import edu.union.model.Level;
 import edu.union.model.LevelBuilder;
 import edu.union.model.LevelInfo;
+import edu.union.utils.Observable;
 
 import java.util.*;
 
-public class LevelRepositoryManager {
+public class LevelRepositoryManager extends Observable {
 
     private static LevelRepositoryManager instance;
 
@@ -33,11 +34,13 @@ public class LevelRepositoryManager {
 
     public void saveLevel(LevelBuilder levelBuilder){
         levelRepositoryMap.get(levelBuilder.getType()).saveLevel(levelBuilder);
+        notifyObservers();
     }
 
     public List<LevelInfo> listLevelInfos(){
         List<LevelInfo> res = new ArrayList<>();
-        res.add(new LevelInfo(1, "RectangleGridLevel"));
+        res.add(new LevelInfo(1, "RectangleGridLevel",
+                "C:\\Users\\khaid\\projs\\csc-260\\kami3\\src\\main\\resources\\edu\\union\\model\\levels\\text\\1"));
         return res;
     }
 
