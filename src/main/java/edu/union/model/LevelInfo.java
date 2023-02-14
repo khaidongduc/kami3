@@ -9,14 +9,17 @@ package edu.union.model;
 public class LevelInfo {
     private final int levelId;
     private final String levelType;
+    private final String filePath;
+
 
     /**
      * initialized with levelId
      * @param levelId the levelId
      */
-    public LevelInfo(int levelId, String levelType){
+    public LevelInfo(int levelId, String levelType, String filePath){
         this.levelId = levelId;
         this.levelType = levelType;
+        this.filePath = filePath;
     }
 
     /**
@@ -28,12 +31,21 @@ public class LevelInfo {
     }
 
     /**
-     * get the levelId
-     * @return the leveId
+     * get the level type
+     * @return the leve type
      */
     public String getLevelType(){
         return levelType;
     }
+
+    /**
+     * get the file path
+     * @return the file path
+     */
+    public String getFilePath(){
+        return filePath;
+    }
+
 
     public String toString(){
         return String.valueOf(levelId);
