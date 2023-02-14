@@ -82,6 +82,23 @@ public class ColoredGraphTests {
     }
 
     @Test
+    public void testAddVertex(){
+        graph.addVertex(new RectangleGridCell(2, 0), red.getColorId());
+        Set<RectangleGridCell> verts = graph.getVertexSet();
+        assertTrue(verts.contains(new RectangleGridCell(2, 0)));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddVertex_AlreadyExists(){
+        graph.addVertex(new RectangleGridCell(0, 0), red.getColorId());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddVertex_InvalidColor(){
+        graph.addVertex(new RectangleGridCell(2, 0), -1);
+    }
+
+    @Test
     public void testPrune(){
         ColoredGraph<RectangleGridCell> prunedGraph = graph.pruneGraph();
         assertEquals(3, prunedGraph.getNumVertices());
