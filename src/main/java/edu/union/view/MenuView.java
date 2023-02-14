@@ -29,6 +29,10 @@ public class MenuView implements View, Observer {
     private Button[][] buttonGrid;
 
 
+    /**
+     * Makes a view object for the menu
+     * @param menuController the controller for the menu
+     */
     public MenuView(MenuController menuController){
         this.menuController = menuController;
         this.parent = new BorderPane();
@@ -36,11 +40,19 @@ public class MenuView implements View, Observer {
         bindModel(LevelRepositoryManager.getInstance());
     }
 
+    /**
+     * Gets the scene being added on the stage
+     * @return the scene for the stage
+     */
     @Override
     public Scene getScene() {
         return this.scene;
     }
 
+    /**
+     * Binds the model to the view
+     * @param model the model being bound to the view
+     */
     @Override
     public void bindModel(Observable model) {
         LevelRepositoryManager LevelRepositoryManager = (LevelRepositoryManager) model;
@@ -51,6 +63,9 @@ public class MenuView implements View, Observer {
         renderView();
     }
 
+    /**
+     * Renders the view for the menu and makes buttons for the scene
+     */
     private void renderView() {
         this.parent = new BorderPane();
         scene.setRoot(this.parent);
@@ -116,6 +131,11 @@ public class MenuView implements View, Observer {
         this.parent.setCenter(levelGridPane);
     }
 
+    /**
+     * Styles the buttons so they are clean and readable
+     * @param button the button being styled
+     * @param toWrite the text to be displayed on the button
+     */
     private void styleButton(Button button, String toWrite){
         button.setText(toWrite);
         button.setStyle("-fx-font: 20px Verdana");
@@ -124,7 +144,9 @@ public class MenuView implements View, Observer {
         button.setVisible(true);
     }
 
-
+    /**
+     * Updates the view
+     */
     @Override
     public void update() {
         renderView();
