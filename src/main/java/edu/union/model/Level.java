@@ -110,7 +110,7 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
      * get the color palette of this level
      * @return List of colors
      */
-    public Iterable<Color> getColors(){
+    public List<Color> getColors(){
         return ColorRepository.getInstance().listColors(graph.getColorIds());
     }
 
@@ -118,7 +118,7 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
      * return hints to solve this level
      * @return the hints
      */
-    public Iterable<Move<V>> getHints(){
+    public List<Move<V>> getHints(){
         return hints;
     }
 
