@@ -14,7 +14,9 @@ import org.junit.runners.Suite;
                 MoveTests.class,
                 ColoredGraphTests.class,
                 ColoredGraphSolverTests.class,
-                LevelRepositoryManagerTests.class
+                LevelRepositoryManagerTests.class,
+                RectangleGridCellTests.class,
+                LevelBuilderFactoryTests.class
         }
 )
 
