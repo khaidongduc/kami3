@@ -33,7 +33,7 @@ public class LevelRepositoryManagerTests {
 
     @Test
     public void testLoad(){
-        RectangleGridLevel level = (RectangleGridLevel) repositoryManager.loadLevel(new LevelInfo(1, "RECTANGLE_GRID_LEVEL",
+        RectangleGridLevel level = (RectangleGridLevel) repositoryManager.loadLevel(new LevelInfo(1, LevelType.RECTANGLE_GRID_LEVEL,
                 "build/resources/test/edu.union/level/1"));
         assertEquals(25, level.getGraph().getNumVertices());
         assertEquals(3, level.numMoveRemaining());
@@ -47,7 +47,7 @@ public class LevelRepositoryManagerTests {
 
     @Test (expected = RuntimeException.class)
     public void testLoad_UnknownFile(){
-        repositoryManager.loadLevel(new LevelInfo(Integer.MAX_VALUE, "RECTANGLE_GRID_LEVEL", "build/resources/test/edu.union/level/9999"));
+        repositoryManager.loadLevel(new LevelInfo(Integer.MAX_VALUE, LevelType.RECTANGLE_GRID_LEVEL, "build/resources/test/edu.union/level/9999"));
     }
 
 

@@ -96,7 +96,7 @@ public class RectangleGridLevelTests {
 
     @Test
     public void testPlay(){
-        Move move = new Move(blue, new RectangleGridCell(0, 0));
+        Move<RectangleGridCell> move = new Move(blue, new RectangleGridCell(0, 0));
         assertEquals(3, level.numMoveRemaining());
         level.play(move);
         for(int i = 0; i < 5; i++) {
@@ -107,13 +107,13 @@ public class RectangleGridLevelTests {
     }
     @Test(expected = IllegalArgumentException.class)
     public void testPlay_noMovesLeft(){
-        Move move1 = new Move(green, new RectangleGridCell(0, 0));
+        Move<RectangleGridCell> move1 = new Move(green, new RectangleGridCell(0, 0));
         level.play(move1);
-        Move move2 = new Move(red, new RectangleGridCell(0, 1));
+        Move<RectangleGridCell> move2 = new Move(red, new RectangleGridCell(0, 1));
         level.play(move2);
-        Move move3 = new Move(green, new RectangleGridCell(0, 2));
+        Move<RectangleGridCell> move3 = new Move(green, new RectangleGridCell(0, 2));
         level.play(move3);
-        Move move4 = new Move(red, new RectangleGridCell(0, 3));
+        Move<RectangleGridCell> move4 = new Move(red, new RectangleGridCell(0, 3));
         level.play(move4);
     }
 
@@ -127,9 +127,9 @@ public class RectangleGridLevelTests {
     @Test
     public void testGetHints(){
         ArrayList<Move<RectangleGridCell>> hints = new ArrayList<>();
-        Move move1 = new Move(green, new RectangleGridCell(0, 0));
-        Move move2 = new Move(green, new RectangleGridCell(1, 3));
-        Move move3 = new Move(green, new RectangleGridCell(4, 0));
+        Move<RectangleGridCell> move1 = new Move(green, new RectangleGridCell(0, 0));
+        Move<RectangleGridCell> move2 = new Move(green, new RectangleGridCell(1, 3));
+        Move<RectangleGridCell> move3 = new Move(green, new RectangleGridCell(4, 0));
         hints.add(move1);
         hints.add(move2);
         hints.add(move3);
@@ -145,7 +145,7 @@ public class RectangleGridLevelTests {
 
         List<Move<RectangleGridCell>> winningPlay = level.getHints();
 
-        for (Move move : winningPlay) {
+        for (Move<RectangleGridCell> move : winningPlay) {
             assertEquals(ongoing, level.getLevelState());
             level.play(move);
         }

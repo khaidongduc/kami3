@@ -1,6 +1,5 @@
 package edu.union;
 import edu.union.model.Color;
-import edu.union.model.ColoredGraph;
 import edu.union.model.Move;
 import edu.union.model.RectangleGridCell;
 import org.junit.Test;
