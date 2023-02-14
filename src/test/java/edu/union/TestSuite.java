@@ -10,6 +10,7 @@ import org.junit.runners.Suite;
                 ColorGridTests.class,
                 ColorRepositoryTests.class,
                 RectangleGridLevelTests.class,
+                RectangleGridLevelBuilderTests.class,
                 MoveTests.class,
                 ColoredGraphTests.class,
                 ColoredGraphSolverTests.class,
