@@ -28,10 +28,10 @@ public class RectangleGridLevelView implements View, Observer {
 
     private Alert resultAlert;
 
-    public Scene getScene() {
-        return scene;
-    }
-
+    /**
+     * Makes a rectangle grid level view object
+     * @param levelController the controller for the view
+     */
     public RectangleGridLevelView(RectangleGridLevelController levelController){
         this.levelController = levelController;
         this.parent = new BorderPane();
@@ -44,6 +44,18 @@ public class RectangleGridLevelView implements View, Observer {
         bindModel(level);
     }
 
+    /**
+     *  Gets the scene for the rectangle grid level view
+     * @return the scene for the view
+     */
+    public Scene getScene() {
+        return scene;
+    }
+
+    /**
+     * Binds the model
+     * @param obj the object being bound
+     */
     @Override
     public void bindModel(Observable obj){
         RectangleGridLevel level = (RectangleGridLevel) obj;
@@ -55,6 +67,9 @@ public class RectangleGridLevelView implements View, Observer {
         renderView();
     }
 
+    /**
+     * Renders the view for the rectangle grid level view
+     */
     private void renderView(){
         this.parent = new BorderPane();
         scene.setRoot(this.parent);
@@ -171,6 +186,9 @@ public class RectangleGridLevelView implements View, Observer {
         update();
     }
 
+    /**
+     * Updates the observers
+     */
     @Override
     public void update() {
         // color grid
