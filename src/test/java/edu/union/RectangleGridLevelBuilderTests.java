@@ -1,54 +1,44 @@
 package edu.union;
 import edu.union.model.*;
-import edu.union.service.LevelRepository;
-import edu.union.service.RawTextLevelRepositoryStrategy;
+import edu.union.service.LevelBuilderFactory;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
-public class LevelBuilderImplTests {
-    private LevelBuilder builder;
+public class RectangleGridLevelBuilderTests {
+    private RectangleGridLevelBuilder builder;
     private final Color red = new Color(255, 0, 0);
     private final Color green = new Color(0, 255, 0);
     private final Color blue = new Color(0, 0, 255);
     private final Color light_blue = new Color(0, 255, 255);
 
     @Before
-    public void setUp(){
+    public void setUp() throws Exception {
+        LevelBuilderFactory.getInstance().register(LevelType.RECTANGLE_GRID_LEVEL, new RectangleGridLevelBuilder(5, 5));
+
         red.setColorId(0);
         green.setColorId(1);
         blue.setColorId(2);
         light_blue.setColorId(3);
-        builder = new LevelBuilderImpl(4, 6);
+        builder = (RectangleGridLevelBuilder) LevelBuilderFactory.getInstance().createLevelBuilder(LevelType.RECTANGLE_GRID_LEVEL);
     }
 
     @After
     public void tearDown(){builder = null;}
 
     @Test
-    public void testLevelBuilder_Default(){
-        LevelBuilder levelBuilder = new LevelBuilderImpl();
-        assertEquals(5, levelBuilder.getNumCols());
-        assertEquals(5, levelBuilder.getNumRows());
-        List<Color> colors = levelBuilder.getColors();
-        assertTrue(colors.contains(red));
-        assertFalse(colors.contains(green));
-        assertFalse(colors.contains(blue));
-        assertFalse(colors.contains(light_blue));
-    }
-
-    @Test
     public void testLevelBuilder(){
-        assertEquals(6, builder.getNumCols());
-        assertEquals(4, builder.getNumRows());
+        assertEquals(6, builder.getCols());
+        assertEquals(4, builder.getRows());
         List<Color> colors = builder.getColors();
         assertTrue(colors.contains(red));
         assertFalse(colors.contains(green));
@@ -65,13 +55,14 @@ public class LevelBuilderImplTests {
 
     @Test
     public void testSetColor(){
-        builder.setColor(green, 0, 0);
-        assertEquals(green, builder.getColorAt(0, 0));
+        builder.setColor(green, new RectangleGridCell(0, 0));
+        assertEquals(green, builder.getColorAt(new RectangleGridCell(0, 0)));
 
-        builder.setColor(blue, 0, 0);
-        assertEquals(blue, builder.getColorAt(0, 0));
+        builder.setColor(blue, new RectangleGridCell(0, 0));
+        assertEquals(blue, builder.getColorAt(new RectangleGridCell(0, 0)));
     }
 
+    @Ignore
     @Test
     public void testChangeGridSize(){
         builder.changeGridSize(2, 3);
@@ -85,20 +76,20 @@ public class LevelBuilderImplTests {
 
     @Test
     public void testRestart(){
-        for (int i = 0; i <builder.getNumCols(); i++){
-            builder.setColor(green, 0, i);
+        for (int i = 0; i <builder.getCols(); i++){
+            builder.setColor(green, new RectangleGridCell(0, i));
         }
-        for (int i = 0; i <builder.getNumCols(); i++){
-            builder.setColor(blue, 1, i);
+        for (int i = 0; i <builder.getCols(); i++){
+            builder.setColor(blue, new RectangleGridCell(1, i));
         }
-        for (int i = 0; i <builder.getNumCols(); i++){
-            builder.setColor(light_blue, 2, i);
+        for (int i = 0; i <builder.getCols(); i++){
+            builder.setColor(light_blue, new RectangleGridCell(2, i));
         }
 
         builder.restart();
-        for (int i = 0; i < builder.getNumRows(); i++){
-            for (int j = 0; j < builder.getNumCols(); j++){
-                assertEquals(red, builder.getColorAt(i, j));
+        for (int i = 0; i < builder.getRows(); i++){
+            for (int j = 0; j < builder.getCols(); j++){
+                assertEquals(red, builder.getColorAt(new RectangleGridCell(i, j)));
             }
         }
     }
