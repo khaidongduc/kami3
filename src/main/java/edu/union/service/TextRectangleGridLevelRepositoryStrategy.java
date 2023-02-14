@@ -65,7 +65,7 @@ public class TextRectangleGridLevelRepositoryStrategy implements LevelRepository
         try {
             String fileName = "/"+ (folder.listFiles().length + 1);
             FileWriter fw = new FileWriter(folder+fileName);
-            fw.write(lb.getType() + '\n');
+            fw.write(lb.getLevelType() + '\n');
             fw.write(levelBuilder.getRows() + " " + levelBuilder.getCols() + "\n");
             for(int i = 0; i < levelBuilder.getRows(); i++){
                 String line = Integer.toString(levelBuilder.getColorAt(new RectangleGridCell(i,0)).getColorId());

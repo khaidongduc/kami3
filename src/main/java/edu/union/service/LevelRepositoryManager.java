@@ -43,7 +43,7 @@ public class LevelRepositoryManager extends Observable {
     }
 
     public void saveLevel(LevelBuilder levelBuilder){
-        levelRepositoryMap.get(levelBuilder.getType()).saveLevel(levelBuilder, folderPath);
+        levelRepositoryMap.get(levelBuilder.getLevelType()).saveLevel(levelBuilder, folderPath);
         notifyObservers();
     }
 

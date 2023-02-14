@@ -13,7 +13,7 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
 
         LevelRepositoryManager levelRepositoryManager = LevelRepositoryManager.getInstance();
-        levelRepositoryManager.register("RectangleGridLevel", RectangleGridLevelRepository.getInstance());
+        levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, RectangleGridLevelRepository.getInstance());
 
 
         ViewSwitcher viewSwitcher = ViewSwitcher.getInstance();

@@ -28,8 +28,8 @@ public class RectangleGridLevelBuilder extends LevelBuilder<RectangleGridCell>{
     }
 
     @Override
-    public String getType(){
-        return TYPE;
+    public String getLevelType() {
+        return LevelType.RECTANGLE_GRID_LEVEL;
     }
 
     public int getRows(){
