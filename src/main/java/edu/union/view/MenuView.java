@@ -1,6 +1,7 @@
 package edu.union.view;
 
 import edu.union.controller.MenuController;
+import edu.union.service.LevelRepositoryManager;
 import edu.union.utils.Observable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,7 +19,7 @@ import java.util.List;
 public class MenuView implements View, Observer {
 
     public final int GRID_NUM_COLUMNS = 2;
-    private LevelRepository levelRepository;
+    private LevelRepositoryManager LevelRepositoryManager;
 
     private final MenuController menuController;
     private final Scene scene;
@@ -32,7 +33,7 @@ public class MenuView implements View, Observer {
         this.menuController = menuController;
         this.parent = new BorderPane();
         this.scene = new Scene(this.parent, 400, 400);
-        bindModel(LevelRepository.getInstance());
+        bindModel(LevelRepositoryManager.getInstance());
     }
 
     @Override
@@ -42,11 +43,11 @@ public class MenuView implements View, Observer {
 
     @Override
     public void bindModel(Observable model) {
-        LevelRepository levelRepository = (LevelRepository) model;
-        if(this.levelRepository != null)
-            this.levelRepository.detach(this);
-        this.levelRepository = levelRepository;
-        this.levelRepository.attach(this);
+        LevelRepositoryManager LevelRepositoryManager = (LevelRepositoryManager) model;
+        if(this.LevelRepositoryManager != null)
+            this.LevelRepositoryManager.detach(this);
+        this.LevelRepositoryManager = LevelRepositoryManager;
+        this.LevelRepositoryManager.attach(this);
         renderView();
     }
 
@@ -65,7 +66,7 @@ public class MenuView implements View, Observer {
         levelGridPane.setGridLinesVisible(false);
         levelGridPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-        List<LevelInfo> levelInfoList = this.levelRepository.listLevelInfo();
+        List<LevelInfo> levelInfoList = this.LevelRepositoryManager.listLevelInfos();
 
         int gridNumRows = (levelInfoList.size() + GRID_NUM_COLUMNS - 1) / GRID_NUM_COLUMNS;
         for(int i = 0; i < GRID_NUM_COLUMNS; ++ i) {

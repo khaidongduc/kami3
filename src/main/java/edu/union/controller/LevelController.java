@@ -1,6 +1,7 @@
 package edu.union.controller;
 
 import edu.union.service.LevelRepository;
+import edu.union.service.LevelRepositoryManager;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -10,17 +11,17 @@ import edu.union.view.ViewEnum;
 
 public class LevelController {
 
-    private Level level;
+    private RectangleGridLevel level;
 
     public LevelController() {
 
     }
 
-    public LevelController(Level level){
+    public LevelController(RectangleGridLevel level){
         setLevel(level);
     }
 
-    public void setLevel(Level level){
+    public void setLevel(RectangleGridLevel level){
         this.level = level;
     }
 
@@ -29,7 +30,7 @@ public class LevelController {
             Button targetButton = (Button) actionEvent.getTarget();
             int row = GridPane.getRowIndex(targetButton);
             int col = GridPane.getColumnIndex(targetButton);
-            level.play(new Move(level.getCurrentColor(), row, col));
+            level.play(new Move(level.getCurrentColor(), new RectangleGridCell(row, col)));
         } catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.WARNING, e.toString());
             alert.show();
@@ -49,7 +50,7 @@ public class LevelController {
     }
 
     public void handleRestartBtn() {
-        Level level = LevelRepository.getInstance().loadLevel(this.level.getLevelInfo());
+        Level level = LevelRepositoryManager.getInstance().loadLevel(this.level.getLevelInfo());
         ViewSwitcher.getInstance().switchView(ViewEnum.LEVEL, level);
     }
 
