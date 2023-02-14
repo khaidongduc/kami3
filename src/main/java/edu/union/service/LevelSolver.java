@@ -14,11 +14,15 @@ public class LevelSolver {
 
     private static LevelSolver instance;
 
+    private static final int DEFAULT_MAX_NUM_STEPS = 5;
+
+    private int maxNumSteps;
+
     /**
      * basic constructor
      */
     private LevelSolver(){
-
+        maxNumSteps = DEFAULT_MAX_NUM_STEPS;
     }
 
     /**
@@ -29,6 +33,10 @@ public class LevelSolver {
         if(instance == null)
             instance = new LevelSolver();
         return instance;
+    }
+
+    public void setMaxNumSteps(int maxNumSteps){
+        this.maxNumSteps = maxNumSteps;
     }
 
     /**
@@ -43,11 +51,13 @@ public class LevelSolver {
         Queue<ColoredGraph<V>> queue = new LinkedList<>();
         Map<ColoredGraph<V>, ColoredGraph<V>> prevGraph = new HashMap<>();
         Map<ColoredGraph<V>, Move<V>> moves = new HashMap<>();
+        Map<ColoredGraph<V>, Integer> distances = new HashMap<>();
 
         ColoredGraph<V> startGraph = graph.pruneGraph();
         queue.add(startGraph);
         prevGraph.put(startGraph, null);
         moves.put(startGraph, null);
+        distances.put(startGraph, 0);
 
         ColoredGraph<V> foundResult = null;
         while(!queue.isEmpty() && foundResult == null){
@@ -64,6 +74,13 @@ public class LevelSolver {
                     queue.add(nextGraph);
                     prevGraph.put(nextGraph, sourceGraph);
                     moves.put(nextGraph, new Move<V>(ColorRepository.getInstance().getColor(color), vertex));
+
+                    int nextDistance = distances.get(sourceGraph) + 1;
+                    if(nextDistance > 5){
+                        throw new RuntimeException("unable to solve");
+                    }
+                    distances.put(nextGraph, nextDistance);
+
                     if(nextGraph.getNumVertices() == 1){
                         foundResult = nextGraph;
                     }
