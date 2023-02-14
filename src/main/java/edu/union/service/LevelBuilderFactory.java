@@ -22,7 +22,7 @@ public class LevelBuilderFactory {
 
     public LevelBuilder createLevelBuilder(String levelType) throws Exception {
         if(map.containsKey(levelType)){
-            return map.get(levelType);
+            return (LevelBuilder) map.get(levelType).clone();
         }
         throw new Exception("We cannot find a LevelBuilder for the given key");
     }
@@ -30,6 +30,5 @@ public class LevelBuilderFactory {
     public void register(String levelType, LevelBuilder levelBuilder){
         map.put(levelType,levelBuilder);
     }
-
 
 }
