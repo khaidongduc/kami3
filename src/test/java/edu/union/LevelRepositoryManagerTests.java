@@ -2,6 +2,7 @@ package edu.union;
 
 import edu.union.model.*;
 import edu.union.service.LevelRepositoryManager;
+import edu.union.service.RectangleGridLevelRepository;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
@@ -15,21 +16,25 @@ import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
 public class LevelRepositoryManagerTests {
-    private LevelRepositoryManager levelRepositoryManager;
+    private LevelRepositoryManager repositoryManager;
 
 
     @Before
     public void setUp(){
-        levelRepositoryManager = LevelRepositoryManager.getInstance();
+        LevelRepositoryManager levelRepositoryManager = LevelRepositoryManager.getInstance();
+        levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, RectangleGridLevelRepository.getInstance());
         levelRepositoryManager.setFolderPath("build/resources/test/edu.union/level");
+        repositoryManager = levelRepositoryManager;
     }
 
     @After
-    public void tearDown(){levelRepositoryManager = null;}
+    public void tearDown(){
+        repositoryManager = null;}
 
     @Test
     public void testLoad(){
-        RectangleGridLevel level = (RectangleGridLevel) levelRepositoryManager.loadLevel(new LevelInfo(1, "RECTANGLE_GRID_LEVEL", "build/resources/test/edu.union/level"));
+        RectangleGridLevel level = (RectangleGridLevel) repositoryManager.loadLevel(new LevelInfo(1, "RECTANGLE_GRID_LEVEL",
+                "build/resources/test/edu.union/level/1"));
         assertEquals(25, level.getGraph().getNumVertices());
         assertEquals(3, level.numMoveRemaining());
         assertEquals(new Color(255, 0, 0), level.getCurrentColor());
@@ -42,7 +47,7 @@ public class LevelRepositoryManagerTests {
 
     @Test (expected = RuntimeException.class)
     public void testLoad_UnknownFile(){
-        levelRepositoryManager.loadLevel(new LevelInfo(Integer.MAX_VALUE, "RECTANGLE_GRID_LEVEL", "build/resources/test/edu.union/level"));
+        repositoryManager.loadLevel(new LevelInfo(Integer.MAX_VALUE, "RECTANGLE_GRID_LEVEL", "build/resources/test/edu.union/level/9999"));
     }
 
 
@@ -50,9 +55,9 @@ public class LevelRepositoryManagerTests {
     public void testSave(){
         RectangleGridLevelBuilder builder = new RectangleGridLevelBuilder(5, 5);
         builder.setColor(new Color(0, 255, 0), new RectangleGridCell(0, 0));
-        levelRepositoryManager.saveLevel(builder);
+        repositoryManager.saveLevel(builder);
 
-        List<LevelInfo> levels = levelRepositoryManager.listLevelInfos();
+        List<LevelInfo> levels = repositoryManager.listLevelInfos();
         List<String> levelInfo = new ArrayList<>();
         for (LevelInfo l : levels){
             levelInfo.add(l.toString());

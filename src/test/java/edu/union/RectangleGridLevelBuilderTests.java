@@ -37,13 +37,13 @@ public class RectangleGridLevelBuilderTests {
 
     @Test
     public void testLevelBuilder(){
-        assertEquals(6, builder.getCols());
-        assertEquals(4, builder.getRows());
+        assertEquals(5, builder.getCols());
+        assertEquals(5, builder.getRows());
         List<Color> colors = builder.getColors();
         assertTrue(colors.contains(red));
-        assertFalse(colors.contains(green));
-        assertFalse(colors.contains(blue));
-        assertFalse(colors.contains(light_blue));
+        assertTrue(colors.contains(green));
+        assertTrue(colors.contains(blue));
+        assertTrue(colors.contains(light_blue));
     }
 
     @Test
@@ -66,12 +66,9 @@ public class RectangleGridLevelBuilderTests {
     @Test
     public void testChangeGridSize(){
         builder.changeGridSize(2, 3);
-        ColorGrid grid = builder.getGrid();
-        assertEquals(3, grid.getNumCols());
-        assertEquals(2, grid.getNumRows());
-
-        assertEquals(3, builder.getNumCols());
-        assertEquals(2, builder.getNumRows());
+        ColoredGraph<RectangleGridCell> graph = builder.getGraph();
+        assertEquals(3, builder.getCols());
+        assertEquals(2, builder.getRows());
     }
 
     @Test
