@@ -1,6 +1,6 @@
 package edu.union.view;
 
-import edu.union.controller.BuildController;
+import edu.union.controller.RectangleGridLevelBuildController;
 import edu.union.model.RectangleGridCell;
 import edu.union.model.RectangleGridLevelBuilder;
 import edu.union.utils.Observable;
@@ -10,15 +10,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import edu.union.model.Color;
 import edu.union.service.ColorRepository;
-import edu.union.model.LevelBuilder;
 import edu.union.utils.Observer;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BuildView  implements View, Observer {
-    private final BuildController buildController;
+public class RectangleGridLevelBuildView implements View, Observer {
+    private final RectangleGridLevelBuildController buildController;
     private final Scene scene;
     private BorderPane parent;
     private RectangleGridLevelBuilder level;
@@ -26,7 +25,7 @@ public class BuildView  implements View, Observer {
     private Button[][] buttonGrid;
     private Map<Color,Button> colorToChooseButton;
     private Alert resultAlert;
-    public BuildView(BuildController buildController) {
+    public RectangleGridLevelBuildView(RectangleGridLevelBuildController buildController) {
         this.buildController = buildController;
         this.parent = new BorderPane();
         this.scene = new Scene(this.parent, 400, 400);
@@ -64,12 +63,16 @@ public class BuildView  implements View, Observer {
         for(int i = 0 ; i < level.getRows() ; ++ i) {
             for (int j = 0; j < level.getCols(); ++j) {
                 Button button = new Button();
+                Color color = level.getColorAt(new RectangleGridCell(i, j));
+                button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
+                        color.getRValue(), color.getGValue(), color.getBValue()));
                 button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 GridPane.setFillWidth(button, true);
                 GridPane.setFillHeight(button, true);
                 button.setOnAction(buildController::handleColorGridBtn);
                 buttonGrid[i][j] = button;
                 colorGridPane.add(button, j, i);
+
             }
         }
 
@@ -97,6 +100,9 @@ public class BuildView  implements View, Observer {
             colorChoiceGrid.add(button, 0,count++);
             colorToChooseButton.put(color, button);
         }
+        Button curColorChooseButton = colorToChooseButton.get(level.getCurrentColor());
+        curColorChooseButton.setBorder(new Border(new BorderStroke(javafx.scene.paint.Color.BLACK,
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         parent.setRight(colorChoiceGrid);
 
         // Exit, restart, and save buttons
@@ -130,28 +136,11 @@ public class BuildView  implements View, Observer {
         optionsGrid.add(resizeBtn,2,2);
         parent.setBottom(optionsGrid);
 
-        update();
     }
 
     @Override
     public void update() {
-        // color grid
-        for(int i = 0 ; i < level.getRows() ; ++ i) {
-            for (int j = 0; j < level.getCols(); ++j) {
-                Color color = level.getColorAt(new RectangleGridCell(i, j));
-                Button button = buttonGrid[i][j];
-                button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
-                        color.getRValue(), color.getGValue(), color.getBValue()));
-
-            }
-        }
-        // current color
-        for(Button button : colorToChooseButton.values()){
-            button.setBorder(new Border(new BorderStroke[]{}));
-        }
-        Button curColorChooseButton = colorToChooseButton.get(level.getCurrentColor());
-        curColorChooseButton.setBorder(new Border(new BorderStroke(javafx.scene.paint.Color.BLACK,
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        this.renderView();
     }
 
     @Override

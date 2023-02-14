@@ -2,6 +2,7 @@ package edu.union;
 
 import edu.union.model.*;
 import edu.union.controller.*;
+import edu.union.service.LevelBuilderFactory;
 import edu.union.view.*;
 import edu.union.service.LevelRepositoryManager;
 import edu.union.service.RectangleGridLevelRepository;
@@ -15,10 +16,9 @@ public class App extends Application {
         LevelRepositoryManager levelRepositoryManager = LevelRepositoryManager.getInstance();
         levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, RectangleGridLevelRepository.getInstance());
 
+        LevelBuilderFactory levelBuilderFactory = LevelBuilderFactory.getInstance();
+        levelBuilderFactory.register(LevelType.RECTANGLE_GRID_LEVEL, new RectangleGridLevelBuilder(5,5));
 
-        // makr a level builder object
-        // register that objecct with the builderfactory
-        //
 
         ViewSwitcher viewSwitcher = ViewSwitcher.getInstance();
 
@@ -28,13 +28,13 @@ public class App extends Application {
         MenuView menuView = new MenuView(menuController);
         viewSwitcher.addView(ViewEnum.MENU, menuView);
 
-        LevelController levelController = new LevelController();
-        LevelView levelView = new LevelView(levelController);
+        RectangleGridLevelController levelController = new RectangleGridLevelController();
+        RectangleGridLevelView levelView = new RectangleGridLevelView(levelController);
         viewSwitcher.addView(ViewEnum.LEVEL, levelView);
 
-//        BuildController buildController = new BuildController();
-//        BuildView buildView = new BuildView(buildController);
-//        viewSwitcher.addView(ViewEnum.BUILDER, buildView);
+        RectangleGridLevelBuildController buildController = new RectangleGridLevelBuildController();
+        RectangleGridLevelBuildView buildView = new RectangleGridLevelBuildView(buildController);
+        viewSwitcher.addView(ViewEnum.BUILDER, buildView);
 
         stage.setScene(menuView.getScene());
         stage.show();

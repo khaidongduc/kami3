@@ -1,21 +1,27 @@
 package edu.union.controller;
 
-import edu.union.model.RectangleGridCell;
-import edu.union.model.RectangleGridLevelBuilder;
+import edu.union.model.*;
+import edu.union.service.LevelBuilderFactory;
+import edu.union.service.LevelRepositoryManager;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-import edu.union.model.Color;
-import edu.union.model.LevelBuilder;
-import edu.union.service.LevelRepository;
 import edu.union.view.ViewEnum;
 
-public class BuildController {
+public class RectangleGridLevelBuildController {
 
     private RectangleGridLevelBuilder levelBuilder;
-    public BuildController(){
-        levelBuilder = null;
+    public RectangleGridLevelBuildController(){
+        try {
+            this.levelBuilder = (RectangleGridLevelBuilder) LevelBuilderFactory.getInstance().createLevelBuilder(LevelType.RECTANGLE_GRID_LEVEL);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public RectangleGridLevelBuildController(RectangleGridLevelBuilder level){
+        this.levelBuilder = level;
     }
 
     public void handleChooseColorBtn(ActionEvent action){
@@ -46,8 +52,8 @@ public class BuildController {
 
     //Save functionality is not implemented.
     public void handleSaveBtn(ActionEvent e){
-        //LevelRepository.getInstance().saveLevel(this.levelBuilder);
-        //levelBuilder.restart();
+        LevelRepositoryManager.getInstance().saveLevel(this.levelBuilder);
+        levelBuilder.restart();
         ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
     }
 
@@ -56,8 +62,10 @@ public class BuildController {
             int rows = Integer.parseInt(rowInput);
             int cols = Integer.parseInt(colInput);
             if(0 < rows && 0 < cols){
+                this.levelBuilder.changeGridSize(rows,cols);
                 ViewSwitcher.getInstance().switchView(ViewEnum.BUILDER,this.levelBuilder);
             }
+
         }
         catch(NumberFormatException ignored){
 
