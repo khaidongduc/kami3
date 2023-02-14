@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 @RunWith(JUnit4.class)
 public class ColoredGraphTests {
 
-    private ColoredGraph<RectangleGridCell> graphTemplate;
+    private ColoredGraph<RectangleGridCell> graphTemplate = new ColoredGraph<>();
     private ColoredGraph<RectangleGridCell> graph;
     private final Color red = new Color(255, 0, 0);
     private final Color green = new Color(0, 255, 0);
@@ -29,16 +29,16 @@ public class ColoredGraphTests {
         blue.setColorId(2);
         light_blue.setColorId(3);
         graphTemplate.addVertex(new RectangleGridCell(0, 0), red.getColorId());
-        graphTemplate.addVertex(new RectangleGridCell(0, 1), green.getColorId());
-        graphTemplate.addVertex(new RectangleGridCell(0, 2), blue.getColorId());
-        graphTemplate.addVertex(new RectangleGridCell(0, 3), light_blue.getColorId());
+        graphTemplate.addVertex(new RectangleGridCell(0, 1), red.getColorId());
+        graphTemplate.addVertex(new RectangleGridCell(0, 2), red.getColorId());
+        graphTemplate.addVertex(new RectangleGridCell(0, 3), red.getColorId());
         graphTemplate.addVertex(new RectangleGridCell(0, 4), red.getColorId());
         graphTemplate.addVertex(new RectangleGridCell(1, 0), green.getColorId());
-        graphTemplate.addVertex(new RectangleGridCell(1, 1), blue.getColorId());
-        graphTemplate.addVertex(new RectangleGridCell(1, 2), light_blue.getColorId());
-        graphTemplate.addVertex(new RectangleGridCell(1, 3), red.getColorId());
-        graphTemplate.addVertex(new RectangleGridCell(1, 4), green.getColorId());
-
+        graphTemplate.addVertex(new RectangleGridCell(1, 1), green.getColorId());
+        graphTemplate.addVertex(new RectangleGridCell(1, 2), green.getColorId());
+        graphTemplate.addVertex(new RectangleGridCell(1, 3), blue.getColorId());
+        graphTemplate.addVertex(new RectangleGridCell(1, 4), blue.getColorId());
+        graphTemplate.buildGraphWithAdjacency();
         graph = new ColoredGraph<>(graphTemplate);
     }
 
@@ -47,14 +47,14 @@ public class ColoredGraphTests {
         graph = null;}
 
     @Test
-    public void ColoredGraphTest_Default(){
+    public void testColoredGraph_Default(){
         ColoredGraph<RectangleGridCell> defaultGraph = new ColoredGraph<>();
         assertTrue(defaultGraph.getVertexSet().isEmpty());
         assertTrue(defaultGraph.getColorIds().isEmpty());
     }
 
     @Test
-    public void ColoredGraphTest(){
+    public void testColoredGraph(){
         assertEquals(10, graph.getNumVertices());
         Set<RectangleGridCell> verts = graph.getVertexSet();
         assertTrue(verts.contains(new RectangleGridCell(0, 0)));
@@ -67,5 +67,24 @@ public class ColoredGraphTests {
         assertTrue(verts.contains(new RectangleGridCell(1, 2)));
         assertTrue(verts.contains(new RectangleGridCell(1, 3)));
         assertTrue(verts.contains(new RectangleGridCell(1, 4)));
+    }
+
+    @Test
+    public void testGetNeighbors(){
+        Set<RectangleGridCell> neighbors00 = graph.getNeighbors(new RectangleGridCell(0, 0));
+        assertTrue(neighbors00.contains(new RectangleGridCell(1, 0)));
+        assertTrue(neighbors00.contains(new RectangleGridCell(0, 1)));
+
+        Set<RectangleGridCell> neighbors02 = graph.getNeighbors(new RectangleGridCell(0, 2));
+        assertTrue(neighbors02.contains(new RectangleGridCell(1, 2)));
+        assertTrue(neighbors02.contains(new RectangleGridCell(0, 1)));
+        assertTrue(neighbors02.contains(new RectangleGridCell(0, 3)));
+    }
+
+    @Test
+    public void testPrune(){
+        ColoredGraph<RectangleGridCell> prunedGraph = graph.pruneGraph();
+        assertEquals(3, prunedGraph.getNumVertices());
+        assertEquals(3, prunedGraph.getColorIds().size());
     }
 }
