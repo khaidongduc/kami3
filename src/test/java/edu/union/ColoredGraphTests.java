@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
 public class ColoredGraphTests {
@@ -41,6 +42,8 @@ public class ColoredGraphTests {
 
     @Test
     public void ColoredGraphTest_Default(){
-
+        ColoredGraph<RectangleGridCell> defaultGraph = new ColoredGraph<>();
+        assertTrue(defaultGraph.getVertexSet().isEmpty());
+        assertTrue(defaultGraph.getColorIds().isEmpty());
     }
 }
