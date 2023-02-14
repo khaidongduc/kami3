@@ -1,6 +1,5 @@
 package edu.union;
 
-import edu.union.model.LevelBuilderImpl;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -10,12 +9,11 @@ import org.junit.runners.Suite;
                 ColorTests.class,
                 ColorGridTests.class,
                 ColorRepositoryTests.class,
-                LevelImplTests.class,
+                RectangleGridLevelTests.class,
                 MoveTests.class,
-                LevelBuilderImpl.class,
                 ColoredGraphTests.class,
-                LevelSolverTests.class,
-                LevelRepositoryStrategyTests.class
+                ColoredGraphSolverTests.class,
+                LevelRepositoryManagerTests.class
         }
 )
 
