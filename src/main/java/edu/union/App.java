@@ -12,13 +12,7 @@ import javafx.stage.Stage;
 public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-
-        LevelRepositoryManager levelRepositoryManager = LevelRepositoryManager.getInstance();
-        levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, RectangleGridLevelRepository.getInstance());
-
-        LevelBuilderFactory levelBuilderFactory = LevelBuilderFactory.getInstance();
-        levelBuilderFactory.register(LevelType.RECTANGLE_GRID_LEVEL, new RectangleGridLevelBuilder(5,5));
-
+        configService();
 
         ViewSwitcher viewSwitcher = ViewSwitcher.getInstance();
 
@@ -38,6 +32,17 @@ public class App extends Application {
 
         stage.setScene(menuView.getScene());
         stage.show();
+    }
+
+    /**
+     * Configurates the level repository manager to use type Rectangle_Grid_Level
+     */
+    public void configService(){
+        LevelRepositoryManager levelRepositoryManager = LevelRepositoryManager.getInstance();
+        levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, RectangleGridLevelRepository.getInstance());
+
+        LevelBuilderFactory levelBuilderFactory = LevelBuilderFactory.getInstance();
+        levelBuilderFactory.register(LevelType.RECTANGLE_GRID_LEVEL, new RectangleGridLevelBuilder(5,5));
     }
     public static void main(String[] args){launch(args);}
 }
