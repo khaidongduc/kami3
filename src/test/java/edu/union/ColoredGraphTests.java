@@ -121,4 +121,10 @@ public class ColoredGraphTests {
         Set<RectangleGridCell> neighbors = graph.getNeighbors(new RectangleGridCell(0, 0));
         assertFalse(neighbors.contains(new RectangleGridCell(0, 1)));
     }
+
+    @Test
+    public void testGetVertexColor(){
+        int colorId = graph.getVertexColor(new RectangleGridCell(0, 0));
+        assertEquals(0, colorId);
+    }
 }
