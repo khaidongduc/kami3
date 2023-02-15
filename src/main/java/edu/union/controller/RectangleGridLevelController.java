@@ -12,18 +12,33 @@ public class RectangleGridLevelController {
 
     private RectangleGridLevel level;
 
+    /**
+     * Constructor for the RectangleGridLevelController.
+     */
     public RectangleGridLevelController() {
 
     }
 
+    /**
+     * Constructor for the RectangleGridLevelController.
+     * @param level: The level to be played.
+     */
     public RectangleGridLevelController(RectangleGridLevel level){
         setLevel(level);
     }
 
+    /**
+     * Setter for the level data field.
+     * @param level: A RectangleGridLevel that we should control.
+     */
     public void setLevel(RectangleGridLevel level){
         this.level = level;
     }
 
+    /**
+     * Handler for changing the color on the Kami board.
+     * @param actionEvent: ActionEvent from the button on the board that was clicked.
+     */
     public void handleColorGridBtn(ActionEvent actionEvent) {
         try {
             Button targetButton = (Button) actionEvent.getTarget();
@@ -36,6 +51,10 @@ public class RectangleGridLevelController {
         }
     }
 
+    /**
+     * Handler for changing the color (not on the Kami board).
+     * @param actionEvent: ActonEvent from the button on the color palette that was clicked.
+     */
     public void handleChooseColorBtn(ActionEvent actionEvent) {
         try {
             Button targetButton = (Button) actionEvent.getTarget();
@@ -48,11 +67,17 @@ public class RectangleGridLevelController {
         }
     }
 
+    /**
+     * Handler for the restart button. Resets the Kami board to its starting state.
+     */
     public void handleRestartBtn() {
         Level level = LevelRepositoryManager.getInstance().loadLevel(this.level.getLevelInfo());
         ViewSwitcher.getInstance().switchView(ViewEnum.LEVEL, level);
     }
 
+    /**
+     * Handler for the exit button. Changes the view to the menu.
+     */
     public void handleMoveToMenuBtn() {
         ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
     }
