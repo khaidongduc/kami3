@@ -151,16 +151,19 @@ public class RectangleGridLevelView implements View, Observer {
         getHintsBtn.setOnAction(event -> {
 
             levelController.handleRestartBtn();
+            Alert a = new Alert(Alert.AlertType.NONE,"",ButtonType.OK);
+            String moves = "";
             List<Move<RectangleGridCell>> hints = level.getHints();
             for(Move<RectangleGridCell> move : hints){
                 Color color = move.getColor();
 
                 String readableColor = color.getReadableColor(String.format("RGB(%d,%d,%d)", color.getRValue(),
                                 color.getGValue(), color.getBValue()));
-                System.out.println(readableColor + String.format(" row:%d col:%d",
-                        move.getVertex().row, move.getVertex().col));
-                //pass this string
+                moves += (readableColor + String.format(" row:%d col:%d",
+                        move.getVertex().row, move.getVertex().col)) + "\n";
             }
+            a.setContentText(moves);
+            a.show();
 
         });
         optionsGrid.add(exitBtn,0,0);
