@@ -74,14 +74,11 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
     }
 
     /**
-     * switch to a different color within the color palette of the grid
-     * get the color palette by calling getColors()
+     * Switch to a different color within the color palette of the starting grid.
+     * Wrong color choices allowed.
      * @param color the new color
-     * @throws IllegalArgumentException if the color does not exist within palette, or it is the same color as the previous one
      */
     public void switchColor(Color color){
-        if(!getColors().contains(color))
-            throw new IllegalArgumentException("color not existed in this level");
         this.curColor = color;
         notifyObservers();
     }
