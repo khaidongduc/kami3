@@ -29,7 +29,6 @@ public class RectangleGridLevelBuildController {
             Button targetButton = (Button) action.getTarget();
             Color color = (Color) targetButton.getUserData();
             levelBuilder.switchColor(color);
-            System.out.println(color);
         }catch(Exception e){
             Alert alert = new Alert(Alert.AlertType.WARNING, e.toString());
             alert.show();
