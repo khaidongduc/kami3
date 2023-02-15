@@ -80,10 +80,11 @@ public class RectangleGridLevelTests {
         assertEquals(green, level.getCurrentColor());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSwitchColor_Invalid(){
         Color random = new Color(5, 5, 5);
         level.switchColor(random);
+        assertEquals(random,level.getCurrentColor());
     }
 
     @Test

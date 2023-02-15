@@ -5,41 +5,40 @@ import edu.union.model.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.*;
 
 /**
- * a level repository that manages all Levels (list and create)
- * Singleton Class
- *
- * @author Khai Dong
+ * a strategy where level is saved in raw text format
  */
 public class TextRectangleGridLevelRepository implements LevelRepository {
+
+    private static final int MAXBUILDTIME = 5;
     private static TextRectangleGridLevelRepository instance;
 
+    private TextRectangleGridLevelRepository() {
+
+    }
+
     /**
-     * get an instance or create an instance if it does not exist
+     * singleton's getInstance()
      * @return the instance
      */
     public static TextRectangleGridLevelRepository getInstance(){
-        if(instance == null)
+        if(instance == null){
             instance = new TextRectangleGridLevelRepository();
+        }
         return instance;
     }
 
     /**
-     * basic initialization
-     */
-    private TextRectangleGridLevelRepository(){
-    }
-
-    /**
-     * load a level using a LevelInfo
+     * load a RectangleGridLevel using a levelInfo
+     * if levelInfo is wrong, will throw a runtime exception
      * @param levelInfo the levelInfo
-     * @return the corresponding Level object
+     * @return the associated level
      */
-    public Level loadLevel(LevelInfo levelInfo){
+    @Override
+    public Level loadLevel(LevelInfo levelInfo) {
         try {
             File file = new File(levelInfo.getFilePath());
             Scanner scanner = new Scanner(file);
@@ -69,11 +68,13 @@ public class TextRectangleGridLevelRepository implements LevelRepository {
     }
 
     /**
-     * convert the levelBuilder to a level,
-     * assign an id and save the level into hard drive
-     * @param lb the levelBuilder
+     * save a RectangleGridLevelBuilder
+     * if levelBuilder is of wrong type, will throw a runtime exception
+     * @param lb the LevelBuilder
+     * @param folderPath the path of the folder where the file is saved
      */
-    public void saveLevel(LevelBuilder lb, String folderPath){
+    @Override
+    public void saveLevel(LevelBuilder lb, String folderPath) {
         RectangleGridLevelBuilder levelBuilder = (RectangleGridLevelBuilder) lb;
 
         File folder = new File(folderPath);
@@ -90,16 +91,27 @@ public class TextRectangleGridLevelRepository implements LevelRepository {
                 line += "\n";
                 fw.write(line);
             }
-            List<Move<RectangleGridCell>> hints = ColoredGraphSolver.getInstance().solveColoredGraph(levelBuilder.getGraph());
-            fw.write(Integer.toString(hints.size()) + "\n");
-            for(Move<RectangleGridCell> move : hints){
-                fw.write(move.getColor().getColorId() + " "
-                        + move.getVertex().row + " " + move.getVertex().col + "\n");
+            ExecutorService executor = Executors.newCachedThreadPool();
+            Future<List<Move<RectangleGridCell>>> future = executor.submit(new Callable<List<Move<RectangleGridCell>>>() {
+                public List<Move<RectangleGridCell>> call() {
+                    return ColoredGraphSolver.getInstance().solveColoredGraph(levelBuilder.getGraph());
+                }});
+            try {
+                List<Move<RectangleGridCell>> hints = future.get(MAXBUILDTIME, TimeUnit.SECONDS);
+                fw.write(Integer.toString(hints.size()) + "\n");
+                for(Move<RectangleGridCell> move : hints){
+                    fw.write(move.getColor().getColorId() + " "
+                            + move.getVertex().row + " " + move.getVertex().col + "\n");
+                }
+            } catch (Exception e) {
+                fw.close();
+                File f = new File(folder+fileName);
+                f.delete();
+                throw new RuntimeException("Puzzle is too complex to solve in reasonable time.");
             }
             fw.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
 }
