@@ -6,12 +6,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * a strategy where level is saved in raw text format
  */
 public class TextRectangleGridLevelRepositoryStrategy implements LevelRepositoryStrategy {
 
+    private static final int MAXBUILDTIME = 5;
     private static TextRectangleGridLevelRepositoryStrategy instance;
 
     private TextRectangleGridLevelRepositoryStrategy() {
@@ -89,11 +91,23 @@ public class TextRectangleGridLevelRepositoryStrategy implements LevelRepository
                 line += "\n";
                 fw.write(line);
             }
-            List<Move<RectangleGridCell>> hints = ColoredGraphSolver.getInstance().solveColoredGraph(levelBuilder.getGraph());
-            fw.write(Integer.toString(hints.size()) + "\n");
-            for(Move<RectangleGridCell> move : hints){
-                fw.write(move.getColor().getColorId() + " "
-                        + move.getVertex().row + " " + move.getVertex().col + "\n");
+            ExecutorService executor = Executors.newCachedThreadPool();
+            Future<List<Move<RectangleGridCell>>> future = executor.submit(new Callable<List<Move<RectangleGridCell>>>() {
+                public List<Move<RectangleGridCell>> call() {
+                    return ColoredGraphSolver.getInstance().solveColoredGraph(levelBuilder.getGraph());
+                }});
+            try {
+                List<Move<RectangleGridCell>> hints = future.get(MAXBUILDTIME, TimeUnit.SECONDS);
+                fw.write(Integer.toString(hints.size()) + "\n");
+                for(Move<RectangleGridCell> move : hints){
+                    fw.write(move.getColor().getColorId() + " "
+                            + move.getVertex().row + " " + move.getVertex().col + "\n");
+                }
+            } catch (Exception e) {
+                fw.close();
+                File f = new File(folder+fileName);
+                f.delete();
+                throw new RuntimeException("Puzzle is too complex to solve in reasonable time.");
             }
             fw.close();
         } catch (IOException e) {
