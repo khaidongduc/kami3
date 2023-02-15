@@ -1,6 +1,5 @@
 package edu.union;
 
-import edu.union.model.LevelBuilderImpl;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -8,14 +7,15 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses(
         {
                 ColorTests.class,
-                ColorGridTests.class,
                 ColorRepositoryTests.class,
-                LevelImplTests.class,
+                RectangleGridLevelTests.class,
+                RectangleGridLevelBuilderTests.class,
                 MoveTests.class,
-                LevelBuilderImpl.class,
                 ColoredGraphTests.class,
-                LevelSolverTests.class,
-                LevelRepositoryStrategyTests.class
+                ColoredGraphSolverTests.class,
+                LevelRepositoryManagerTests.class,
+                RectangleGridCellTests.class,
+                LevelBuilderFactoryTests.class
         }
 )
 

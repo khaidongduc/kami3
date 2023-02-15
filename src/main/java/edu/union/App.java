@@ -1,22 +1,18 @@
 package edu.union;
 
-import edu.union.controller.BuildController;
-import edu.union.controller.LevelController;
-import edu.union.controller.MenuController;
-import edu.union.controller.ViewSwitcher;
-import edu.union.service.LevelRepository;
+import edu.union.model.*;
+import edu.union.controller.*;
+import edu.union.service.LevelBuilderFactory;
+import edu.union.view.*;
+import edu.union.service.LevelRepositoryManager;
+import edu.union.service.TextRectangleGridLevelRepository;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import edu.union.view.BuildView;
-import edu.union.view.LevelView;
-import edu.union.view.MenuView;
-import edu.union.view.ViewEnum;
 
 public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-
-        LevelRepository.getInstance().setLevelRepositoryStrategy(Config.levelRepositoryStrategy);
+        configService();
 
         ViewSwitcher viewSwitcher = ViewSwitcher.getInstance();
 
@@ -26,16 +22,27 @@ public class App extends Application {
         MenuView menuView = new MenuView(menuController);
         viewSwitcher.addView(ViewEnum.MENU, menuView);
 
-        LevelController levelController = new LevelController();
-        LevelView levelView = new LevelView(levelController);
+        RectangleGridLevelController levelController = new RectangleGridLevelController();
+        RectangleGridLevelView levelView = new RectangleGridLevelView(levelController);
         viewSwitcher.addView(ViewEnum.LEVEL, levelView);
 
-        BuildController buildController = new BuildController();
-        BuildView buildView = new BuildView(buildController);
+        RectangleGridLevelBuildController buildController = new RectangleGridLevelBuildController();
+        RectangleGridLevelBuildView buildView = new RectangleGridLevelBuildView(buildController);
         viewSwitcher.addView(ViewEnum.BUILDER, buildView);
 
         stage.setScene(menuView.getScene());
         stage.show();
+    }
+
+    /**
+     * Configurates the level repository manager to use type Rectangle_Grid_Level
+     */
+    public void configService(){
+        LevelRepositoryManager levelRepositoryManager = LevelRepositoryManager.getInstance();
+        levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, TextRectangleGridLevelRepository.getInstance());
+
+        LevelBuilderFactory levelBuilderFactory = LevelBuilderFactory.getInstance();
+        levelBuilderFactory.register(LevelType.RECTANGLE_GRID_LEVEL, new RectangleGridLevelBuilder(5,5));
     }
     public static void main(String[] args){launch(args);}
 }

@@ -4,34 +4,30 @@ As a student at Union College, I am part of a community that values intellectual
 
 Khai Dong, Zachary Dubinsky, Jack Collins
 
-TODO:
-- Saving builds.
-- Adding new menu items.
-- Dynamic size grid panes for Kami games that are not 5x5.
-- Resizing functionality for build menu.
-- Solver for Kami games
-  - Integrated w/ builder for min number of moves.
-  - Integrated w/ levels for hint (ie. best next move).
-- Testing 
-- Color palate size in builder.
-- Address Level/LevelBuilder interface redundencies.
-
 The app makes use of MVC architecture pattern
 
-- The model-view relationship is an observable-observer relationship
-<!---
-- The controller mediates the action from the view to the model. This is a one-way mediator pattern from view to model with controller
-  as the mediator. This is mediator pattern because there is no interaction from model to view. 
--->
+Design pattern used
+- The model-view relationship is an observable-observer relationship.
+- the LevelRepositoryManager is a mix of mediator and factory method pattern where the LevelRepositoryManager navigate
+between multiple LevelRepository to give the Level object construction task to.
+- LevelRepositoryManager also used strategy pattern, allowing loading multiple LevelRepository (File I/O strategy) in it 
+for management.
+- The levelBuilderFactory uses factory method pattern and prototype pattern to clone a registered levelBuilder object  everytime it is asked to make a new levelBuilder
+- The LevelBuilders are cloneable (prototype pattern)
+- All levels, levelBuilders, and the LevelRepositoryManager are observable.
 
-- There are several iterator pattern embed into the data structure provided by java.
-- There is a FactoryMethod to construct a Level object provided by LevelRepostiory.loadLevel(). All exact Level construction logic
-  is here. A FactoryMethod to construct the save file for a Level is LevelRepository.saveLevel().
-- The LevelRepository, ColorRepository are Singleton. These are singleton because they are used consistently by all other
-  app's functionality, and should be shared across the app.
-- The ColorGrid provides the TemplateMethod pattern. Since the color grid only differ by the adjacency relationship between the cells
-  we can inherit ColorGrid and override the getNeighborPositions() method to obtain a different type of ColorGrid (triangle grid etc.,)
-- The Composite structure is provided by JavaFX in constructing and styling the scene
+The game is abstracted to a graph, and the Concrete Level realized the Graph into an explicit object (e.g. a grid)
 
-Plan to implement
-- Strategy pattern for LevelRepository to allow loading and saving more types of file other than raw text.
+The final diagrams are in [diagrams/final](/diagrams/final) folders
+- The model_class_diagram.uxf described the relationship between the model and the service
+- The model_view_controller_class_diagram.uxf described how service is used by the controller for construction of complex objects
+  (Level and LevelBuilder objects)
+
+To build the project
+```agsl
+gradle build
+```
+To run the project
+```agsl
+gradle run
+```

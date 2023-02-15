@@ -1,25 +1,22 @@
 package edu.union.view;
 
-import edu.union.controller.LevelController;
-import edu.union.model.Move;
+import edu.union.controller.RectangleGridLevelController;
+import edu.union.model.*;
 import edu.union.utils.Observable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import edu.union.model.Color;
-import edu.union.model.Level;
-import edu.union.model.LevelState;
 import edu.union.utils.Observer;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LevelView implements View, Observer {
+public class RectangleGridLevelView implements View, Observer {
 
-    private final LevelController levelController;
-    private Level level;
+    private final RectangleGridLevelController levelController;
+    private RectangleGridLevel level;
 
     private final Scene scene;
     private BorderPane parent;
@@ -31,25 +28,37 @@ public class LevelView implements View, Observer {
 
     private Alert resultAlert;
 
-    public Scene getScene() {
-        return scene;
-    }
-
-    public LevelView(LevelController levelController){
+    /**
+     * Makes a rectangle grid level view object
+     * @param levelController the controller for the view
+     */
+    public RectangleGridLevelView(RectangleGridLevelController levelController){
         this.levelController = levelController;
         this.parent = new BorderPane();
         this.scene = new Scene(this.parent, 400, 400);
     }
 
-    public LevelView(LevelController levelController, Level level){
+    public RectangleGridLevelView(RectangleGridLevelController levelController, RectangleGridLevel level){
         this(levelController);
         level.attach(this);
         bindModel(level);
     }
 
+    /**
+     *  Gets the scene for the rectangle grid level view
+     * @return the scene for the view
+     */
+    public Scene getScene() {
+        return scene;
+    }
+
+    /**
+     * Binds the model
+     * @param obj the object being bound
+     */
     @Override
     public void bindModel(Observable obj){
-        Level level = (Level) obj;
+        RectangleGridLevel level = (RectangleGridLevel) obj;
         if(this.level != null)
             this.level.detach(this);
         level.attach(this);
@@ -58,6 +67,9 @@ public class LevelView implements View, Observer {
         renderView();
     }
 
+    /**
+     * Renders the view for the rectangle grid level view
+     */
     private void renderView(){
         this.parent = new BorderPane();
         scene.setRoot(this.parent);
@@ -138,17 +150,23 @@ public class LevelView implements View, Observer {
         exitBtn.setOnAction(event -> levelController.handleMoveToMenuBtn());
         getHintsBtn.setOnAction(event -> {
 
-            levelController.handleRestartBtn();
-            List<Move> hints = level.getHints();
-            for(Move move : hints){
-                Color color = move.getColor();
+            //levelController.handleRestartBtn();
+            List<Move<RectangleGridCell>> hints = level.getHints();
+            StringBuilder readableHints = new StringBuilder();
+            int hintNumber = 1;
+            for (Move<RectangleGridCell> move : hints) {
+                readableHints.append(String.valueOf(hintNumber)).append(". ");
+                hintNumber += 1;
 
-                String readableColor = color.getReadableColor(String.format("RGB(%d,%d,%d)", color.getRValue(),
-                                color.getGValue(), color.getBValue()));
-                System.out.println(readableColor + String.format(" row:%d col:%d",
-                        move.getRow(), move.getCol()));
-                //pass this string
+                Color color = move.getColor();
+                readableHints.append(color.getReadableColor(String.format("RGB(%d,%d,%d)", color.getRValue(),
+                        color.getGValue(), color.getBValue())));
+                readableHints.append(String.format(" row: %s | col %s", move.getVertex().row, move.getVertex().col)).append("\n");
             }
+
+            Alert hintAlert = new Alert(Alert.AlertType.INFORMATION, readableHints.toString());
+            hintAlert.setHeaderText("Hints");
+            hintAlert.show();
 
         });
         optionsGrid.add(exitBtn,0,0);
@@ -174,12 +192,15 @@ public class LevelView implements View, Observer {
         update();
     }
 
+    /**
+     * Updates the observers
+     */
     @Override
     public void update() {//update() should just call renderView
         // color grid
         for(int i = 0 ; i < level.getNumRows() ; ++ i) {
             for (int j = 0; j < level.getNumCols(); ++j) {
-                Color color = level.getColorAt(i, j);
+                Color color = level.getColorAt(new RectangleGridCell(i, j));
                 Button button = buttonGrid[i][j];
                 button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
                         color.getRValue(), color.getGValue(), color.getBValue()));

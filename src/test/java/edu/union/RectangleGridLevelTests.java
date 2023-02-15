@@ -1,8 +1,8 @@
 package edu.union;
 
 import edu.union.model.*;
-import edu.union.service.LevelRepository;
-import edu.union.service.RawTextLevelRepositoryStrategy;
+import edu.union.service.LevelRepositoryManager;
+import edu.union.service.TextRectangleGridLevelRepository;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
@@ -10,15 +10,15 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
-public class LevelImplTests {
-    private Level level;
-    private RawTextLevelRepositoryStrategy repoStrat;
+public class RectangleGridLevelTests {
+    private RectangleGridLevel level;
+    private LevelRepositoryManager repositoryManager;
 
     private final Color red = new Color(255, 0, 0);
     private final Color green = new Color(0, 255, 0);
@@ -28,14 +28,15 @@ public class LevelImplTests {
 
     @Before
     public void setUp(){
+        LevelRepositoryManager levelRepositoryManager = LevelRepositoryManager.getInstance();
+        levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, TextRectangleGridLevelRepository.getInstance());
         red.setColorId(0);
         green.setColorId(1);
         blue.setColorId(2);
         light_blue.setColorId(3);
-        repoStrat = new RawTextLevelRepositoryStrategy();
-        repoStrat.setFolderPath("build/resources/test/edu.union/level");
-        LevelRepository.getInstance().setLevelRepositoryStrategy(repoStrat);
-        level = LevelRepository.getInstance().loadLevel(new LevelInfo(1));
+        repositoryManager = LevelRepositoryManager.getInstance();
+        repositoryManager.setFolderPath("build/resources/test/edu.union/level");
+        level = (RectangleGridLevel) repositoryManager.loadLevel(new LevelInfo(1, LevelType.RECTANGLE_GRID_LEVEL, "build/resources/test/edu.union/level/1"));
     }
 
     @After
@@ -51,24 +52,24 @@ public class LevelImplTests {
     @Test
     public void testGetColorAt(){
         for(int i = 0; i < 5; i++) {
-            assertEquals(red, level.getColorAt(0, i));
+            assertEquals(red, level.getColorAt(new RectangleGridCell(0, i)));
         }
 
         for (int i = 1; i < 3; i++){
             for (int j = 0; j < 3; j++){
-                assertEquals(green, level.getColorAt(i, j));
+                assertEquals(green, level.getColorAt(new RectangleGridCell(i, j)));
             }
         }
 
         for (int i = 1; i < 3; i++){
             for (int j = 3; j < 5; j++){
-                assertEquals(blue, level.getColorAt(i, j));
+                assertEquals(blue, level.getColorAt(new RectangleGridCell(i, j)));
             }
         }
 
         for (int i = 3; i < 5; i++){
             for (int j = 0; j < 5; j++){
-                assertEquals(light_blue, level.getColorAt(i, j));
+                assertEquals(light_blue, level.getColorAt(new RectangleGridCell(i, j)));
             }
         }
     }
@@ -79,10 +80,11 @@ public class LevelImplTests {
         assertEquals(green, level.getCurrentColor());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSwitchColor_Invalid(){
         Color random = new Color(5, 5, 5);
         level.switchColor(random);
+        assertEquals(random,level.getCurrentColor());
     }
 
     @Test
@@ -95,24 +97,24 @@ public class LevelImplTests {
 
     @Test
     public void testPlay(){
-        Move move = new Move(blue, 0, 0);
+        Move<RectangleGridCell> move = new Move(blue, new RectangleGridCell(0, 0));
         assertEquals(3, level.numMoveRemaining());
         level.play(move);
         for(int i = 0; i < 5; i++) {
-            assertEquals(blue, level.getColorAt(0, i));
+            assertEquals(blue, level.getColorAt(new RectangleGridCell(0, i)));
         }
 
         assertEquals(2, level.numMoveRemaining());
     }
     @Test(expected = IllegalArgumentException.class)
     public void testPlay_noMovesLeft(){
-        Move move1 = new Move(green, 0, 0);
+        Move<RectangleGridCell> move1 = new Move(green, new RectangleGridCell(0, 0));
         level.play(move1);
-        Move move2 = new Move(red, 0, 1);
+        Move<RectangleGridCell> move2 = new Move(red, new RectangleGridCell(0, 1));
         level.play(move2);
-        Move move3 = new Move(green, 0, 2);
+        Move<RectangleGridCell> move3 = new Move(green, new RectangleGridCell(0, 2));
         level.play(move3);
-        Move move4 = new Move(red, 0, 3);
+        Move<RectangleGridCell> move4 = new Move(red, new RectangleGridCell(0, 3));
         level.play(move4);
     }
 
@@ -125,10 +127,10 @@ public class LevelImplTests {
 
     @Test
     public void testGetHints(){
-        ArrayList<Move> hints = new ArrayList<>();
-        Move move1 = new Move(green, 0, 0);
-        Move move2 = new Move(green, 1, 3);
-        Move move3 = new Move(green, 4, 0);
+        ArrayList<Move<RectangleGridCell>> hints = new ArrayList<>();
+        Move<RectangleGridCell> move1 = new Move(green, new RectangleGridCell(0, 0));
+        Move<RectangleGridCell> move2 = new Move(green, new RectangleGridCell(1, 3));
+        Move<RectangleGridCell> move3 = new Move(green, new RectangleGridCell(4, 0));
         hints.add(move1);
         hints.add(move2);
         hints.add(move3);
@@ -142,9 +144,9 @@ public class LevelImplTests {
         LevelState win = LevelState.WIN;
         assertEquals(ongoing, level.getLevelState());
 
-        List<Move> winningPlay = level.getHints();
+        List<Move<RectangleGridCell>> winningPlay = level.getHints();
 
-        for (Move move : winningPlay) {
+        for (Move<RectangleGridCell> move : winningPlay) {
             assertEquals(ongoing, level.getLevelState());
             level.play(move);
         }
@@ -153,9 +155,9 @@ public class LevelImplTests {
     }
 
 
-    private boolean listsEqual(List<Move> hints, ArrayList<Move> otherHints) {
-        Iterator<Move> iter1 = hints.listIterator();
-        Iterator<Move> iter2 = hints.listIterator();
+    private boolean listsEqual(List<Move<RectangleGridCell>> hints, ArrayList<Move<RectangleGridCell>> otherHints) {
+        ListIterator<Move<RectangleGridCell>> iter1 = hints.listIterator();
+        ListIterator<Move<RectangleGridCell>> iter2 = hints.listIterator();
 
         while (iter1.hasNext()) {
             if (!iter1.next().equals(iter2.next())) {
