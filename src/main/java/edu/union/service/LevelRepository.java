@@ -5,9 +5,7 @@ import edu.union.model.*;
 /**
  * abstract class for levelRepository
  */
-public abstract class LevelRepository {
-
-    protected LevelRepositoryStrategy strategy;
+public interface LevelRepository {
 
     /**
      * load level from a levelInfo
@@ -25,12 +23,5 @@ public abstract class LevelRepository {
      */
     public abstract void saveLevel(LevelBuilder levelBuilder, String folderPath);
 
-    /**
-     * set the strategy for this LevelRepository
-     * @param strategy the strategy
-     */
-    public void setLevelRepositoryStrategy(LevelRepositoryStrategy strategy){
-        this.strategy = strategy;
-    }
 
 }

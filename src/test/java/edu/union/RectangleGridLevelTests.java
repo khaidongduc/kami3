@@ -2,7 +2,7 @@ package edu.union;
 
 import edu.union.model.*;
 import edu.union.service.LevelRepositoryManager;
-import edu.union.service.RectangleGridLevelRepository;
+import edu.union.service.TextRectangleGridLevelRepository;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
@@ -29,7 +29,7 @@ public class RectangleGridLevelTests {
     @Before
     public void setUp(){
         LevelRepositoryManager levelRepositoryManager = LevelRepositoryManager.getInstance();
-        levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, RectangleGridLevelRepository.getInstance());
+        levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, TextRectangleGridLevelRepository.getInstance());
         red.setColorId(0);
         green.setColorId(1);
         blue.setColorId(2);

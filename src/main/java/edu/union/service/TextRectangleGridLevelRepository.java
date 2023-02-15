@@ -5,38 +5,41 @@ import edu.union.model.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 /**
- * a strategy where level is saved in raw text format
+ * a level repository that manages all Levels (list and create)
+ * Singleton Class
+ *
+ * @author Khai Dong
  */
-public class TextRectangleGridLevelRepositoryStrategy implements LevelRepositoryStrategy {
-
-    private static TextRectangleGridLevelRepositoryStrategy instance;
-
-    private TextRectangleGridLevelRepositoryStrategy() {
-
-    }
+public class TextRectangleGridLevelRepository implements LevelRepository {
+    private static TextRectangleGridLevelRepository instance;
 
     /**
-     * singleton's getInstance()
+     * get an instance or create an instance if it does not exist
      * @return the instance
      */
-    public static TextRectangleGridLevelRepositoryStrategy getInstance(){
-        if(instance == null){
-            instance = new TextRectangleGridLevelRepositoryStrategy();
-        }
+    public static TextRectangleGridLevelRepository getInstance(){
+        if(instance == null)
+            instance = new TextRectangleGridLevelRepository();
         return instance;
     }
 
     /**
-     * load a RectangleGridLevel using a levelInfo
-     * if levelInfo is wrong, will throw a runtime exception
-     * @param levelInfo the levelInfo
-     * @return the associated level
+     * basic initialization
      */
-    @Override
-    public Level loadFromFile(LevelInfo levelInfo) {
+    private TextRectangleGridLevelRepository(){
+    }
+
+    /**
+     * load a level using a LevelInfo
+     * @param levelInfo the levelInfo
+     * @return the corresponding Level object
+     */
+    public Level loadLevel(LevelInfo levelInfo){
         try {
             File file = new File(levelInfo.getFilePath());
             Scanner scanner = new Scanner(file);
@@ -66,13 +69,11 @@ public class TextRectangleGridLevelRepositoryStrategy implements LevelRepository
     }
 
     /**
-     * save a RectangleGridLevelBuilder
-     * if levelBuilder is of wrong type, will throw a runtime exception
-     * @param lb the LevelBuilder
-     * @param folderPath the path of the folder where the file is saved
+     * convert the levelBuilder to a level,
+     * assign an id and save the level into hard drive
+     * @param lb the levelBuilder
      */
-    @Override
-    public void saveToFile(LevelBuilder lb, String folderPath) {
+    public void saveLevel(LevelBuilder lb, String folderPath){
         RectangleGridLevelBuilder levelBuilder = (RectangleGridLevelBuilder) lb;
 
         File folder = new File(folderPath);
@@ -100,4 +101,5 @@ public class TextRectangleGridLevelRepositoryStrategy implements LevelRepository
             throw new RuntimeException(e);
         }
     }
+
 }
