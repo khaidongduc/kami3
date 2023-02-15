@@ -5,7 +5,7 @@ import edu.union.controller.*;
 import edu.union.service.LevelBuilderFactory;
 import edu.union.view.*;
 import edu.union.service.LevelRepositoryManager;
-import edu.union.service.RectangleGridLevelRepository;
+import edu.union.service.TextRectangleGridLevelRepository;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -39,7 +39,7 @@ public class App extends Application {
      */
     public void configService(){
         LevelRepositoryManager levelRepositoryManager = LevelRepositoryManager.getInstance();
-        levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, RectangleGridLevelRepository.getInstance());
+        levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, TextRectangleGridLevelRepository.getInstance());
 
         LevelBuilderFactory levelBuilderFactory = LevelBuilderFactory.getInstance();
         levelBuilderFactory.register(LevelType.RECTANGLE_GRID_LEVEL, new RectangleGridLevelBuilder(5,5));
