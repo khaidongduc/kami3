@@ -61,7 +61,6 @@ public class RectangleGridLevelBuilderTests {
         assertEquals(blue, builder.getColorAt(new RectangleGridCell(0, 0)));
     }
 
-    @Ignore
     @Test
     public void testChangeGridSize(){
         builder.changeGridSize(2, 3);
