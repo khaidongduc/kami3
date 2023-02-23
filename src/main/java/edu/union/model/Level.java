@@ -138,8 +138,11 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
             return LevelState.LOSE;
         }
         return LevelState.WIN;
+    }
 
-
+    public Memento createMemento(){
+        Level l = this;
+        return new Memento(l);
     }
 
     public static class Memento{
