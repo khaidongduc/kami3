@@ -3,7 +3,7 @@ package edu.union.model;
 import edu.union.service.ColorRepository;
 import edu.union.utils.Observable;
 import edu.union.model.ColoredGraph.ColoredVertex;
-import edu.union.model.Color;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -142,4 +142,15 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
 
     }
 
+    public static class Memento{
+        private final Level level;
+
+        public Memento(Level levelToSave) {
+            this.level = levelToSave;
+        }
+
+        public Level getLevel(){
+            return this.level;
+        }
+    }
 }
