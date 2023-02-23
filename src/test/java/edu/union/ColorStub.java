@@ -4,7 +4,7 @@ import edu.union.model.Color;
 import edu.union.utils.Observer;
 
 public class ColorStub {
-    private int red, green, blue;
+    private int red = 0, green = 0, blue = 0;
 
     public void setRed(int value){
         this.red = value;
