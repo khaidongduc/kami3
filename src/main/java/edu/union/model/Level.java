@@ -145,6 +145,13 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
         return new Memento(l);
     }
 
+    public void setMemento(Memento m){
+        Level l = m.getState();
+        this.graph = l.graph;
+        this.curColor = l.curColor;
+        this.curNumTurn = l.curNumTurn;
+    }
+
     public static class Memento{
         private final Level level;
 
@@ -152,7 +159,7 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
             this.level = levelToSave;
         }
 
-        public Level getLevel(){
+        public Level getState(){
             return this.level;
         }
     }
