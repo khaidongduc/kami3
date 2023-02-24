@@ -42,7 +42,6 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
         try {
             File file = new File(levelInfo.getFilePath());
             Scanner scanner = new Scanner(file);
-            String levelType = scanner.next();
             int numRows = scanner.nextInt();
             int numCols = scanner.nextInt();
             ColoredGraph<RectangleGridCell> graph = new ColoredGraph<>();
@@ -82,9 +81,8 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
 
         File folder = new File(folderPath);
         try {
-            String fileName = "/"+ (folder.listFiles().length + 1);
+            String fileName = "/"+ (folder.listFiles().length + 1) + '.' + levelBuilder.getLevelType();
             FileWriter fw = new FileWriter(folder+fileName);
-            fw.write(lb.getLevelType() + '\n');
             fw.write(levelBuilder.getRows() + " " + levelBuilder.getCols() + "\n");
             for(int i = 0; i < levelBuilder.getRows(); i++){
                 String line = Integer.toString(levelBuilder.getColorAt(new RectangleGridCell(i,0)).getColorId());
