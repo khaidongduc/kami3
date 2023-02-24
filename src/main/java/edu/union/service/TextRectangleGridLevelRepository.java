@@ -11,7 +11,7 @@ import java.util.concurrent.*;
 /**
  * a strategy where level is saved in raw text format
  */
-public class TextRectangleGridLevelRepository implements LevelRepository {
+public class TextRectangleGridLevelRepository extends LevelRepository {
 
     private static final int MAXBUILDTIME = 5;
     private static TextRectangleGridLevelRepository instance;
@@ -63,7 +63,10 @@ public class TextRectangleGridLevelRepository implements LevelRepository {
             }
             return new RectangleGridLevel(graph, hints, levelInfo);
         } catch (Exception ex){
-            throw new RuntimeException(ex);
+            if (successor != null)
+                return successor.loadLevel(levelInfo);
+            else
+                throw new RuntimeException(ex);
         }
     }
 
@@ -111,7 +114,10 @@ public class TextRectangleGridLevelRepository implements LevelRepository {
             }
             fw.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            if(successor != null)
+                successor.saveLevel(levelBuilder, folderPath);
+            else
+                throw new RuntimeException(e);
         }
     }
 }

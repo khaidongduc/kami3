@@ -5,7 +5,17 @@ import edu.union.model.*;
 /**
  * abstract class for levelRepository
  */
-public interface LevelRepository {
+public abstract class LevelRepository {
+
+    protected LevelRepository successor;
+
+    /**
+     * set the successor if this levelRepository failed to work
+     * @param levelRepository the successor levelRepository
+     */
+    public void setSuccessor(LevelRepository levelRepository){
+        this.successor = levelRepository;
+    }
 
     /**
      * load level from a levelInfo
