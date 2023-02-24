@@ -3,6 +3,7 @@ package edu.union;
 import edu.union.model.*;
 import edu.union.controller.*;
 import edu.union.service.LevelBuilderFactory;
+import edu.union.service.Text2RectangleGridLevelRepository;
 import edu.union.view.*;
 import edu.union.service.LevelRepositoryManager;
 import edu.union.service.TextRectangleGridLevelRepository;
@@ -40,7 +41,9 @@ public class App extends Application {
     public void configService(){
         LevelRepositoryManager levelRepositoryManager = LevelRepositoryManager.getInstance();
         levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, TextRectangleGridLevelRepository.getInstance());
-
+        TextRectangleGridLevelRepository.getInstance().setSuccessor(
+                Text2RectangleGridLevelRepository.getInstance()
+        );
         LevelBuilderFactory levelBuilderFactory = LevelBuilderFactory.getInstance();
         levelBuilderFactory.register(LevelType.RECTANGLE_GRID_LEVEL, new RectangleGridLevelBuilder(5,5));
     }
