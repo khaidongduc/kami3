@@ -36,7 +36,7 @@ public class RectangleGridLevelTests {
         light_blue.setColorId(3);
         repositoryManager = LevelRepositoryManager.getInstance();
         repositoryManager.setFolderPath("build/resources/test/edu.union/level");
-        level = (RectangleGridLevel) repositoryManager.loadLevel(new LevelInfo(1, LevelType.RECTANGLE_GRID_LEVEL, "build/resources/test/edu.union/level/1"));
+        level = (RectangleGridLevel) repositoryManager.loadLevel(new LevelInfo(1, LevelType.RECTANGLE_GRID_LEVEL, "build/resources/test/edu.union/level/1.rectgrl"));
     }
 
     @After

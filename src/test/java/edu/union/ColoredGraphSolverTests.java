@@ -52,7 +52,7 @@ public class ColoredGraphSolverTests {
     @Test
     public void testSolver_1(){
 
-        level = (RectangleGridLevel) repositoryManager.loadLevel(new LevelInfo(1, LevelType.RECTANGLE_GRID_LEVEL, "build/resources/test/edu.union/level/1"));
+        level = (RectangleGridLevel) repositoryManager.loadLevel(new LevelInfo(1, LevelType.RECTANGLE_GRID_LEVEL, "build/resources/test/edu.union/level/1.rectgrl"));
 
         List<Move<RectangleGridCell>> hints = level.getHints();
         for (Move<RectangleGridCell> hint : hints) {
@@ -64,7 +64,7 @@ public class ColoredGraphSolverTests {
 
     @Test
     public void testSolver_2(){
-        level = (RectangleGridLevel) repositoryManager.loadLevel(new LevelInfo(2, LevelType.RECTANGLE_GRID_LEVEL, "build/resources/test/edu.union/level/2"));
+        level = (RectangleGridLevel) repositoryManager.loadLevel(new LevelInfo(2, LevelType.RECTANGLE_GRID_LEVEL, "build/resources/test/edu.union/level/2.rectgrl"));
 
         List<Move<RectangleGridCell>> hints = level.getHints();
         for (Move<RectangleGridCell> hint : hints) {
@@ -76,7 +76,7 @@ public class ColoredGraphSolverTests {
 
     @Test
     public void testSolver_3(){
-        level = (RectangleGridLevel) repositoryManager.loadLevel(new LevelInfo(30, LevelType.RECTANGLE_GRID_LEVEL, "build/resources/test/edu.union/level/30"));
+        level = (RectangleGridLevel) repositoryManager.loadLevel(new LevelInfo(30, LevelType.RECTANGLE_GRID_LEVEL, "build/resources/test/edu.union/level/30.rectgrl"));
 
         List<Move<RectangleGridCell>> hints = level.getHints();
         for (Move<RectangleGridCell> hint : hints) {
