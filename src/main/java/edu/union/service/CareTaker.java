@@ -8,4 +8,12 @@ public class CareTaker {
     public CareTaker(){
         stack = new Stack<>();
     }
+
+    public void add(Object toAdd){
+        stack.push(toAdd);
+    }
+
+    public Object undo(){
+        return stack.pop();
+    }
 }
