@@ -174,6 +174,7 @@ public class RectangleGridLevelView implements View, Observer {
         optionsGrid.add(exitBtn,0,0);
         optionsGrid.add(restartBtn,0,1);
         optionsGrid.add(getHintsBtn,1,1);
+        optionsGrid.add(undoBtn, 1, 0);
 
 
         parent.setBottom(optionsGrid);
