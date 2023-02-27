@@ -1,6 +1,7 @@
 package edu.union;
 
 import edu.union.model.*;
+import edu.union.service.ColorRepository;
 import edu.union.service.LevelRepositoryManager;
 import edu.union.service.TextRectangleGridLevelRepository;
 import org.junit.Test;
@@ -21,6 +22,10 @@ public class LevelRepositoryManagerTests {
 
     @Before
     public void setUp(){
+        ColorRepository colorRepository = ColorRepository.getInstance();
+        for(Color color: Config.DEFAULT_COLORS)
+            colorRepository.addColor(color);
+
         LevelRepositoryManager levelRepositoryManager = LevelRepositoryManager.getInstance();
         levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, TextRectangleGridLevelRepository.getInstance());
         levelRepositoryManager.setFolderPath("build/resources/test/edu.union/level");
@@ -29,7 +34,10 @@ public class LevelRepositoryManagerTests {
 
     @After
     public void tearDown(){
-        repositoryManager = null;}
+        repositoryManager = null;
+        ColorRepository colorRepository = ColorRepository.getInstance();
+        colorRepository.clear();
+    }
 
     @Test
     public void testLoad(){

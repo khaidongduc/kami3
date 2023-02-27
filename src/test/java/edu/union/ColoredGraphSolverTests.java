@@ -1,6 +1,7 @@
 package edu.union;
 
 import edu.union.model.*;
+import edu.union.service.ColorRepository;
 import edu.union.service.ColoredGraphSolver;
 import edu.union.service.LevelRepositoryManager;
 import edu.union.service.TextRectangleGridLevelRepository;
@@ -28,19 +29,24 @@ public class ColoredGraphSolverTests {
 
     @Before
     public void setUp(){
+        ColorRepository colorRepository = ColorRepository.getInstance();
+        colorRepository.addColor(red);
+        colorRepository.addColor(green);
+        colorRepository.addColor(blue);
+        colorRepository.addColor(light_blue);
+
         LevelRepositoryManager levelRepositoryManager = LevelRepositoryManager.getInstance();
         levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, TextRectangleGridLevelRepository.getInstance());
         levelRepositoryManager.setFolderPath("build/resources/test/edu.union/level");
         repositoryManager = levelRepositoryManager;
-        red.setColorId(0);
-        green.setColorId(1);
-        blue.setColorId(2);
-        light_blue.setColorId(3);
         graph = new ColoredGraph<>();
     }
 
     @After
-    public void tearDown(){graph = null;}
+    public void tearDown(){
+        graph = null;
+        ColorRepository.getInstance().clear();
+    }
 
     @Test
     public void testSolver_MonochromaticGrid(){

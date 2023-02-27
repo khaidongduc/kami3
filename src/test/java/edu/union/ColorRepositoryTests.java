@@ -17,10 +17,17 @@ public class ColorRepositoryTests {
     private ColorRepository c;
 
     @Before
-    public void setUp(){c = ColorRepository.getInstance();}
+    public void setUp(){
+        c = ColorRepository.getInstance();
+        for(Color color: Config.DEFAULT_COLORS)
+            c.addColor(color);
+    }
 
     @After
-    public void tearDown(){c = null;}
+    public void tearDown(){
+        c.clear();
+        c = null;
+    }
 
     @Test
     public void testConstruct(){
