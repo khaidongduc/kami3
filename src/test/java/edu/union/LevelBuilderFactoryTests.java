@@ -1,6 +1,7 @@
 package edu.union;
 
 import edu.union.model.*;
+import edu.union.service.ColorRepository;
 import edu.union.service.LevelBuilderFactory;
 import org.junit.Test;
 import org.junit.Before;
@@ -15,11 +16,19 @@ public class LevelBuilderFactoryTests {
 
     @Before
     public void setUp(){
+        ColorRepository colorRepository = ColorRepository.getInstance();
+        for(Color color: Config.DEFAULT_COLORS)
+            colorRepository.addColor(color);
+
         builderFactory = LevelBuilderFactory.getInstance();
     }
 
     @After
-    public void tearDown(){builderFactory = null;}
+    public void tearDown(){
+        builderFactory = null;
+        ColorRepository colorRepository = ColorRepository.getInstance();
+        colorRepository.clear();
+    }
 
     @Test
     public void testRegister() throws Exception {

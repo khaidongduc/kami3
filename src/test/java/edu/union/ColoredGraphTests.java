@@ -1,6 +1,7 @@
 package edu.union;
 
 import edu.union.model.*;
+import edu.union.service.ColorRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,10 +26,13 @@ public class ColoredGraphTests {
 
     @Before
     public void setUp(){
-        red.setColorId(0);
-        green.setColorId(1);
-        blue.setColorId(2);
-        light_blue.setColorId(3);
+
+        ColorRepository colorRepository = ColorRepository.getInstance();
+        colorRepository.addColor(red);
+        colorRepository.addColor(green);
+        colorRepository.addColor(blue);
+        colorRepository.addColor(light_blue);
+
         graphTemplate.addVertex(new RectangleGridCell(0, 0), red.getColorId());
         graphTemplate.addVertex(new RectangleGridCell(0, 1), red.getColorId());
         graphTemplate.addVertex(new RectangleGridCell(0, 2), red.getColorId());
@@ -45,7 +49,10 @@ public class ColoredGraphTests {
 
     @After
     public void tearDown(){
-        graph = null;}
+        graph = null;
+        ColorRepository colorRepository = ColorRepository.getInstance();
+        colorRepository.clear();
+    }
 
     @Test
     public void testColoredGraph_Default(){
