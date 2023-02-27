@@ -26,9 +26,6 @@ public class ColorRepository {
     private ColorRepository(){
         idCount = 0;
         colorMap = new HashMap<>();
-        for (Color color : Config.DEFAULT_COLORS){
-            addColor(color);
-        }
     }
 
     /**
