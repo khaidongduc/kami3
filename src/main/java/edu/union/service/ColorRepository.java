@@ -81,4 +81,12 @@ public class ColorRepository {
         return colorMap.get(id);
     }
 
+    /**
+     * clear the color in the repository
+     */
+    public void clear(){
+        colorMap.clear();
+        idCount = 0;
+    }
+
 }
