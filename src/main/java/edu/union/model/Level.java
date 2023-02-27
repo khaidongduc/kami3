@@ -146,21 +146,20 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
     }
 
     public void setMemento(Memento m){
-        Level l = m.getState();
-        this.graph = l.graph;
-        this.curColor = l.curColor;
-        this.curNumTurn = l.curNumTurn;
+        this.graph = m.graph;
+        this.curColor = m.curColor;
+        this.curNumTurn = m.curNumTurn;
     }
 
-    public static class Memento{
-        private final Level level;
+    public class Memento{
+        private final ColoredGraph<V> graph;
+        private final int curNumTurn;
+        private final Color curColor;
 
         public Memento(Level levelToSave) {
-            this.level = levelToSave;
-        }
-
-        public Level getState(){
-            return this.level;
+            this.graph = levelToSave.graph;
+            this.curNumTurn = levelToSave.curNumTurn;
+            this.curColor = levelToSave.curColor;
         }
     }
 }
