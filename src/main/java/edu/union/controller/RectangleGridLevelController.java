@@ -84,4 +84,14 @@ public class RectangleGridLevelController {
     public void handleMoveToMenuBtn() {
         ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
     }
+
+    public void handleUndoButton(){
+        if(level.getCareTaker().undoable()){
+            Level.Memento last = (Level.Memento) level.getCareTaker().undo();
+            level.setMemento(last);
+        } else{
+            Alert alert = new Alert(Alert.AlertType.WARNING, "No previous moves!");
+            alert.show();
+        }
+    }
 }

@@ -36,7 +36,7 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
         this.hints = hints;
         this.levelInfo = levelInfo;
         this.curNumTurn = 0;
-        this.careTaker = new CareTaker();
+        this.careTaker = new CareTaker(this);
         this.curColor = getColors().stream().min(Comparator.comparingInt(Color::getColorId))
                 .get(); // first color in the graph
     }
