@@ -145,7 +145,9 @@ public class RectangleGridLevelView implements View, Observer {
         Button restartBtn = new Button("Restart");
         Button exitBtn = new Button("Exit");
         Button getHintsBtn = new Button("Get Hints");
+        Button undoBtn = new Button("Undo");
 
+        undoBtn.setOnAction(event -> levelController.handleUndoButton());
         restartBtn.setOnAction(event -> levelController.handleRestartBtn());
         exitBtn.setOnAction(event -> levelController.handleMoveToMenuBtn());
         getHintsBtn.setOnAction(event -> {
