@@ -1,9 +1,10 @@
 package edu.union.model;
 
+import edu.union.service.CareTaker;
 import edu.union.service.ColorRepository;
 import edu.union.utils.Observable;
 import edu.union.model.ColoredGraph.ColoredVertex;
-import edu.union.model.Color;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +21,9 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
     protected Color curColor;
     protected ColoredGraph<V> graph;
 
+    protected CareTaker careTaker;
+
+
     /**
      * constructor
      * ensure to initialize Observable
@@ -32,6 +36,7 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
         this.hints = hints;
         this.levelInfo = levelInfo;
         this.curNumTurn = 0;
+        this.careTaker = new CareTaker(this);
         this.curColor = getColors().stream().min(Comparator.comparingInt(Color::getColorId))
                 .get(); // first color in the graph
     }
@@ -138,8 +143,33 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
             return LevelState.LOSE;
         }
         return LevelState.WIN;
-
-
     }
 
+    public CareTaker getCareTaker(){
+        return this.careTaker;
+    }
+
+    public Memento createMemento(){
+        Level l = this;
+        return new Memento(l);
+    }
+
+    public void setMemento(Memento m){
+        this.graph = m.graph;
+        this.curColor = m.curColor;
+        this.curNumTurn = m.curNumTurn;
+        notifyObservers();
+    }
+
+    public class Memento{
+        private final ColoredGraph<V> graph;
+        private final int curNumTurn;
+        private final Color curColor;
+
+        public Memento(Level levelToSave) {
+            this.graph = new ColoredGraph<>(levelToSave.graph);
+            this.curNumTurn = levelToSave.curNumTurn;
+            this.curColor = levelToSave.curColor;
+        }
+    }
 }
