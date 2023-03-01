@@ -1,6 +1,6 @@
 package edu.union.model;
 
-import edu.union.service.CareTaker;
+import edu.union.service.LevelCareTaker;
 import edu.union.service.ColorRepository;
 import edu.union.utils.Observable;
 import edu.union.model.ColoredGraph.ColoredVertex;
@@ -21,7 +21,7 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
     protected Color curColor;
     protected ColoredGraph<V> graph;
 
-    protected CareTaker careTaker;
+    protected LevelCareTaker careTaker;
 
 
     /**
@@ -36,7 +36,7 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
         this.hints = hints;
         this.levelInfo = levelInfo;
         this.curNumTurn = 0;
-        this.careTaker = new CareTaker(this);
+        this.careTaker = new LevelCareTaker(this);
         this.curColor = getColors().stream().min(Comparator.comparingInt(Color::getColorId))
                 .get(); // first color in the graph
     }
@@ -145,7 +145,7 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
         return LevelState.WIN;
     }
 
-    public CareTaker getCareTaker(){
+    public LevelCareTaker getCareTaker(){
         return this.careTaker;
     }
 
@@ -166,7 +166,7 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
         private final int curNumTurn;
         private final Color curColor;
 
-        public Memento(Level levelToSave) {
+        private Memento(Level levelToSave) {
             this.graph = new ColoredGraph<>(levelToSave.graph);
             this.curNumTurn = levelToSave.curNumTurn;
             this.curColor = levelToSave.curColor;
