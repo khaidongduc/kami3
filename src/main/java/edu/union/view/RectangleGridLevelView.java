@@ -146,36 +146,34 @@ public class RectangleGridLevelView implements View, Observer {
         Button exitBtn = new Button("Exit");
         Button getHintsBtn = new Button("Get Hints");
         Button undoBtn = new Button("Undo");
+        TextField hintTextField = new TextField("");
+        hintTextField.setEditable(false);
 
         undoBtn.setOnAction(event -> levelController.handleUndoButton());
         restartBtn.setOnAction(event -> levelController.handleRestartBtn());
         exitBtn.setOnAction(event -> levelController.handleMoveToMenuBtn());
         getHintsBtn.setOnAction(event -> {
-
-            //levelController.handleRestartBtn();
-            List<Move<RectangleGridCell>> hints = level.getHints();
-            StringBuilder readableHints = new StringBuilder();
-            int hintNumber = 1;
-            for (Move<RectangleGridCell> move : hints) {
-                readableHints.append(String.valueOf(hintNumber)).append(". ");
-                hintNumber += 1;
-
-                Color color = move.getColor();
-                readableHints.append(color.getReadableColor(String.format("RGB(%d,%d,%d)", color.getRValue(),
-                        color.getGValue(), color.getBValue())));
-                readableHints.append(String.format(" row: %s | col %s", move.getVertex().row, move.getVertex().col)).append("\n");
+            try {
+                List<Move<RectangleGridCell>> hints = level.getHints();
+                StringBuilder readableHints = new StringBuilder();
+                int curMoveNumber = hints.size() - Integer.parseInt(numMoveRemainingLabel.getText());
+                Move<RectangleGridCell> curHint = level.getHints().get(curMoveNumber);
+                Color curColor = curHint.getColor();
+                readableHints.append(curColor.getReadableColor(String.format("RGB(%d,%d,%d)", curColor.getRValue(),
+                        curColor.getGValue(), curColor.getBValue())));
+                readableHints.append(String.format(" at (%s,%s)", curHint.getVertex().row, curHint.getVertex().col)).append("\n");
+                hintTextField.setText(readableHints.toString());
+                System.out.println(readableHints.toString());
+            }catch (IndexOutOfBoundsException e){
+                //This should be prevented by the end of level alert that does not allow the hint button to be clicked.
+                System.out.println("Oops! There were no more hints");
             }
-
-            Alert hintAlert = new Alert(Alert.AlertType.INFORMATION, readableHints.toString());
-            hintAlert.setHeaderText("Hints");
-            hintAlert.show();
-
         });
         optionsGrid.add(exitBtn,0,0);
         optionsGrid.add(restartBtn,0,1);
         optionsGrid.add(getHintsBtn,1,1);
         optionsGrid.add(undoBtn, 1, 0);
-
+        optionsGrid.add(hintTextField, 3,1);
 
         parent.setBottom(optionsGrid);
 
