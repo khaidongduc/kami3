@@ -84,8 +84,8 @@ public class RectangleGridLevelBuildController {
      */
     public void handleSaveBtn(ActionEvent e){
         LevelRepositoryManager.getInstance().saveLevel(this.levelBuilder);
-        levelBuilder.restart();
-        ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
+        //levelBuilder.restart();
+        //ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
     }
 
     /**

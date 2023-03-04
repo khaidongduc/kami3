@@ -6,5 +6,6 @@ public enum ViewEnum {
      */
     MENU,
     LEVEL,
-    BUILDER
+    BUILDER,
+    HINT
 }

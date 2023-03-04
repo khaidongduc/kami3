@@ -1,6 +1,8 @@
 package edu.union.service;
 
+import edu.union.controller.ViewSwitcher;
 import edu.union.model.*;
+import edu.union.view.ViewEnum;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -111,7 +113,7 @@ public class Text2RectangleGridLevelRepository extends LevelRepository {
                 fw.close();
                 File f = new File(folder+fileName);
                 f.delete();
-                throw new RuntimeException("Puzzle is too complex to solve in reasonable time.");
+                ViewSwitcher.getInstance().switchView(ViewEnum.HINT,levelBuilder);
             }
             fw.close();
         } catch (IOException e) {
