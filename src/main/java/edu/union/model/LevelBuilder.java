@@ -99,8 +99,8 @@ public abstract class LevelBuilder <V extends ColoredVertex> extends Observable 
      * @throws IllegalArgumentException if color does not exist in color palette
      * @throws IllegalArgumentException if index is our of bound
      */
-    public void setColorFlood(Color color, V vertex){
-        graph.colorFloodFill(vertex, color.getColorId());
+    public void setColorFlood(Move<V> move){
+        graph.colorFloodFill(move.getVertex(), move.getColor().getColorId());
         notifyObservers();
     }
 
