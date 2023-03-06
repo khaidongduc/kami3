@@ -18,8 +18,14 @@ public class Text2RectangleGridLevelRepository extends LevelRepository {
     private static final int MAXBUILDTIME = 5;
     private static Text2RectangleGridLevelRepository instance;
 
-    private Text2RectangleGridLevelRepository() {
+    private int maxBuildTime;
 
+    private Text2RectangleGridLevelRepository() {
+        this(MAXBUILDTIME);
+    }
+
+    private Text2RectangleGridLevelRepository(int maxBuildTime) {
+        this.maxBuildTime = maxBuildTime;
     }
 
     /**
@@ -60,7 +66,7 @@ public class Text2RectangleGridLevelRepository extends LevelRepository {
             for(int i = 0 ; i < maxNumTurn ; ++ i){
                 int colorId = scanner.nextInt(), row = scanner.nextInt(), col = scanner.nextInt();
                 Color color = ColorRepository.getInstance().getColor(colorId);
-                Move<RectangleGridCell> move = new Move<RectangleGridCell>(color, new RectangleGridCell(row, col));
+                Move<RectangleGridCell> move = new Move<>(color, new RectangleGridCell(row, col));
                 hints.add(move);
             }
             return new RectangleGridLevel(graph, hints, levelInfo);
@@ -96,13 +102,11 @@ public class Text2RectangleGridLevelRepository extends LevelRepository {
                 fw.write(line);
             }
             ExecutorService executor = Executors.newCachedThreadPool();
-            Future<List<Move<RectangleGridCell>>> future = executor.submit(new Callable<List<Move<RectangleGridCell>>>() {
-                public List<Move<RectangleGridCell>> call() {
-                    return ColoredGraphSolver.getInstance().solveColoredGraph(levelBuilder.getGraph());
-                }});
+            Future<List<Move<RectangleGridCell>>> future = executor.submit(
+                    () -> ColoredGraphSolver.getInstance().solveColoredGraph(levelBuilder.getGraph()));
             try {
-                List<Move<RectangleGridCell>> hints = future.get(MAXBUILDTIME, TimeUnit.SECONDS);
-                fw.write(Integer.toString(hints.size()) + ",\n");
+                List<Move<RectangleGridCell>> hints = future.get(this.maxBuildTime, TimeUnit.SECONDS);
+                fw.write(hints.size() + ",\n");
                 for(Move<RectangleGridCell> move : hints){
                     fw.write(move.getColor().getColorId() + ","
                             + move.getVertex().row + "," + move.getVertex().col + ",\n");
@@ -115,10 +119,7 @@ public class Text2RectangleGridLevelRepository extends LevelRepository {
             }
             fw.close();
         } catch (IOException e) {
-            if(successor != null)
-                successor.saveLevel(levelBuilder, folderPath);
-            else
-                throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 }

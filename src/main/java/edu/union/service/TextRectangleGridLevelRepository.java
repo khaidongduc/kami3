@@ -16,8 +16,14 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
     private static final int MAXBUILDTIME = 5;
     private static TextRectangleGridLevelRepository instance;
 
-    private TextRectangleGridLevelRepository() {
+    private int maxBuildTime;
 
+    private TextRectangleGridLevelRepository() {
+        this(MAXBUILDTIME);
+    }
+
+    private TextRectangleGridLevelRepository(int maxBuildTime) {
+        this.maxBuildTime = maxBuildTime;
     }
 
     /**
@@ -93,13 +99,11 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
                 fw.write(line);
             }
             ExecutorService executor = Executors.newCachedThreadPool();
-            Future<List<Move<RectangleGridCell>>> future = executor.submit(new Callable<List<Move<RectangleGridCell>>>() {
-                public List<Move<RectangleGridCell>> call() {
-                    return ColoredGraphSolver.getInstance().solveColoredGraph(levelBuilder.getGraph());
-                }});
+            Future<List<Move<RectangleGridCell>>> future = executor.submit(
+                    () -> ColoredGraphSolver.getInstance().solveColoredGraph(levelBuilder.getGraph()));
             try {
-                List<Move<RectangleGridCell>> hints = future.get(MAXBUILDTIME, TimeUnit.SECONDS);
-                fw.write(Integer.toString(hints.size()) + "\n");
+                List<Move<RectangleGridCell>> hints = future.get(this.maxBuildTime, TimeUnit.SECONDS);
+                fw.write(hints.size() + "\n");
                 for(Move<RectangleGridCell> move : hints){
                     fw.write(move.getColor().getColorId() + " "
                             + move.getVertex().row + " " + move.getVertex().col + "\n");
@@ -112,10 +116,7 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
             }
             fw.close();
         } catch (IOException e) {
-            if(successor != null)
-                successor.saveLevel(levelBuilder, folderPath);
-            else
-                throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 }
