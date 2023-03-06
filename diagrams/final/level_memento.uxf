@@ -1,11 +1,15 @@
 <diagram program="umletino" version="15.0.0"><zoom_level>9</zoom_level><element><id>UMLClass</id><coordinates><x>711</x><y>252</y><w>225</w><h>45</h></coordinates><panel_attributes>/ColoredVertex/
 -
 /+adjacentTo(vertex: ColoredVertex): boolean/
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>378</x><y>252</y><w>297</w><h>144</h></coordinates><panel_attributes>template=V
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>378</x><y>252</y><w>297</w><h>198</h></coordinates><panel_attributes>template=V
 /Level/
 --
 {innerclass
 Memento
+--
+#graph: ColoredGraph
+#curNumTurn: int
+#curColor: color
 --
 Memento(levelToSave: Level&lt;V&gt;)
 innerclass}
@@ -28,4 +32,8 @@ innerclass}
 +undoable(): boolean
 </panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>270</x><y>252</y><w>126</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
 level</panel_attributes><additional_attributes>10;20;120;20</additional_attributes></element><element><id>Relation</id><coordinates><x>270</x><y>270</y><w>126</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
-caretaker</panel_attributes><additional_attributes>120;20;10;20</additional_attributes></element></diagram>
+caretaker</panel_attributes><additional_attributes>120;20;10;20</additional_attributes></element><element><id>UMLNote</id><coordinates><x>369</x><y>468</y><w>297</w><h>63</h></coordinates><panel_attributes>bg=orange
+When extending the Level to a concrete level
+Memento can be extended and 
+setMemento and createMemeto can be override
+if needed</panel_attributes><additional_attributes></additional_attributes></element></diagram>

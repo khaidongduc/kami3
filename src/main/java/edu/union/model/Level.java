@@ -162,9 +162,9 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
     }
 
     public class Memento{
-        private final ColoredGraph<V> graph;
-        private final int curNumTurn;
-        private final Color curColor;
+        protected final ColoredGraph<V> graph;
+        protected final int curNumTurn;
+        protected final Color curColor;
 
         private Memento(Level levelToSave) {
             this.graph = new ColoredGraph<>(levelToSave.graph);
