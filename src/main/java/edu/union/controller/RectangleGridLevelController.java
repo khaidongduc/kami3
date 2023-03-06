@@ -1,6 +1,6 @@
 package edu.union.controller;
 
-import edu.union.service.CareTaker;
+import edu.union.service.LevelCareTaker;
 import edu.union.service.LevelRepositoryManager;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
@@ -45,9 +45,7 @@ public class RectangleGridLevelController {
             Button targetButton = (Button) actionEvent.getTarget();
             int row = GridPane.getRowIndex(targetButton);
             int col = GridPane.getColumnIndex(targetButton);
-            Level.Memento prior = level.createMemento();
-            CareTaker careTaker = level.getCareTaker();
-            careTaker.add(prior);
+            level.getCareTaker().recordOriginator();
             level.play(new Move<>(level.getCurrentColor(), new RectangleGridCell(row, col)));
         } catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.WARNING, e.toString());
@@ -85,10 +83,12 @@ public class RectangleGridLevelController {
         ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
     }
 
+    /**
+     * Handler for the undo button. Changes the view to the level state before last move.
+     */
     public void handleUndoButton(){
         if(level.getCareTaker().undoable()){
-            Level.Memento last = (Level.Memento) level.getCareTaker().undo();
-            level.setMemento(last);
+            level.getCareTaker().undo();
         } else{
             Alert alert = new Alert(Alert.AlertType.WARNING, "No previous moves!");
             alert.show();
