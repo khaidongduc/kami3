@@ -4,21 +4,21 @@ import edu.union.model.Level;
 
 import java.util.Stack;
 
-public class CareTaker {
-    private Stack<Object> stack;
+public class LevelCareTaker {
+    private Stack<Level.Memento> stack;
     private Level level;
 
-    public CareTaker(Level targetLevel){
+    public LevelCareTaker(Level targetLevel){
         this.level = targetLevel;
         stack = new Stack<>();
     }
 
-    public void add(Object toAdd){
-        stack.push(toAdd);
+    public void recordOriginator(){
+        stack.push(level.createMemento());
     }
 
-    public Object undo(){
-        return stack.pop();
+    public void undo(){
+        level.setMemento(stack.pop());
     }
 
     public boolean undoable(){
