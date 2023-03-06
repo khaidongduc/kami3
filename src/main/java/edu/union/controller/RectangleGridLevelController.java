@@ -1,6 +1,5 @@
 package edu.union.controller;
 
-import edu.union.service.LevelCareTaker;
 import edu.union.service.LevelRepositoryManager;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
