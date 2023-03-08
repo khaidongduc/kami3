@@ -1,9 +1,6 @@
 package edu.union;
 
-import edu.union.model.Color;
-import edu.union.utils.Observer;
-
-public class ColorStub {
+public class RectangleLevelBuilderStub {
     private int red = 0, green = 0, blue = 0;
 
     public void setRed(int value){
