@@ -4,6 +4,7 @@ import edu.union.controller.RectangleGridLevelController;
 import edu.union.model.*;
 import edu.union.utils.Observable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -76,10 +77,10 @@ public class RectangleGridLevelView implements View, Observer {
 
         GridPane colorGridPane = new GridPane();
 
-        colorGridPane.setHgap(10); //horizontal gap in pixels => that's what you are asking for
-        colorGridPane.setVgap(10); //vertical gap in pixels
-        colorGridPane.setPadding(new Insets(10, 10, 10, 10));
-        colorGridPane.setGridLinesVisible(false);
+        //colorGridPane.setHgap(5); //horizontal gap in pixels => that's what you are asking for
+        //colorGridPane.setVgap(5); //vertical gap in pixels
+        //colorGridPane.setPadding(new Insets(10, 10, 10, 10));
+        colorGridPane.setGridLinesVisible(true);
         colorGridPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         for(int i = 0 ; i < level.getNumCols() ; ++ i) {
             ColumnConstraints columnConstraints = new ColumnConstraints();
@@ -97,6 +98,7 @@ public class RectangleGridLevelView implements View, Observer {
         for(int i = 0 ; i < level.getNumRows() ; ++ i) {
             for (int j = 0; j < level.getNumCols(); ++j) {
                 Button button = new Button();
+                button.setStyle("-fx-border-color: black;");
                 button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 GridPane.setFillWidth(button, true);
                 GridPane.setFillHeight(button, true);
@@ -119,6 +121,7 @@ public class RectangleGridLevelView implements View, Observer {
         int count = 0;
 
         numMoveRemainingLabel = new Label();
+        numMoveRemainingLabel.setAlignment(Pos.CENTER);
         colorChoiceGrid.add(numMoveRemainingLabel, count++, 0);
         numMoveRemainingLabel.setPrefSize(10, 10);
 
@@ -140,19 +143,26 @@ public class RectangleGridLevelView implements View, Observer {
         optionsGrid.setPrefHeight(100);
         optionsGrid.setPrefWidth(150);
         optionsGrid.setGridLinesVisible(false);
-        Button restartBtn = new Button("Restart");
 
+        Button restartBtn = new Button("Restart");
         restartBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
         restartBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
+        restartBtn.setStyle("-fx-border-color: black;");
+
         Button exitBtn = new Button("Exit");
         exitBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
         exitBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
+        exitBtn.setStyle("-fx-border-color: black;");
+
         Button getHintsBtn = new Button("Hints");
         getHintsBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
         getHintsBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
+        getHintsBtn.setStyle("-fx-border-color: black;");
+
         Button undoBtn = new Button("Undo");
         undoBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
         undoBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
+        undoBtn.setStyle("-fx-border-color: black;");
 
         undoBtn.setOnAction(event -> levelController.handleUndoButton());
         restartBtn.setOnAction(event -> levelController.handleRestartBtn());
@@ -182,7 +192,6 @@ public class RectangleGridLevelView implements View, Observer {
         optionsGrid.add(restartBtn,0,1);
         optionsGrid.add(getHintsBtn,1,1);
         optionsGrid.add(undoBtn, 1, 0);
-
 
         parent.setBottom(optionsGrid);
 
