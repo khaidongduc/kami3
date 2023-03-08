@@ -23,7 +23,7 @@ public class LevelBuilderFactoryTests {
 
     @Test
     public void testRegister() throws Exception {
-        LevelBuilderFactory.getInstance().register(LevelType.RECTANGLE_GRID_LEVEL, new RectangleGridLevelBuilder(5, 5));
+        LevelBuilderFactory.getInstance().register(LevelType.RECTANGLE_GRID_LEVEL, new RectangleGridLevelBuilderStub(5, 5));
         RectangleGridLevelBuilder builder = (RectangleGridLevelBuilder) LevelBuilderFactory.getInstance().createLevelBuilder(LevelType.RECTANGLE_GRID_LEVEL);
     }
 
