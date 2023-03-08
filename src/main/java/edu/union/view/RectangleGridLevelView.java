@@ -138,14 +138,21 @@ public class RectangleGridLevelView implements View, Observer {
 
         GridPane optionsGrid = new GridPane();
         optionsGrid.setPrefHeight(100);
-        optionsGrid.setHgap(10);
-        optionsGrid.setVgap(10);
-        optionsGrid.setPadding(new Insets(10, 10, 10, 10));
+        optionsGrid.setPrefWidth(150);
         optionsGrid.setGridLinesVisible(false);
         Button restartBtn = new Button("Restart");
+
+        restartBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
+        restartBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
         Button exitBtn = new Button("Exit");
-        Button getHintsBtn = new Button("Get Hints");
+        exitBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
+        exitBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
+        Button getHintsBtn = new Button("Hints");
+        getHintsBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
+        getHintsBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
         Button undoBtn = new Button("Undo");
+        undoBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
+        undoBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
 
         undoBtn.setOnAction(event -> levelController.handleUndoButton());
         restartBtn.setOnAction(event -> levelController.handleRestartBtn());
