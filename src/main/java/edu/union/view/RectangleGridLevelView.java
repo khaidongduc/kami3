@@ -3,7 +3,8 @@ package edu.union.view;
 import edu.union.controller.RectangleGridLevelController;
 import edu.union.model.*;
 import edu.union.utils.Observable;
-import javafx.geometry.Insets;
+import javafx.animation.FadeTransition;
+import javafx.css.Style;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -28,6 +29,8 @@ public class RectangleGridLevelView implements View, Observer {
     private Label numMoveRemainingLabel;
 
     private Alert resultAlert;
+
+    private Alert hintAlert;
 
     /**
      * Makes a rectangle grid level view object
@@ -174,7 +177,8 @@ public class RectangleGridLevelView implements View, Observer {
             //levelController.handleRestartBtn();
             List<Move<RectangleGridCell>> hints = level.getHints();
             StringBuilder readableHints = new StringBuilder();
-            int hintNumber = 1;
+            int hintNumber = 0;
+
             for (Move<RectangleGridCell> move : hints) {
                 readableHints.append(String.valueOf(hintNumber)).append(". ");
                 hintNumber += 1;
@@ -185,10 +189,22 @@ public class RectangleGridLevelView implements View, Observer {
                 readableHints.append(String.format(" row: %s | col %s", move.getVertex().row, move.getVertex().col)).append("\n");
             }
 
-            Alert hintAlert = new Alert(Alert.AlertType.INFORMATION, readableHints.toString());
-            hintAlert.setHeaderText("Hints");
-            hintAlert.show();
+            ButtonType[] hintButtons = new ButtonType[hints.size()];
+            for(int i = 0; i < hints.size(); i++){
+                ButtonType hint = new ButtonType(String.valueOf(i + 1));
+                hintButtons[i] = hint;
+            }
 
+            hintAlert = new Alert(Alert.AlertType.CONFIRMATION, "",
+                    hintButtons);
+            hintAlert.show();
+            hintAlert.setOnCloseRequest(event2 -> {
+                ButtonType result = hintAlert.getResult();
+                String hintText = result.getText();
+                int hintNum = Integer.parseInt(hintText) - 1;
+                Move<RectangleGridCell> target = hints.get(hintNum);
+                flashMove(target, colorChoiceGrid);
+            });
         });
         optionsGrid.add(exitBtn,0,0);
         optionsGrid.add(restartBtn,0,1);
@@ -214,6 +230,24 @@ public class RectangleGridLevelView implements View, Observer {
             }
         });
         update();
+    }
+
+    private void flashMove(Move<RectangleGridCell> target, GridPane colorChoiceGrid) {
+        RectangleGridCell targetVert = target.getVertex();
+        Color targetColor = target.getColor();
+        int row = targetVert.row;
+        int col = targetVert.col;
+        Button targetButton = buttonGrid[row][col];
+        FadeTransition transition = new FadeTransition();
+        String tempStyle = targetButton.getStyle();
+        targetButton.setStyle(targetButton.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
+                targetColor.getRValue(), targetColor.getGValue(), targetColor.getBValue()));
+        transition.setNode(targetButton);
+        transition.setFromValue(1.0);
+        transition.setToValue(0.3);
+        transition.setCycleCount(6);
+        transition.setAutoReverse(true);
+        transition.play();
     }
 
     /**
