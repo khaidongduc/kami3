@@ -1,5 +1,7 @@
 package edu.union;
 
+import edu.union.model.ColoredGraph;
+import edu.union.model.LevelBuilder;
 import edu.union.model.LevelType;
 import edu.union.model.RectangleGridLevelBuilder;
 
@@ -10,6 +12,14 @@ public class RectangleGridLevelBuilderStub extends RectangleGridLevelBuilder {
      * @param rows : The number of rows in the builder graph.
      * @param cols : The number of columns in the builder graph.
      */
+
+    public  static final LevelBuilder levelBuilder = new LevelBuilder(new ColoredGraph()) {
+        @Override
+        public String getLevelType() {
+            return null;
+        }
+    };
+
     public RectangleGridLevelBuilderStub(int rows, int cols) {
         super(rows, cols);
     }
@@ -18,4 +28,8 @@ public class RectangleGridLevelBuilderStub extends RectangleGridLevelBuilder {
         return LevelType.RECTANGLE_GRID_LEVEL;
     }
 
+    @Override
+    public Object clone(){
+        return levelBuilder;
+    }
 }
