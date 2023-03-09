@@ -22,12 +22,7 @@ public class MoveTests {
 
     @Test
     public void testGetColor(){
-        ColorStub test = new ColorStub();
-        test.setGreen(255);
-        Color actual = move.getColor();
-        assertEquals(test.getRed(), actual.getRValue());
-        assertEquals(test.getGreen(), actual.getGValue());
-        assertEquals(test.getBlue(), actual.getBValue());
+        assertEquals(new Color(0, 255, 0), move.getColor());
     }
 
     @Test
