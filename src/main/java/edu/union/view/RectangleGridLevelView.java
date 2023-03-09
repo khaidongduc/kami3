@@ -148,22 +148,21 @@ public class RectangleGridLevelView implements View, Observer {
         Button restartBtn = new Button("Restart");
         restartBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
         restartBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
-        //restartBtn.setStyle("-fx-border-color: black; -fx-border-width: 2 2 2 2;");
+
 
         Button exitBtn = new Button("Exit");
         exitBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
         exitBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
-        //exitBtn.setStyle("-fx-border-color: black; -fx-border-width: 2 2 2 2;");
+
 
         Button getHintsBtn = new Button("Hints");
         getHintsBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
         getHintsBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
-        //getHintsBtn.setStyle("-fx-border-color: black; -fx-border-width: 2 2 2 2;");
+
 
         Button undoBtn = new Button("Undo");
         undoBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
         undoBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
-        //undoBtn.setStyle("-fx-border-color: black; -fx-border-width: 2 2 2 2;");
 
         undoBtn.setOnAction(event -> levelController.handleUndoButton());
         restartBtn.setOnAction(event -> levelController.handleRestartBtn());
