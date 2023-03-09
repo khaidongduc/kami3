@@ -117,6 +117,8 @@ public class RectangleGridLevelView implements View, Observer {
         GridPane colorChoiceGrid = new GridPane();
         colorChoiceGrid.setPrefHeight(100);
         colorChoiceGrid.setPrefWidth(215);
+        colorChoiceGrid.setHgap(3);
+        colorChoiceGrid.setVgap(3);
         colorChoiceGrid.setGridLinesVisible(false);
 
         int count = 2;
