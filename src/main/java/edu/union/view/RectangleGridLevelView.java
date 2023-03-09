@@ -107,12 +107,16 @@ public class RectangleGridLevelView implements View, Observer {
 
         parent.setCenter(colorGridPane);
 
+        GridPane controlMenu = new GridPane();
+        controlMenu.setPrefWidth(150);
+        controlMenu.setPrefHeight(100);
+        controlMenu.setGridLinesVisible(false);
+        controlMenu.setStyle("-fx-border-color: black; -fx-border-width: 3 0 0 0;");
+
         colorToChooseButton = new HashMap<>();
         GridPane colorChoiceGrid = new GridPane();
         colorChoiceGrid.setPrefHeight(100);
-        colorChoiceGrid.setHgap(10);
-        colorChoiceGrid.setVgap(10);
-        colorChoiceGrid.setPadding(new Insets(10, 10, 10, 10));
+        colorChoiceGrid.setPrefWidth(215);
         colorChoiceGrid.setGridLinesVisible(false);
 
         int count = 2;
@@ -120,19 +124,15 @@ public class RectangleGridLevelView implements View, Observer {
         numMoveRemainingLabel = new Label();
         numMoveRemainingLabel.setAlignment(Pos.CENTER);
         colorChoiceGrid.add(numMoveRemainingLabel, count++, 0);
-        numMoveRemainingLabel.setPrefSize(10, 10);
-
-        GridPane controlMenu = new GridPane();
-        controlMenu.setPrefWidth(150);
-        controlMenu.setPrefHeight(100);
-        controlMenu.setGridLinesVisible(false);
+        numMoveRemainingLabel.setPrefSize(20, 20);
 
         List<Color> colors = level.getColors();
         for(Color color: colors){
             Button button = new Button();
             button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d); -fx-border-width: 2 2 2 2;",
                     color.getRValue(), color.getGValue(), color.getBValue()));
-            button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+            button.setMinWidth(colorChoiceGrid.getPrefWidth() / 5);
+            button.setMinHeight(controlMenu.getPrefHeight());
             button.setOnAction(levelController::handleChooseColorBtn);
             button.setUserData(color);
 
@@ -148,22 +148,22 @@ public class RectangleGridLevelView implements View, Observer {
         Button restartBtn = new Button("Restart");
         restartBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
         restartBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
-        restartBtn.setStyle("-fx-border-color: black; -fx-border-width: 2 2 2 2;");
+        //restartBtn.setStyle("-fx-border-color: black; -fx-border-width: 2 2 2 2;");
 
         Button exitBtn = new Button("Exit");
         exitBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
         exitBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
-        exitBtn.setStyle("-fx-border-color: black; -fx-border-width: 2 2 2 2;");
+        //exitBtn.setStyle("-fx-border-color: black; -fx-border-width: 2 2 2 2;");
 
         Button getHintsBtn = new Button("Hints");
         getHintsBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
         getHintsBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
-        getHintsBtn.setStyle("-fx-border-color: black; -fx-border-width: 2 2 2 2;");
+        //getHintsBtn.setStyle("-fx-border-color: black; -fx-border-width: 2 2 2 2;");
 
         Button undoBtn = new Button("Undo");
         undoBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
         undoBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
-        undoBtn.setStyle("-fx-border-color: black; -fx-border-width: 2 2 2 2;");
+        //undoBtn.setStyle("-fx-border-color: black; -fx-border-width: 2 2 2 2;");
 
         undoBtn.setOnAction(event -> levelController.handleUndoButton());
         restartBtn.setOnAction(event -> levelController.handleRestartBtn());
