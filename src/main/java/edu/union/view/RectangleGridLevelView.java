@@ -77,9 +77,6 @@ public class RectangleGridLevelView implements View, Observer {
 
         GridPane colorGridPane = new GridPane();
 
-        //colorGridPane.setHgap(5); //horizontal gap in pixels => that's what you are asking for
-        //colorGridPane.setVgap(5); //vertical gap in pixels
-        //colorGridPane.setPadding(new Insets(10, 10, 10, 10));
         colorGridPane.setGridLinesVisible(true);
         colorGridPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         for(int i = 0 ; i < level.getNumCols() ; ++ i) {
@@ -118,26 +115,30 @@ public class RectangleGridLevelView implements View, Observer {
         colorChoiceGrid.setPadding(new Insets(10, 10, 10, 10));
         colorChoiceGrid.setGridLinesVisible(false);
 
-        int count = 0;
+        int count = 2;
 
         numMoveRemainingLabel = new Label();
         numMoveRemainingLabel.setAlignment(Pos.CENTER);
         colorChoiceGrid.add(numMoveRemainingLabel, count++, 0);
         numMoveRemainingLabel.setPrefSize(10, 10);
 
+        GridPane controlMenu = new GridPane();
+        controlMenu.setPrefWidth(150);
+        controlMenu.setPrefHeight(100);
+        controlMenu.setGridLinesVisible(false);
+
         List<Color> colors = level.getColors();
         for(Color color: colors){
             Button button = new Button();
-            button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
+            button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d); -fx-border-width: 2 2 2 2;",
                     color.getRValue(), color.getGValue(), color.getBValue()));
             button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
             button.setOnAction(levelController::handleChooseColorBtn);
             button.setUserData(color);
-            colorChoiceGrid.add(button, 0, count++);
+
+            colorChoiceGrid.add(button, count++, 0);
             colorToChooseButton.put(color, button);
         }
-        parent.setRight(colorChoiceGrid);
-
 
         GridPane optionsGrid = new GridPane();
         optionsGrid.setPrefHeight(100);
@@ -193,7 +194,10 @@ public class RectangleGridLevelView implements View, Observer {
         optionsGrid.add(getHintsBtn,1,1);
         optionsGrid.add(undoBtn, 1, 0);
 
-        parent.setBottom(optionsGrid);
+        //parent.setBottom(optionsGrid);
+        controlMenu.add(optionsGrid, 0, 0);
+        controlMenu.add(colorChoiceGrid, 1, 0);
+        parent.setBottom(controlMenu);
 
         ButtonType RESTART = new ButtonType("Restart");
         ButtonType MOVE_TO_MENU = new ButtonType("Move to Menu");
