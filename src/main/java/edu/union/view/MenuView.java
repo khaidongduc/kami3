@@ -90,13 +90,13 @@ public class MenuView implements View, Observer {
             columnConstraints.setHgrow(Priority.ALWAYS);
             levelGridPane.getColumnConstraints().add(columnConstraints);
         }
-        for(int i = 0 ; i < gridNumRows ; ++ i) {
+        for(int i = 0 ; i < gridNumRows + 1; ++ i) {
             RowConstraints rowConstraints = new RowConstraints();
             rowConstraints.setFillHeight(true);
             rowConstraints.setVgrow(Priority.ALWAYS);
             levelGridPane.getRowConstraints().add(rowConstraints);
         }
-        buttonGrid = new Button[gridNumRows][GRID_NUM_COLUMNS];
+        //buttonGrid = new Button[gridNumRows][GRID_NUM_COLUMNS];
         for(int i = 0 ; i < gridNumRows ; ++ i){
             for(int j = 0; j < GRID_NUM_COLUMNS; ++ j) {
                 int idx = i * GRID_NUM_COLUMNS + j;
@@ -113,18 +113,24 @@ public class MenuView implements View, Observer {
                 button.setStyle("-fx-background-color: #d1edf2");
                 button.setOnAction(menuController::handleMoveToLevelBtn);
 
-                buttonGrid[i][j] = button;
+                //buttonGrid[i][j] = button;
                 levelGridPane.add(button, j, i);
             }
         }
 
         Button builderButton = new Button();
-        styleButton(builderButton, "Build your own!");
+        styleButton(builderButton, "CREATE");
+        builderButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        GridPane.setFillWidth(builderButton, true);
+        GridPane.setFillHeight(builderButton, true);
         builderButton.setStyle("-fx-background-color: #d1edf2");
         builderButton.setOnAction(menuController::handleMoveToBuilderBtn);
 
-        this.parent.setBottom(builderButton);
-        this.parent.setAlignment(builderButton, Pos.CENTER);
+        if(levelInfoList.size() % 2 == 0){
+            levelGridPane.add(builderButton, 0, gridNumRows);
+        } else{
+            levelGridPane.add(builderButton, 1, gridNumRows - 1);
+        }
 
         this.parent.setTop(title);
         this.parent.setAlignment(title, Pos.CENTER);
