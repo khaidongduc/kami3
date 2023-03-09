@@ -119,12 +119,23 @@ public class MenuView implements View, Observer {
         }
 
         Button builderButton = new Button();
-        styleButton(builderButton, "Build your own!");
+        styleButton(builderButton, "CREATE");
+        builderButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        GridPane.setFillWidth(builderButton, true);
+        GridPane.setFillHeight(builderButton, true);
         builderButton.setStyle("-fx-background-color: #d1edf2");
         builderButton.setOnAction(menuController::handleMoveToBuilderBtn);
 
-        this.parent.setBottom(builderButton);
-        this.parent.setAlignment(builderButton, Pos.CENTER);
+        if(levelInfoList.size() % 2 == 0){
+            buttonGrid[0][gridNumRows] = builderButton;
+            levelGridPane.add(builderButton, 0, gridNumRows);
+        } else{
+            buttonGrid[1][gridNumRows - 1] = builderButton;
+            levelGridPane.add(builderButton, 1, gridNumRows - 1);
+        }
+
+        //this.parent.setBottom(builderButton);
+        //this.parent.setAlignment(builderButton, Pos.CENTER);
 
         this.parent.setTop(title);
         this.parent.setAlignment(title, Pos.CENTER);
