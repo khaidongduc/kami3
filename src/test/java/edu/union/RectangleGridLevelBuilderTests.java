@@ -1,5 +1,6 @@
 package edu.union;
 import edu.union.model.*;
+import edu.union.service.ColorRepository;
 import edu.union.service.LevelBuilderFactory;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -22,17 +23,23 @@ public class RectangleGridLevelBuilderTests {
 
     @Before
     public void setUp() throws Exception {
-        LevelBuilderFactory.getInstance().register(LevelType.RECTANGLE_GRID_LEVEL, new RectangleGridLevelBuilder(5, 5));
+        ColorRepository colorRepository = ColorRepository.getInstance();
+        colorRepository.addColor(red);
+        colorRepository.addColor(green);
+        colorRepository.addColor(blue);
+        colorRepository.addColor(light_blue);
 
-        red.setColorId(0);
-        green.setColorId(1);
-        blue.setColorId(2);
-        light_blue.setColorId(3);
+        LevelBuilderFactory.getInstance().register(LevelType.RECTANGLE_GRID_LEVEL,
+                new RectangleGridLevelBuilder(5, 5));
         builder = (RectangleGridLevelBuilder) LevelBuilderFactory.getInstance().createLevelBuilder(LevelType.RECTANGLE_GRID_LEVEL);
     }
 
     @After
-    public void tearDown(){builder = null;}
+    public void tearDown(){
+        builder = null;
+        ColorRepository colorRepository = ColorRepository.getInstance();
+        colorRepository.clear();
+    }
 
     @Test
     public void testLevelBuilder(){
@@ -61,7 +68,6 @@ public class RectangleGridLevelBuilderTests {
         assertEquals(blue, builder.getColorAt(new RectangleGridCell(0, 0)));
     }
 
-    @Ignore
     @Test
     public void testChangeGridSize(){
         builder.changeGridSize(2, 3);

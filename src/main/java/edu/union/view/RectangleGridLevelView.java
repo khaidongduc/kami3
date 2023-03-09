@@ -171,7 +171,7 @@ public class RectangleGridLevelView implements View, Observer {
         exitBtn.setOnAction(event -> levelController.handleMoveToMenuBtn());
         getHintsBtn.setOnAction(event -> {
 
-            levelController.handleRestartBtn();
+            //levelController.handleRestartBtn();
             List<Move<RectangleGridCell>> hints = level.getHints();
             StringBuilder readableHints = new StringBuilder();
             int hintNumber = 1;
