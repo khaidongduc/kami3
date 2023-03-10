@@ -39,6 +39,8 @@ public class RectangleHintInputView implements View, Observer {
         this.parent = new BorderPane();
         scene.setRoot(this.parent);
 
+        new Alert(Alert.AlertType.INFORMATION, "Unable to solve... Please solve it yourself.").show();
+
         GridPane controlMenu = new GridPane();
         controlMenu.setPrefWidth(150);
         controlMenu.setPrefHeight(100);
