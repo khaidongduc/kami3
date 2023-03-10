@@ -75,9 +75,11 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
     @Override
     public void _saveLevel(LevelBuilder lb, String folderPath) {
         RectangleGridLevelBuilder levelBuilder = (RectangleGridLevelBuilder) lb;
-
+        Callable <List<Move<RectangleGridCell>>> solverTask = ColoredGraphSolverTaskGenerator.getInstance()
+                .getSolverTask(levelBuilder.getGraph());
         File folder = new File(folderPath);
         try {
+            List<Move<RectangleGridCell>> hints = solverTask.call();
             String fileName = "/"+ (folder.listFiles().length + 1) + '.' + levelBuilder.getLevelType();
             FileWriter fw = new FileWriter(folder+fileName);
             fw.write(levelBuilder.getRows() + " " + levelBuilder.getCols() + "\n");
@@ -89,10 +91,7 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
                 line += "\n";
                 fw.write(line);
             }
-            Callable <List<Move<RectangleGridCell>>> solverTask = ColoredGraphSolverTaskGenerator.getInstance()
-                    .getSolverTask(levelBuilder.getGraph());
             try {
-                List<Move<RectangleGridCell>> hints = solverTask.call();
                 fw.write(hints.size() + "\n");
                 for(Move<RectangleGridCell> move : hints){
                     fw.write(move.getColor().getColorId() + " "
@@ -105,7 +104,7 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
                 throw new RuntimeException("Level save took too long.");
             }
             fw.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
