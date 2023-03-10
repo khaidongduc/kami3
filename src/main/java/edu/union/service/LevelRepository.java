@@ -33,5 +33,7 @@ public abstract class LevelRepository {
      */
     public abstract void saveLevel(LevelBuilder levelBuilder, String folderPath);
 
+    public abstract void saveLevel(LevelHint level, String folderPath);
+
 
 }

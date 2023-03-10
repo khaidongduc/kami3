@@ -2,7 +2,9 @@ package edu.union.service;
 
 import edu.union.model.Level;
 import edu.union.model.LevelBuilder;
+import edu.union.model.LevelHint;
 import edu.union.model.LevelInfo;
+import edu.union.utils.Command;
 import edu.union.utils.Observable;
 
 import java.io.File;
@@ -74,6 +76,10 @@ public class LevelRepositoryManager extends Observable {
         notifyObservers();
     }
 
+    public void saveLevel(LevelHint level){
+        levelRepositoryMap.get(level.getLevelType()).saveLevel(level,folderPath);
+        notifyObservers();
+    }
     /**
      * list the available levelInfos
      * @return the List of levelInfo

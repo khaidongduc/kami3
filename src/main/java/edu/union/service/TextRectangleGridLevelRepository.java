@@ -122,4 +122,35 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
                 throw new RuntimeException(e);
         }
     }
+    @Override
+    public void saveLevel(LevelHint l, String folderPath) {
+        RectangleHintInputLevel level = (RectangleHintInputLevel) l;
+
+        File folder = new File(folderPath);
+        try {
+            String fileName = "/"+ (folder.listFiles().length + 1) + '.' + level.getLevelType();
+            FileWriter fw = new FileWriter(folder+fileName);
+            fw.write(level.getRows() + " " + level.getCols() + "\n");
+            for(int i = 0; i < level.getRows(); i++){
+                String line = Integer.toString(level.getColorAt(new RectangleGridCell(i,0)).getColorId());
+                for(int j = 1; j < level.getCols(); j++){
+                    line = line + " " + level.getColorAt(new RectangleGridCell(i,j)).getColorId();
+                }
+                line += "\n";
+                fw.write(line);
+            }
+            List<Move<RectangleGridCell>> hints =  level.getHints();
+            fw.write(Integer.toString(hints.size()) + "\n");
+            for(Move<RectangleGridCell> move: hints){
+                fw.write(move.getColor().getColorId() + " "
+                        + move.getVertex().row + " " + move.getVertex().col + "\n");
+            }
+            fw.close();
+        } catch (IOException e) {
+            if(successor != null)
+                successor.saveLevel(level, folderPath);
+            else
+                throw new RuntimeException(e);
+        }
+    }
 }
