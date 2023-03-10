@@ -2,6 +2,7 @@ package edu.union.service;
 
 import edu.union.model.*;
 
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -56,10 +57,16 @@ public abstract class LevelRepository {
      */
     public void saveLevel(LevelBuilder levelBuilder, String folderPath){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Future<?> future = executor.submit(
-                () -> _saveLevel(levelBuilder, folderPath));
+
+
+        Callable <List<Move>> solverTask = ColoredGraphSolverTaskGenerator.getInstance()
+                .getSolverTask(levelBuilder.getGraph());
+
+        Future<List<Move>> future = executor.submit(
+                () -> solverTask.call());
         try {
-             future.get(this.maxBuildTime, TimeUnit.SECONDS);
+            List<Move> hints = future.get(this.maxBuildTime, TimeUnit.SECONDS);
+            _saveLevel(levelBuilder, hints, folderPath);
         }
         catch(TimeoutException e){
             future.cancel(true);
@@ -76,8 +83,8 @@ public abstract class LevelRepository {
         _saveLevel(levelHint, folderPath);
     }
 
-
     protected abstract Level _loadLevel(LevelInfo levelInfo);
-    protected abstract void _saveLevel(LevelBuilder levelBuilder, String folderPath);
+    protected abstract void _saveLevel(LevelBuilder levelBuilder, List<Move> hints, String folderPath);
     protected abstract void _saveLevel(LevelHint levelHint, String folderPath);
+
 }

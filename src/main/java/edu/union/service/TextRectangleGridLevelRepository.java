@@ -73,13 +73,10 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
      * @param folderPath the path of the folder where the file is saved
      */
     @Override
-    public void _saveLevel(LevelBuilder lb, String folderPath) {
+    public void _saveLevel(LevelBuilder lb, List<Move> hints, String folderPath) {
         RectangleGridLevelBuilder levelBuilder = (RectangleGridLevelBuilder) lb;
-        Callable <List<Move<RectangleGridCell>>> solverTask = ColoredGraphSolverTaskGenerator.getInstance()
-                .getSolverTask(levelBuilder.getGraph());
         File folder = new File(folderPath);
         try {
-            List<Move<RectangleGridCell>> hints = solverTask.call();
             String fileName = "/"+ (folder.listFiles().length + 1) + '.' + levelBuilder.getLevelType();
             FileWriter fw = new FileWriter(folder+fileName);
             fw.write(levelBuilder.getRows() + " " + levelBuilder.getCols() + "\n");
