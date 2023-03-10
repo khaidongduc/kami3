@@ -9,7 +9,7 @@ public class CommandInvoker {
     private List<PlayMoveCommand> commandMoveQueue;
 
     private CommandInvoker(){
-        this.commandMoveQueue = new LinkedList<>();
+            this.commandMoveQueue = new LinkedList<>();
     }
 
     public static CommandInvoker getInstance(){
