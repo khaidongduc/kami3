@@ -1,15 +1,14 @@
 package edu.union.utils;
 
-import java.util.ArrayList;
 import java.util.*;
 
 
 public class CommandInvoker {
     private static CommandInvoker instance;
-    private List<PlayMoveCommand> commandMoveQueue;
+    private List<Command> commandQueue;
 
     private CommandInvoker(){
-            this.commandMoveQueue = new LinkedList<>();
+            this.commandQueue = new LinkedList<>();
     }
 
     public static CommandInvoker getInstance(){
@@ -21,17 +20,14 @@ public class CommandInvoker {
 
     public void invoke(Command c){
         c.execute();
+        commandQueue.add(c);
     }
     public void reset(){
-        this.commandMoveQueue = new LinkedList<>();
-    }
-    public void invoke(PlayMoveCommand c){
-        c.execute();
-        commandMoveQueue.add(c);
+        this.commandQueue = new LinkedList<>();
     }
 
-    public List<PlayMoveCommand> getCommandMoveQueue(){
-        return this.commandMoveQueue;
+    public List<Command> getCommandQueue(){
+        return this.commandQueue;
     }
 
 

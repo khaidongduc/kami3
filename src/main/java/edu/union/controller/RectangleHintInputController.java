@@ -11,6 +11,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class RectangleHintInputController {
 
     private RectangleHintInputLevel level;
@@ -61,7 +64,11 @@ public class RectangleHintInputController {
     }
 
     public void handleSave(){
-        this.startLevel.setHints(CommandInvoker.getInstance().getCommandMoveQueue());
+        List<PlayMoveCommand> hints = new LinkedList<>();
+        for(Command command : CommandInvoker.getInstance().getCommandQueue()){
+            hints.add((PlayMoveCommand) command);
+        }
+        this.startLevel.setHints(hints);
         LevelRepositoryManager.getInstance().saveLevel(startLevel);
         CommandInvoker.getInstance().reset();
         ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
