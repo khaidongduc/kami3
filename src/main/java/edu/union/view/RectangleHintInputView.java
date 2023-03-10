@@ -1,10 +1,7 @@
 package edu.union.view;
 
 import edu.union.controller.RectangleHintInputController;
-import edu.union.model.Color;
-import edu.union.model.LevelState;
-import edu.union.model.RectangleGridCell;
-import edu.union.model.RectangleGridLevelBuilder;
+import edu.union.model.*;
 import edu.union.service.ColorRepository;
 import edu.union.utils.Observable;
 import edu.union.utils.Observer;
@@ -20,12 +17,11 @@ import java.util.Map;
 public class RectangleHintInputView implements View, Observer {
 
     private final RectangleHintInputController controller;
-    private RectangleGridLevelBuilder level;
+    private RectangleHintInputLevel level;
     private final Scene scene;
     private BorderPane parent;
     private Button[][] buttonGrid;
     private Map<Color,Button> colorToChooseButton;
-    private int numMoves = 3;
 
     public RectangleHintInputView(RectangleHintInputController controller) {
         this.controller = controller;
@@ -33,7 +29,7 @@ public class RectangleHintInputView implements View, Observer {
         this.scene = new Scene(this.parent, 400,400);
     }
 
-    public RectangleHintInputView(RectangleHintInputController controller, RectangleGridLevelBuilder level){
+    public RectangleHintInputView(RectangleHintInputController controller, RectangleHintInputLevel level){
         this(controller);
         level.attach(this);
         bindModel(level);
@@ -113,6 +109,8 @@ public class RectangleHintInputView implements View, Observer {
         optionsGrid.setGridLinesVisible(false);
         Button restartBtn = new Button("Restart");
         Button exitBtn = new Button("Exit");
+        restartBtn.setOnAction(event -> controller.handleRestartBtn());
+        exitBtn.setOnAction(event -> controller.handleExitButton());
         optionsGrid.add(exitBtn,0,0);
         optionsGrid.add(restartBtn,1,0);
         parent.setBottom(optionsGrid);
@@ -123,7 +121,7 @@ public class RectangleHintInputView implements View, Observer {
 
     @Override
     public void bindModel(Observable obj) {
-        RectangleGridLevelBuilder level = (RectangleGridLevelBuilder) obj;
+        RectangleHintInputLevel level = ( RectangleHintInputLevel) obj;
         if(this.level != null){
             this.level.detach(this);
         }
@@ -151,7 +149,10 @@ public class RectangleHintInputView implements View, Observer {
         Button curColorChooseButton = colorToChooseButton.get(level.getCurrentColor());
         curColorChooseButton.setBorder(new Border(new BorderStroke(javafx.scene.paint.Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        boolean isMono = level.getGraph().pruneGraph().getNumVertices() == 1;
 
+        LevelState levelState = level.getLevelState();
+        if(levelState.equals(LevelState.WIN)){
+            System.out.println("You win");
+        }
     }
 }
