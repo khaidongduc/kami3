@@ -22,7 +22,7 @@ public class RectangleHintInputView implements View, Observer {
     private BorderPane parent;
     private Button[][] buttonGrid;
     private Map<Color,Button> colorToChooseButton;
-
+    private Alert savingAlert;
     public RectangleHintInputView(RectangleHintInputController controller) {
         this.controller = controller;
         this.parent = new BorderPane();
@@ -114,6 +114,10 @@ public class RectangleHintInputView implements View, Observer {
         optionsGrid.add(exitBtn,0,0);
         optionsGrid.add(restartBtn,1,0);
         parent.setBottom(optionsGrid);
+
+        ButtonType MOVE_TO_MENU = new ButtonType("Move to Menu");
+        savingAlert = new Alert(Alert.AlertType.CONFIRMATION, "Thank you for solving the board!", MOVE_TO_MENU);
+        savingAlert.setOnCloseRequest(event -> {controller.handleSave();});
     }
 
     @Override
@@ -152,7 +156,7 @@ public class RectangleHintInputView implements View, Observer {
 
         LevelState levelState = level.getLevelState();
         if(levelState.equals(LevelState.WIN)){
-            System.out.println("You win");
+            savingAlert.show();
         }
     }
 }

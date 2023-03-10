@@ -1,6 +1,7 @@
 package edu.union.controller;
 
 import edu.union.model.*;
+import edu.union.service.LevelRepositoryManager;
 import edu.union.utils.Command;
 import edu.union.utils.CommandInvoker;
 import edu.union.utils.PlayMoveCommand;
@@ -22,6 +23,7 @@ public class RectangleHintInputController {
     public void setLevel(RectangleHintInputLevel level){
         this.level = level;
         this.startLevel = new RectangleHintInputLevel(new ColoredGraph(level.getGraph()), level.getRows(), level.getCols());
+        CommandInvoker.getInstance().reset();
     }
 
     public void handleColorGridBtn(ActionEvent e){
@@ -29,7 +31,7 @@ public class RectangleHintInputController {
             Button targetButton = (Button) e.getSource();
             int row = GridPane.getRowIndex(targetButton);
             int col = GridPane.getColumnIndex(targetButton);
-            Command move = new PlayMoveCommand<>(this.level,new Move<>(level.getCurrentColor(), new RectangleGridCell(row,col)));
+            PlayMoveCommand move = new PlayMoveCommand<>(this.level,new Move<>(level.getCurrentColor(), new RectangleGridCell(row,col)));
             CommandInvoker.getInstance().invoke(move);
         }catch (Exception error){
             Alert alert = new Alert(Alert.AlertType.WARNING, e.toString());
@@ -54,6 +56,14 @@ public class RectangleHintInputController {
     }
 
     public void handleExitButton(){
+        CommandInvoker.getInstance().reset();
+        ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
+    }
+
+    public void handleSave(){
+        this.startLevel.setHints(CommandInvoker.getInstance().getCommandMoveQueue());
+        LevelRepositoryManager.getInstance().saveLevel(startLevel);
+        CommandInvoker.getInstance().reset();
         ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
     }
 }
