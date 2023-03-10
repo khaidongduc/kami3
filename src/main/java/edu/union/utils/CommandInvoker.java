@@ -6,10 +6,10 @@ import java.util.*;
 
 public class CommandInvoker {
     private static CommandInvoker instance;
-    private Queue<Command> commandQueue;
+    private List<PlayMoveCommand> commandMoveQueue;
 
     private CommandInvoker(){
-        this.commandQueue = new LinkedList<>();
+        this.commandMoveQueue = new LinkedList<>();
     }
 
     public static CommandInvoker getInstance(){
@@ -21,13 +21,17 @@ public class CommandInvoker {
 
     public void invoke(Command c){
         c.execute();
-        commandQueue.add(c);
     }
     public void reset(){
-        this.instance = null;
+        this.commandMoveQueue = new LinkedList<>();
     }
-    public Queue<Command> getCommandQueue(){
-        return this.commandQueue;
+    public void invoke(PlayMoveCommand c){
+        c.execute();
+        commandMoveQueue.add(c);
+    }
+
+    public List<PlayMoveCommand> getCommandMoveQueue(){
+        return this.commandMoveQueue;
     }
 
 

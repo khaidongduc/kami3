@@ -3,9 +3,11 @@ package edu.union.model;
 import edu.union.utils.Observable;
 import edu.union.model.ColoredGraph.ColoredVertex;
 import edu.union.service.ColorRepository;
+import edu.union.utils.PlayMoveCommand;
 
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
+import java.util.Queue;
 
 public abstract class LevelHint<V extends ColoredVertex> extends Observable{
 
@@ -13,12 +15,15 @@ public abstract class LevelHint<V extends ColoredVertex> extends Observable{
 
     protected Color curColor;
 
+    private List<Move<V>> hintList;
+
     public LevelHint(ColoredGraph<V> graph){
         super();
         this.graph = graph;
         this.curColor = getColors().get(0);
+        this.hintList = new LinkedList<>();
     }
-
+    public abstract String getLevelType();
     public Color getColorAt(V vertex){
         int colorId = graph.getVertexColor(vertex);
         return ColorRepository.getInstance().getColor(colorId);
@@ -56,4 +61,14 @@ public abstract class LevelHint<V extends ColoredVertex> extends Observable{
         return LevelState.WIN;
     }
 
+    public void setHints(List<PlayMoveCommand> hintList){
+        for(PlayMoveCommand c: hintList){
+            this.hintList.add(c.getMove());
+            System.out.println("here");
+        }
+    }
+
+    public List<Move<V>> getHints(){
+        return this.hintList;
+    }
 }
