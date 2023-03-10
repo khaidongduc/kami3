@@ -3,6 +3,7 @@ package edu.union.view;
 import edu.union.controller.RectangleGridLevelController;
 import edu.union.model.*;
 import edu.union.utils.Observable;
+import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.css.Style;
 import javafx.geometry.Pos;
@@ -229,32 +230,7 @@ public class RectangleGridLevelView implements View, Observer {
                 levelController.handleMoveToMenuBtn();
             }
         });
-        update();
-    }
 
-    private void flashMove(Move<RectangleGridCell> target, GridPane colorChoiceGrid) {
-        RectangleGridCell targetVert = target.getVertex();
-        Color targetColor = target.getColor();
-        int row = targetVert.row;
-        int col = targetVert.col;
-        Button targetButton = buttonGrid[row][col];
-        FadeTransition transition = new FadeTransition();
-        String tempStyle = targetButton.getStyle();
-        targetButton.setStyle(targetButton.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
-                targetColor.getRValue(), targetColor.getGValue(), targetColor.getBValue()));
-        transition.setNode(targetButton);
-        transition.setFromValue(1.0);
-        transition.setToValue(0.3);
-        transition.setCycleCount(6);
-        transition.setAutoReverse(true);
-        transition.play();
-    }
-
-    /**
-     * Updates the observers
-     */
-    @Override
-    public void update() {
         // color grid
         for(int i = 0 ; i < level.getNumRows() ; ++ i) {
             for (int j = 0; j < level.getNumCols(); ++j) {
@@ -286,5 +262,31 @@ public class RectangleGridLevelView implements View, Observer {
             }
             resultAlert.show();
         }
+    }
+
+    private void flashMove(Move<RectangleGridCell> target, GridPane colorChoiceGrid) {
+        RectangleGridCell targetVert = target.getVertex();
+        Color targetColor = target.getColor();
+        int row = targetVert.row;
+        int col = targetVert.col;
+        Button targetButton = buttonGrid[row][col];
+        FadeTransition transition = new FadeTransition();
+        String tempStyle = targetButton.getStyle();
+        targetButton.setStyle(targetButton.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
+                targetColor.getRValue(), targetColor.getGValue(), targetColor.getBValue()));
+        transition.setNode(targetButton);
+        transition.setFromValue(1.0);
+        transition.setToValue(0.3);
+        transition.setCycleCount(Animation.INDEFINITE);
+        transition.setAutoReverse(true);
+        transition.play();
+    }
+
+    /**
+     * Updates the observers
+     */
+    @Override
+    public void update() {
+        renderView();
     }
 }
