@@ -28,9 +28,15 @@ public class App extends Application {
         RectangleGridLevelBuildView buildView = new RectangleGridLevelBuildView(buildController);
         viewSwitcher.addView(ViewEnum.BUILDER, buildView);
 
+        RectangleHintInputController hintController = new RectangleHintInputController();
+        RectangleHintInputView hintView = new RectangleHintInputView(hintController);
+        viewSwitcher.addView(ViewEnum.HINT, hintView);
+
         stage.setScene(menuView.getScene());
         stage.show();
+
     }
+
 
     /**
      * Configurates the level repository manager to use type Rectangle_Grid_Level
