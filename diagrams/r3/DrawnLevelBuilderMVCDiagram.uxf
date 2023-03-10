@@ -1,0 +1,60 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>9</zoom_level><element><id>UMLClass</id><coordinates><x>423</x><y>297</y><w>315</w><h>99</h></coordinates><panel_attributes>LevelRepositoryManager
+--
++setFolderPath(folderPath: str)
++register(levelTypeStr: str, levelRepository: levelRepository)
++loadLevel(levelInfo: LevelInfo): Level
++saveLevel(levelBuilder builder)
++listLevels(): List&lt;LevelInfo&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>423</x><y>423</y><w>315</w><h>54</h></coordinates><panel_attributes>LevelBuilderFactory
+--
++createLevelBuilder(levelType: str): LevelBuilder
++registerPrototype(levelBuilder: LevelBuilder)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1206</x><y>414</y><w>189</w><h>117</h></coordinates><panel_attributes>ViewEnum
+--
+MENU
+
+RECTANGLE_GRID_LEVEL
+RECTANGLE_GRID_LEVEL_BUILDER
+DRAWN_CANVAS_LEVEL
+DRAWN_CANVAS_LEVEL_BUILDER
+RECTANGLE_GRID_LEVEL_HINT
+...
+
+bg=green</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1026</x><y>360</y><w>90</w><h>27</h></coordinates><panel_attributes>MenuView</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1107</x><y>360</y><w>117</w><h>27</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>110;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1206</x><y>351</y><w>171</w><h>54</h></coordinates><panel_attributes>/View/
+--
+/getScene(): Scene/
+/bindModel(model: Observable)/</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1206</x><y>540</y><w>288</w><h>99</h></coordinates><panel_attributes>ViewSwitcher
+--
++getInstance(): ViewSwitcher
++setStage(stage: Stage)
++addView(viewEnum: ViewEnum, view:View)
++switchView(viewEnum: ViewEnum)
++switchView(viewEnum: ViewEnum, mode: Observable)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>801</x><y>585</y><w>189</w><h>27</h></coordinates><panel_attributes>DrawnCanvasLevelBuilderView
+
+bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>981</x><y>360</y><w>243</w><h>252</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>250;10;200;10;200;260;10;260</additional_attributes></element><element><id>Relation</id><coordinates><x>729</x><y>351</y><w>180</w><h>36</h></coordinates><panel_attributes>lt=&lt;..
+uses</panel_attributes><additional_attributes>10;20;180;20</additional_attributes></element><element><id>Relation</id><coordinates><x>729</x><y>369</y><w>180</w><h>99</h></coordinates><panel_attributes>lt=&lt;..
+uses</panel_attributes><additional_attributes>10;90;180;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>891</x><y>360</y><w>90</w><h>27</h></coordinates><panel_attributes>MenuController</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>972</x><y>360</y><w>72</w><h>27</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;</panel_attributes><additional_attributes>60;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>729</x><y>288</y><w>351</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+observe</panel_attributes><additional_attributes>370;80;370;20;10;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>531</x><y>540</y><w>198</w><h>99</h></coordinates><panel_attributes>DrawnCanvasLevelBuilderController
+--
+
++handle(MouseEvents)
+    +Press and Realease
+
+bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>585</y><w>99</w><h>27</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;</panel_attributes><additional_attributes>90;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>414</x><y>585</y><w>135</w><h>27</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;</panel_attributes><additional_attributes>130;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>414</x><y>504</y><w>495</w><h>99</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+observe</panel_attributes><additional_attributes>530;90;530;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>63</x><y>441</y><w>378</w><h>117</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;.
+creates</panel_attributes><additional_attributes>150;110;10;110;190;10;400;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>891</x><y>396</y><w>126</w><h>63</h></coordinates><panel_attributes>the menu code should
+be flexible enough
+to allow outside
+configuration
+
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>198</x><y>504</y><w>225</w><h>171</h></coordinates><panel_attributes>DrawnCanvasLevelBuilder
+extends RectangleGridCellBuilder
+--
++DrawnCanvasLevel()
++getLevelType(): str
++getNumRows()
++getNumCols()
+
+Graph made by taking pixels and
+converting them into rectangle grid cells
+
+bg=red</panel_attributes><additional_attributes></additional_attributes></element></diagram>
