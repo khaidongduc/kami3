@@ -39,38 +39,46 @@ public class RectangleHintInputView implements View, Observer {
         this.parent = new BorderPane();
         scene.setRoot(this.parent);
 
+        GridPane controlMenu = new GridPane();
+        controlMenu.setPrefWidth(150);
+        controlMenu.setPrefHeight(100);
+        controlMenu.setGridLinesVisible(false);
+        controlMenu.setStyle("-fx-border-color: black; -fx-border-width: 3 0 0 0;");
+
         //Color choice buttons
         colorToChooseButton = new HashMap<>();
         GridPane colorChoiceGrid = new GridPane();
         colorChoiceGrid.setPrefHeight(100);
-        colorChoiceGrid.setHgap(10);
-        colorChoiceGrid.setVgap(10);
-        colorChoiceGrid.setPadding(new Insets(10, 10, 10, 10));
+        colorChoiceGrid.setPrefWidth(215);
+        colorChoiceGrid.setHgap(3);
+        colorChoiceGrid.setVgap(3);
         colorChoiceGrid.setGridLinesVisible(false);
 
-        int count = 0;
+        int count = 1;
 
         List<Color> colors = ColorRepository.getInstance().listColors();
         for(Color color: colors){
             Button button = new Button();
-            button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
+            button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d); -fx-border-width: 2 2 2 2;",
                     color.getRValue(), color.getGValue(), color.getBValue()));
-            button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+            button.setMinWidth(colorChoiceGrid.getPrefWidth() / 3);
+            button.setMinHeight(controlMenu.getPrefHeight());
             button.setOnAction(controller::handleChooseColorBtn);
             button.setUserData(color);
-            colorChoiceGrid.add(button, 0,count++);
+
+            colorChoiceGrid.add(button, count++, 0);
             colorToChooseButton.put(color, button);
         }
 
-        parent.setRight(colorChoiceGrid);
+        //parent.setRight(colorChoiceGrid);
 
         //The Kami board to give hints for
         GridPane colorGridPane = new GridPane();
-        colorGridPane.setHgap(10);
-        colorGridPane.setVgap(10);
-        colorGridPane.setPadding(new Insets(10, 10, 10, 10));
-        colorGridPane.setGridLinesVisible(false);
-        colorGridPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        //colorGridPane.setHgap(10);
+        //colorGridPane.setVgap(10);
+        //colorGridPane.setPadding(new Insets(10, 10, 10, 10));
+        //colorGridPane.setGridLinesVisible(false);
+        //colorGridPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         for(int i = 0 ; i < level.getRows() ; ++ i) {
             ColumnConstraints columnConstraints = new ColumnConstraints();
             columnConstraints.setFillWidth(true);
@@ -88,7 +96,7 @@ public class RectangleHintInputView implements View, Observer {
             for (int j = 0; j < level.getCols(); ++j) {
                 Button button = new Button();
                 Color color = level.getColorAt(new RectangleGridCell(i, j));
-                button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
+                button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d); -fx-border-color: black;",
                         color.getRValue(), color.getGValue(), color.getBValue()));
                 button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 GridPane.setFillWidth(button, true);
@@ -103,17 +111,26 @@ public class RectangleHintInputView implements View, Observer {
         //Reset and Exit buttons
         GridPane optionsGrid = new GridPane();
         optionsGrid.setPrefHeight(100);
-        optionsGrid.setHgap(10);
-        optionsGrid.setVgap(10);
-        optionsGrid.setPadding(new Insets(10, 10, 10, 10));
+        optionsGrid.setPrefWidth(150);
         optionsGrid.setGridLinesVisible(false);
+
         Button restartBtn = new Button("Restart");
+        restartBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
+        restartBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
+
+
         Button exitBtn = new Button("Exit");
+        exitBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
+        exitBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
+
         restartBtn.setOnAction(event -> controller.handleRestartBtn());
         exitBtn.setOnAction(event -> controller.handleExitButton());
         optionsGrid.add(exitBtn,0,0);
-        optionsGrid.add(restartBtn,1,0);
-        parent.setBottom(optionsGrid);
+        optionsGrid.add(restartBtn,0,1);
+
+        controlMenu.add(optionsGrid, 0, 0);
+        controlMenu.add(colorChoiceGrid, 1, 0);
+        parent.setBottom(controlMenu);
 
         ButtonType MOVE_TO_MENU = new ButtonType("Move to Menu");
         savingAlert = new Alert(Alert.AlertType.CONFIRMATION, "Thank you for solving the board!", MOVE_TO_MENU);
