@@ -70,9 +70,12 @@ public abstract class LevelRepository {
         }
     }
 
-    public abstract void saveLevel(LevelHint level, String folderPath);
+    public void saveLevel(LevelHint levelHint, String folderPath){
+        _saveLevel(levelHint, folderPath);
+    }
 
 
     protected abstract Level _loadLevel(LevelInfo levelInfo);
     protected abstract void _saveLevel(LevelBuilder levelBuilder, String folderPath);
+    protected abstract void _saveLevel(LevelHint levelHint, String folderPath);
 }
