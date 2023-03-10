@@ -40,7 +40,6 @@ public class RectangleHintInputController {
         }catch (Exception error){
             Alert a = new Alert(Alert.AlertType.WARNING, e.toString());
             a.show();
-            System.out.println("This error");
         }
     }
 

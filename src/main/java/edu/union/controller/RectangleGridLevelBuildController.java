@@ -88,7 +88,7 @@ public class RectangleGridLevelBuildController {
             levelBuilder.restart();
             ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
         }catch (RuntimeException error){
-            RectangleHintInputLevel level = new RectangleHintInputLevel(levelBuilder.getGraph(),levelBuilder.getRows(),levelBuilder.getCols());
+            RectangleHintInputLevel level = new RectangleHintInputLevel(new ColoredGraph(levelBuilder.getGraph()),levelBuilder.getRows(),levelBuilder.getCols());
             ViewSwitcher.getInstance().switchView(ViewEnum.HINT,level);
             levelBuilder.restart();
 
