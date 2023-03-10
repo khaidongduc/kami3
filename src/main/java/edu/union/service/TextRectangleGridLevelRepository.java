@@ -1,10 +1,6 @@
 package edu.union.service;
 
-import edu.union.controller.ViewSwitcher;
 import edu.union.model.*;
-import edu.union.view.ViewEnum;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -93,13 +89,10 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
                 line += "\n";
                 fw.write(line);
             }
-            ExecutorService executor = Executors.newCachedThreadPool();
-            Future<List<Move<RectangleGridCell>>> future = executor.submit(new Callable<List<Move<RectangleGridCell>>>() {
-                public List<Move<RectangleGridCell>> call() {
-                    return ColoredGraphSolver.getInstance().solveColoredGraph(levelBuilder.getGraph());
-                }});
+            Callable <List<Move<RectangleGridCell>>> solverTask = ColoredGraphSolverTaskGenerator.getInstance()
+                    .getSolverTask(levelBuilder.getGraph());
             try {
-                List<Move<RectangleGridCell>> hints = future.get(MAXBUILDTIME, TimeUnit.SECONDS);
+                List<Move<RectangleGridCell>> hints = solverTask.call();
                 fw.write(hints.size() + "\n");
                 for(Move<RectangleGridCell> move : hints){
                     fw.write(move.getColor().getColorId() + " "

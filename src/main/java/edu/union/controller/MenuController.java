@@ -1,5 +1,6 @@
 package edu.union.controller;
 
+import edu.union.service.LevelBuilderFactory;
 import edu.union.service.LevelRepository;
 import edu.union.service.LevelRepositoryManager;
 import javafx.event.ActionEvent;
@@ -25,6 +26,7 @@ public class MenuController {
      * @param actionEvent: An ActionEvent.
      */
     public void handleMoveToBuilderBtn(ActionEvent actionEvent) {
-        ViewSwitcher.getInstance().switchView(ViewEnum.BUILDER);
+        ViewSwitcher.getInstance().switchView(ViewEnum.BUILDER, LevelBuilderFactory.getInstance()
+                .createLevelBuilder(LevelType.RECTANGLE_GRID_LEVEL));
     }
 }
