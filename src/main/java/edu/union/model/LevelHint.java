@@ -64,7 +64,6 @@ public abstract class LevelHint<V extends ColoredVertex> extends Observable{
     public void setHints(List<PlayMoveCommand> hintList){
         for(PlayMoveCommand c: hintList){
             this.hintList.add(c.getMove());
-            System.out.println("here");
         }
     }
 
