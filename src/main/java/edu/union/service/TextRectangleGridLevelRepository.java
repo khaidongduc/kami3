@@ -42,7 +42,7 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
      * @return the associated level
      */
     @Override
-    public Level loadLevel(LevelInfo levelInfo) {
+    public Level _loadLevel(LevelInfo levelInfo) {
         try {
             File file = new File(levelInfo.getFilePath());
             Scanner scanner = new Scanner(file);
@@ -66,10 +66,7 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
             }
             return new RectangleGridLevel(graph, hints, levelInfo);
         } catch (Exception ex){
-            if (successor != null)
-                return successor.loadLevel(levelInfo);
-            else
-                throw new RuntimeException(ex);
+            throw new RuntimeException(ex);
         }
     }
 
@@ -80,7 +77,7 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
      * @param folderPath the path of the folder where the file is saved
      */
     @Override
-    public void saveLevel(LevelBuilder lb, String folderPath) {
+    public void _saveLevel(LevelBuilder lb, String folderPath) {
         RectangleGridLevelBuilder levelBuilder = (RectangleGridLevelBuilder) lb;
 
         File folder = new File(folderPath);
@@ -103,7 +100,7 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
                 }});
             try {
                 List<Move<RectangleGridCell>> hints = future.get(MAXBUILDTIME, TimeUnit.SECONDS);
-                fw.write(Integer.toString(hints.size()) + "\n");
+                fw.write(hints.size() + "\n");
                 for(Move<RectangleGridCell> move : hints){
                     fw.write(move.getColor().getColorId() + " "
                             + move.getVertex().row + " " + move.getVertex().col + "\n");
@@ -116,16 +113,12 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
             }
             fw.close();
         } catch (IOException e) {
-            if(successor != null)
-                successor.saveLevel(levelBuilder, folderPath);
-            else
-                throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
     @Override
-    public void saveLevel(LevelHint l, String folderPath) {
+    public void _saveLevel(LevelHint l, String folderPath) {
         RectangleHintInputLevel level = (RectangleHintInputLevel) l;
-
         File folder = new File(folderPath);
         try {
             String fileName = "/"+ (folder.listFiles().length + 1) + '.' + level.getLevelType();
@@ -147,10 +140,7 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
             }
             fw.close();
         } catch (IOException e) {
-            if(successor != null)
-                successor.saveLevel(level, folderPath);
-            else
-                throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 }

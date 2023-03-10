@@ -40,7 +40,7 @@ public class Text2RectangleGridLevelRepository extends LevelRepository {
      * @return the associated level
      */
     @Override
-    public Level loadLevel(LevelInfo levelInfo) {
+    public Level _loadLevel(LevelInfo levelInfo) {
         try {
             File file = new File(levelInfo.getFilePath());
             Scanner scanner = new Scanner(file);
@@ -65,10 +65,7 @@ public class Text2RectangleGridLevelRepository extends LevelRepository {
             }
             return new RectangleGridLevel(graph, hints, levelInfo);
         } catch (Exception ex){
-            if (successor != null)
-                return successor.loadLevel(levelInfo);
-            else
-                throw new RuntimeException(ex);
+            throw new RuntimeException(ex);
         }
     }
 
@@ -79,12 +76,12 @@ public class Text2RectangleGridLevelRepository extends LevelRepository {
      * @param folderPath the path of the folder where the file is saved
      */
     @Override
-    public void saveLevel(LevelBuilder lb, String folderPath) {
+    public void _saveLevel(LevelBuilder lb, String folderPath) {
         RectangleGridLevelBuilder levelBuilder = (RectangleGridLevelBuilder) lb;
 
         File folder = new File(folderPath);
         try {
-            String fileName = "/"+ (folder.listFiles().length + 1) + '.' + levelBuilder.getLevelType();
+            String fileName = "/" + (folder.listFiles().length + 1) + '.' + levelBuilder.getLevelType();
             FileWriter fw = new FileWriter(folder+fileName);
             fw.write(levelBuilder.getRows() + "," + levelBuilder.getCols() + ",\n");
             for(int i = 0; i < levelBuilder.getRows(); i++){
@@ -95,14 +92,10 @@ public class Text2RectangleGridLevelRepository extends LevelRepository {
                 line += ",\n";
                 fw.write(line);
             }
-            ExecutorService executor = Executors.newCachedThreadPool();
-            Future<List<Move<RectangleGridCell>>> future = executor.submit(new Callable<List<Move<RectangleGridCell>>>() {
-                public List<Move<RectangleGridCell>> call() {
-                    return ColoredGraphSolver.getInstance().solveColoredGraph(levelBuilder.getGraph());
-                }});
             try {
-                List<Move<RectangleGridCell>> hints = future.get(MAXBUILDTIME, TimeUnit.SECONDS);
-                fw.write(Integer.toString(hints.size()) + ",\n");
+                List<Move<RectangleGridCell>> hints = ColoredGraphSolver.getInstance()
+                        .solveColoredGraph(levelBuilder.getGraph());
+                fw.write(hints.size() + ",\n");
                 for(Move<RectangleGridCell> move : hints){
                     fw.write(move.getColor().getColorId() + ","
                             + move.getVertex().row + "," + move.getVertex().col + ",\n");
@@ -115,16 +108,13 @@ public class Text2RectangleGridLevelRepository extends LevelRepository {
             }
             fw.close();
         } catch (IOException e) {
-            if(successor != null)
-                successor.saveLevel(levelBuilder, folderPath);
-            else
-                throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 
 
     @Override
-    public void saveLevel(LevelHint l, String folderPath) {
+    public void _saveLevel(LevelHint l, String folderPath) {
         RectangleHintInputLevel level = (RectangleHintInputLevel) l;
 
         File folder = new File(folderPath);
@@ -148,10 +138,7 @@ public class Text2RectangleGridLevelRepository extends LevelRepository {
             }
             fw.close();
         } catch (IOException e) {
-            if(successor != null)
-                successor.saveLevel(level, folderPath);
-            else
-                throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 }
