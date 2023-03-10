@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane;
 public class RectangleHintInputController {
 
     private RectangleHintInputLevel level;
+    private RectangleHintInputLevel startLevel;
 
     public RectangleHintInputController(){}
 
@@ -17,7 +18,7 @@ public class RectangleHintInputController {
 
     public void setLevel(RectangleHintInputLevel level){
         this.level = level;
-
+        this.startLevel = new RectangleHintInputLevel(new ColoredGraph(level.getGraph()), level.getRows(), level.getCols());
     }
 
     public void handleColorGridBtn(ActionEvent e){
@@ -43,7 +44,9 @@ public class RectangleHintInputController {
         }
     }
 
-    public void handleRestartBtn(){}
+    public void handleRestartBtn(){
+        ViewSwitcher.getInstance().switchView(ViewEnum.HINT,startLevel);
+    }
 
     public void handleExitButton(){
         ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
