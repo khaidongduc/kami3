@@ -5,12 +5,14 @@ import edu.union.service.ColorRepository;
 import edu.union.service.ColoredGraphSolverTaskGenerator;
 import edu.union.service.LevelRepositoryManager;
 import edu.union.service.TextRectangleGridLevelRepository;
+import jdk.vm.ci.code.site.Call;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import static org.junit.Assert.*;
 
@@ -49,9 +51,10 @@ public class ColoredGraphSolverTests {
     }
 
     @Test
-    public void testSolver_MonochromaticGrid(){
+    public void testSolver_MonochromaticGrid() throws Exception {
         ColoredGraph<RectangleGridCell> graph = new ColoredGraph<>();
-        List<Move<RectangleGridCell>> hints = solver.solveColoredGraph(graph);
+        Callable<List<Move<RectangleGridCell>>> solverTask = solver.getSolverTask(graph);
+        List<Move<RectangleGridCell>> hints = solverTask.call();
         assertTrue(hints.isEmpty());
     }
 
@@ -93,7 +96,7 @@ public class ColoredGraphSolverTests {
     }
 
     @Test(expected = RuntimeException.class)
-    public void testSolver_ManyChanges(){
+    public void testSolver_ManyChanges() throws Exception {
         graph.addVertex(new RectangleGridCell(0, 0), red.getColorId());
         graph.addVertex(new RectangleGridCell(0, 1), green.getColorId());
         graph.addVertex(new RectangleGridCell(0, 2), blue.getColorId());
@@ -120,6 +123,7 @@ public class ColoredGraphSolverTests {
         graph.addVertex(new RectangleGridCell(4, 3), light_blue.getColorId());
         graph.addVertex(new RectangleGridCell(4, 4), red.getColorId());
         graph.buildGraphWithAdjacency();
-        List<Move<RectangleGridCell>> hints = solver.solveColoredGraph(graph);
+        Callable<List<Move<RectangleGridCell>>> solverTask = solver.getSolverTask(graph);
+        List<Move<RectangleGridCell>> hints = solverTask.call();
     }
 }
