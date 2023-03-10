@@ -94,7 +94,6 @@ public class ColoredGraphSolverTests {
 
     @Test(expected = RuntimeException.class)
     public void testSolver_ManyChanges(){
-        solver.setMaxNumSteps(5);
         graph.addVertex(new RectangleGridCell(0, 0), red.getColorId());
         graph.addVertex(new RectangleGridCell(0, 1), green.getColorId());
         graph.addVertex(new RectangleGridCell(0, 2), blue.getColorId());

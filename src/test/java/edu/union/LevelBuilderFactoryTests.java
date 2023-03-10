@@ -9,6 +9,8 @@ import org.junit.After;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import static org.junit.Assert.*;
+
 
 @RunWith(JUnit4.class)
 public class LevelBuilderFactoryTests {
@@ -32,8 +34,9 @@ public class LevelBuilderFactoryTests {
 
     @Test
     public void testRegister() throws Exception {
-        LevelBuilderFactory.getInstance().register(LevelType.RECTANGLE_GRID_LEVEL, new RectangleGridLevelBuilder(5, 5));
-        RectangleGridLevelBuilder builder = (RectangleGridLevelBuilder) LevelBuilderFactory.getInstance().createLevelBuilder(LevelType.RECTANGLE_GRID_LEVEL);
+        LevelBuilderFactory.getInstance().register(LevelType.RECTANGLE_GRID_LEVEL, new RectangleGridLevelBuilderStub(5, 5));
+        Object builder = LevelBuilderFactory.getInstance().createLevelBuilder(LevelType.RECTANGLE_GRID_LEVEL);
+        assertSame(RectangleGridLevelBuilderStub.levelBuilder, builder);
     }
 
     @Test(expected = Exception.class)

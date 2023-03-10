@@ -161,6 +161,15 @@ public class RectangleGridLevelTests {
         assertEquals(win, level.getLevelState());
     }
 
+    @Test
+    public void testCreateAndSetMemento(){
+        Level.LevelMemento levelMemento = (Level.LevelMemento) level.createMemento();
+        assertEquals(red, level.getColorAt(new RectangleGridCell(0, 0)));
+        level.play(new Move<>(green, new RectangleGridCell(0, 0)));
+        assertNotEquals(red, level.getColorAt(new RectangleGridCell(0, 0)));
+        level.setMemento(levelMemento);
+        assertEquals(red, level.getColorAt(new RectangleGridCell(0, 0)));
+    }
 
     private boolean listsEqual(List<Move<RectangleGridCell>> hints, ArrayList<Move<RectangleGridCell>> otherHints) {
         ListIterator<Move<RectangleGridCell>> iter1 = hints.listIterator();
