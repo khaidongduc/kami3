@@ -17,7 +17,6 @@ import java.util.List;
 public class RectangleHintInputController {
 
     private RectangleHintInputLevel level;
-    private RectangleHintInputLevel startLevel;
 
     public RectangleHintInputController(){}
 
@@ -25,7 +24,6 @@ public class RectangleHintInputController {
 
     public void setLevel(RectangleHintInputLevel level){
         this.level = level;
-        this.startLevel = new RectangleHintInputLevel(new ColoredGraph(level.getGraph()), level.getRows(), level.getCols());
         CommandInvoker.getInstance().reset();
     }
 
@@ -55,7 +53,7 @@ public class RectangleHintInputController {
 
     public void handleRestartBtn(){
         CommandInvoker.getInstance().reset();
-        ViewSwitcher.getInstance().switchView(ViewEnum.HINT,startLevel);
+        this.level.restart();
     }
 
     public void handleExitButton(){
@@ -68,8 +66,9 @@ public class RectangleHintInputController {
         for(Command command : CommandInvoker.getInstance().getCommandQueue()){
             hints.add((PlayMoveCommand) command);
         }
-        this.startLevel.setHints(hints);
-        LevelRepositoryManager.getInstance().saveLevel(startLevel);
+        this.level.setHints(hints);
+        this.level.resetGraph();
+        LevelRepositoryManager.getInstance().saveLevel(level);
         CommandInvoker.getInstance().reset();
         ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
     }

@@ -12,7 +12,7 @@ import java.util.Queue;
 public abstract class LevelHint<V extends ColoredVertex> extends Observable{
 
     protected ColoredGraph<V> graph;
-
+    private ColoredGraph<V> startGraph;
     protected Color curColor;
 
     private List<Move<V>> hintList;
@@ -20,6 +20,7 @@ public abstract class LevelHint<V extends ColoredVertex> extends Observable{
     public LevelHint(ColoredGraph<V> graph){
         super();
         this.graph = graph;
+        this.startGraph = new ColoredGraph<V>(graph);
         this.curColor = getColors().get(0);
         this.hintList = new LinkedList<>();
     }
@@ -47,12 +48,14 @@ public abstract class LevelHint<V extends ColoredVertex> extends Observable{
         notifyObservers();
     }
     public void restart(){
+        this.graph = new ColoredGraph(this.startGraph);
         notifyObservers();
     }
 
     public ColoredGraph<V> getGraph(){
         return this.graph;
     }
+    public void resetGraph(){this.graph = new ColoredGraph(this.startGraph);}
     public LevelState getLevelState(){
         boolean isMono = this.graph.pruneGraph().getNumVertices() == 1;
         if(!isMono){
