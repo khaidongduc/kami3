@@ -1,14 +1,12 @@
 package edu.union.service;
 
-import edu.union.controller.ViewSwitcher;
 import edu.union.model.*;
-import edu.union.view.ViewEnum;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
 
 /**
  * a strategy where level is saved in raw text format with "," being the delimiter
@@ -92,9 +90,10 @@ public class Text2RectangleGridLevelRepository extends LevelRepository {
                 line += ",\n";
                 fw.write(line);
             }
+            Callable <List<Move<RectangleGridCell>>> solverTask = ColoredGraphSolverTaskGenerator.getInstance()
+                    .getSolverTask(levelBuilder.getGraph());
             try {
-                List<Move<RectangleGridCell>> hints = ColoredGraphSolver.getInstance()
-                        .solveColoredGraph(levelBuilder.getGraph());
+                List<Move<RectangleGridCell>> hints = solverTask.call();
                 fw.write(hints.size() + ",\n");
                 for(Move<RectangleGridCell> move : hints){
                     fw.write(move.getColor().getColorId() + ","

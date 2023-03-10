@@ -2,7 +2,7 @@ package edu.union;
 
 import edu.union.model.*;
 import edu.union.service.ColorRepository;
-import edu.union.service.ColoredGraphSolver;
+import edu.union.service.ColoredGraphSolverTaskGenerator;
 import edu.union.service.LevelRepositoryManager;
 import edu.union.service.TextRectangleGridLevelRepository;
 import org.junit.Test;
@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
 public class ColoredGraphSolverTests {
-    private ColoredGraphSolver solver = ColoredGraphSolver.getInstance();
+    private ColoredGraphSolverTaskGenerator solver = ColoredGraphSolverTaskGenerator.getInstance();
     private ColoredGraph<RectangleGridCell> graph;
     private RectangleGridLevel level;
     private LevelRepositoryManager repositoryManager;
