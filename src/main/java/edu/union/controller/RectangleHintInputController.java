@@ -1,6 +1,9 @@
 package edu.union.controller;
 
 import edu.union.model.*;
+import edu.union.utils.Command;
+import edu.union.utils.CommandInvoker;
+import edu.union.utils.PlayMoveCommand;
 import edu.union.view.ViewEnum;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
@@ -26,7 +29,8 @@ public class RectangleHintInputController {
             Button targetButton = (Button) e.getSource();
             int row = GridPane.getRowIndex(targetButton);
             int col = GridPane.getColumnIndex(targetButton);
-            level.play(new Move<>(level.getCurrentColor(), new RectangleGridCell(row,col)));
+            Command move = new PlayMoveCommand<>(this.level,new Move<>(level.getCurrentColor(), new RectangleGridCell(row,col)));
+            CommandInvoker.getInstance().invoke(move);
         }catch (Exception error){
             Alert alert = new Alert(Alert.AlertType.WARNING, e.toString());
             alert.show();
@@ -45,6 +49,7 @@ public class RectangleHintInputController {
     }
 
     public void handleRestartBtn(){
+        CommandInvoker.getInstance().reset();
         ViewSwitcher.getInstance().switchView(ViewEnum.HINT,startLevel);
     }
 

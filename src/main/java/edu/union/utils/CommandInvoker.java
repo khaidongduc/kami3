@@ -1,16 +1,18 @@
 package edu.union.utils;
 
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.*;
+
 
 public class CommandInvoker {
     private static CommandInvoker instance;
-    private Stack<Command> commandStack;
+    private Queue<Command> commandQueue;
 
     private CommandInvoker(){
-        this.commandStack = new Stack<>();
+        this.commandQueue = new LinkedList<>();
     }
 
-    private static CommandInvoker getInstance(){
+    public static CommandInvoker getInstance(){
         if(instance == null){
             instance = new CommandInvoker();
         }
@@ -19,11 +21,13 @@ public class CommandInvoker {
 
     public void invoke(Command c){
         c.execute();
-        commandStack.add(c);
+        commandQueue.add(c);
     }
-
-    public Stack<Command> getCommandStack(){
-        return this.commandStack;
+    public void reset(){
+        this.instance = null;
+    }
+    public Queue<Command> getCommandQueue(){
+        return this.commandQueue;
     }
 
 
