@@ -20,5 +20,7 @@ public class RectangleHintInputLevel extends LevelHint<RectangleGridCell>{
     public int getCols(){
         return this.numCols;
     }
-
+    public String getLevelType() {
+        return LevelType.RECTANGLE_GRID_LEVEL;
+    }
 }
