@@ -39,6 +39,10 @@ public class RectangleHintInputView implements View, Observer {
         this.parent = new BorderPane();
         scene.setRoot(this.parent);
 
+        Alert screenAlert = new Alert(Alert.AlertType.INFORMATION,
+                "Unable to solve automatically, please solve it yourself.");
+        screenAlert.show();
+
         //Color choice buttons
         colorToChooseButton = new HashMap<>();
         GridPane colorChoiceGrid = new GridPane();
