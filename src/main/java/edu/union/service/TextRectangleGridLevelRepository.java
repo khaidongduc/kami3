@@ -1,10 +1,6 @@
 package edu.union.service;
 
-import edu.union.controller.ViewSwitcher;
 import edu.union.model.*;
-import edu.union.view.ViewEnum;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -79,9 +75,11 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
     @Override
     public void _saveLevel(LevelBuilder lb, String folderPath) {
         RectangleGridLevelBuilder levelBuilder = (RectangleGridLevelBuilder) lb;
-
+        Callable <List<Move<RectangleGridCell>>> solverTask = ColoredGraphSolverTaskGenerator.getInstance()
+                .getSolverTask(levelBuilder.getGraph());
         File folder = new File(folderPath);
         try {
+            List<Move<RectangleGridCell>> hints = solverTask.call();
             String fileName = "/"+ (folder.listFiles().length + 1) + '.' + levelBuilder.getLevelType();
             FileWriter fw = new FileWriter(folder+fileName);
             fw.write(levelBuilder.getRows() + " " + levelBuilder.getCols() + "\n");
@@ -93,13 +91,7 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
                 line += "\n";
                 fw.write(line);
             }
-            ExecutorService executor = Executors.newCachedThreadPool();
-            Future<List<Move<RectangleGridCell>>> future = executor.submit(new Callable<List<Move<RectangleGridCell>>>() {
-                public List<Move<RectangleGridCell>> call() {
-                    return ColoredGraphSolver.getInstance().solveColoredGraph(levelBuilder.getGraph());
-                }});
             try {
-                List<Move<RectangleGridCell>> hints = future.get(MAXBUILDTIME, TimeUnit.SECONDS);
                 fw.write(hints.size() + "\n");
                 for(Move<RectangleGridCell> move : hints){
                     fw.write(move.getColor().getColorId() + " "
@@ -112,7 +104,7 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
                 throw new RuntimeException("Level save took too long.");
             }
             fw.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

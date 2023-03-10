@@ -131,13 +131,18 @@ public class RectangleGridLevelBuildView implements View, Observer {
         restartBtn.setOnAction(buildController::handleRestartBtn);
         saveBtn.setOnAction(e -> {
             saveBtn.setDisable(true);
+            Alert loading = new Alert(Alert.AlertType.NONE, "Loading... Please wait...");
+            //loading.show();
             try {
+                //loading.show();
                 buildController.handleSaveBtn(e);
             } catch (RuntimeException error) {
+                loading.close();
                 Alert a = new Alert(Alert.AlertType.ERROR);
                 a.setContentText(error.getMessage());
                 a.show();
             }
+            loading.close();
             saveBtn.setDisable(false);
         });
         exitBtn.setOnAction(buildController::handleExitBtn);

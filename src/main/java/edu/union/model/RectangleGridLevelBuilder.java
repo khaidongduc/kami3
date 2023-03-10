@@ -69,6 +69,9 @@ public class RectangleGridLevelBuilder extends LevelBuilder<RectangleGridCell> i
     }
 
     public Object clone(){
-        return super.clone();
+        RectangleGridLevelBuilder cloned = new RectangleGridLevelBuilder(this.numRows, this.numCols);
+        cloned.graph = new ColoredGraph<>(this.graph);
+        cloned.curColor = this.curColor;
+        return cloned;
     }
 }

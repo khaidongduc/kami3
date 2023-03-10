@@ -2,11 +2,7 @@ package edu.union.service;
 
 import edu.union.model.*;
 
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * abstract class for levelRepository
@@ -59,14 +55,20 @@ public abstract class LevelRepository {
      * @param folderPath the folder path
      */
     public void saveLevel(LevelBuilder levelBuilder, String folderPath){
-        ExecutorService executor = Executors.newCachedThreadPool();
-        Future future = executor.submit(
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<?> future = executor.submit(
                 () -> _saveLevel(levelBuilder, folderPath));
         try {
-            future.get(this.maxBuildTime, TimeUnit.SECONDS);
+             future.get(this.maxBuildTime, TimeUnit.SECONDS);
         }
-        catch(Exception e){
+        catch(TimeoutException e){
+            future.cancel(true);
+            executor.shutdownNow();
             throw new RuntimeException("Puzzle is too complex, unable to save in reasonable time. " + e);
+        } catch (Exception e){
+            future.cancel(true);
+            executor.shutdownNow();
+            throw new RuntimeException(e);
         }
     }
 
