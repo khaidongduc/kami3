@@ -112,7 +112,7 @@ public class TextRectangleGridLevelRepository extends LevelRepository {
                 fw.close();
                 File f = new File(folder+fileName);
                 f.delete();
-                ViewSwitcher.getInstance().switchView(ViewEnum.HINT,levelBuilder);
+                throw new RuntimeException("Level save took too long.");
             }
             fw.close();
         } catch (IOException e) {
