@@ -14,15 +14,11 @@ public class ColoredGraphSolver {
 
     private static ColoredGraphSolver instance;
 
-    private static final int DEFAULT_MAX_NUM_STEPS = 5;
-
-    private int maxNumSteps;
 
     /**
      * basic constructor
      */
     private ColoredGraphSolver(){
-        maxNumSteps = DEFAULT_MAX_NUM_STEPS;
     }
 
     /**
@@ -33,15 +29,6 @@ public class ColoredGraphSolver {
         if(instance == null)
             instance = new ColoredGraphSolver();
         return instance;
-    }
-
-    /**
-     * set the maximum of number of steps the solver would provide
-     * if it takes more than this number of steps, the solving will fail
-     * @param maxNumSteps the maximum of number of steps
-     */
-    public void setMaxNumSteps(int maxNumSteps){
-        this.maxNumSteps = maxNumSteps;
     }
 
     /**
@@ -83,9 +70,6 @@ public class ColoredGraphSolver {
                         moves.put(nextGraph, new Move<V>(ColorRepository.getInstance().getColor(color), vertex));
 
                         int nextDistance = distances.get(sourceGraph) + 1;
-                        if (nextDistance > this.maxNumSteps) {
-                            throw new RuntimeException("unable to solve");
-                        }
                         distances.put(nextGraph, nextDistance);
 
                         if (nextGraph.getNumVertices() == 1) {
