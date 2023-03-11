@@ -39,11 +39,11 @@ public class LevelBuilderFactory {
      * @return a levelBuilder of the right type
      * @throws Exception if no prototype has been registered under this type
      */
-    public LevelBuilder createLevelBuilder(String levelType) throws Exception {
+    public LevelBuilder createLevelBuilder(String levelType) {
         if(map.containsKey(levelType)){
             return (LevelBuilder) map.get(levelType).clone();
         }
-        throw new Exception("We cannot find a LevelBuilder for the given key");
+        throw new RuntimeException("We cannot find a LevelBuilder for the given key");
     }
 
     /**

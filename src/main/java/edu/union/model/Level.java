@@ -1,24 +1,33 @@
 package edu.union.model;
 
 import edu.union.service.ColorRepository;
+import edu.union.utils.Memento;
+import edu.union.utils.MementoCaretaker;
+import edu.union.utils.MementoOriginator;
 import edu.union.utils.Observable;
 import edu.union.model.ColoredGraph.ColoredVertex;
-import edu.union.model.Color;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+
 
 /**
  * an abstract class defining all methods used in playing a level
  * it extend Observable to allows View to subscribe to its change
  */
-public abstract class Level<V extends ColoredVertex> extends Observable {
+public abstract class Level<V extends ColoredVertex> extends Observable implements MementoOriginator {
+
+    // for memento pattern
+    protected MementoCaretaker careTaker;
 
     protected LevelInfo levelInfo;
     protected int curNumTurn;
     protected List<Move<V>> hints;
     protected Color curColor;
     protected ColoredGraph<V> graph;
+
+
 
     /**
      * constructor
@@ -32,6 +41,7 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
         this.hints = hints;
         this.levelInfo = levelInfo;
         this.curNumTurn = 0;
+        this.careTaker = new MementoCaretaker(this);
         this.curColor = getColors().stream().min(Comparator.comparingInt(Color::getColorId))
                 .get(); // first color in the graph
     }
@@ -138,8 +148,35 @@ public abstract class Level<V extends ColoredVertex> extends Observable {
             return LevelState.LOSE;
         }
         return LevelState.WIN;
-
-
     }
 
+    public MementoCaretaker getCareTaker(){
+        return this.careTaker;
+    }
+
+    public Memento createMemento(){
+        Level l = this;
+        return new LevelMemento(l);
+    }
+
+    public void setMemento(Memento memento){
+        LevelMemento m = (LevelMemento) memento;
+        this.graph = m.graph;
+        this.curColor = m.curColor;
+        this.curNumTurn = m.curNumTurn;
+        notifyObservers();
+    }
+
+    public class LevelMemento extends Memento {
+        protected final ColoredGraph<V> graph;
+        protected final int curNumTurn;
+        protected final Color curColor;
+
+        private LevelMemento(Level levelToSave) {
+            this.graph = new ColoredGraph<>(levelToSave.graph);
+            this.curNumTurn = levelToSave.curNumTurn;
+            this.curColor = levelToSave.curColor;
+        }
+
+    }
 }

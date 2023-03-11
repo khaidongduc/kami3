@@ -26,9 +26,6 @@ public class ColorRepository {
     private ColorRepository(){
         idCount = 0;
         colorMap = new HashMap<>();
-        for (Color color : Config.DEFAULT_COLORS){
-            addColor(color);
-        }
     }
 
     /**
@@ -82,6 +79,14 @@ public class ColorRepository {
         if (!colorMap.containsKey(id))
             throw new IllegalArgumentException("unknown color id");
         return colorMap.get(id);
+    }
+
+    /**
+     * clear the color in the repository
+     */
+    public void clear(){
+        colorMap.clear();
+        idCount = 0;
     }
 
 }

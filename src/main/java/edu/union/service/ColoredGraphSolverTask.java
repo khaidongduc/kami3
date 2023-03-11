@@ -1,59 +1,28 @@
 package edu.union.service;
 
-import edu.union.model.*;
-import edu.union.model.ColoredGraph.ColoredVertex;
+import edu.union.model.ColoredGraph;
+import edu.union.model.Move;
 
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
-/**
- * edu.union.service class to solve a level
- * only method solveColorGrid which return a list of Move
- */
-public class ColoredGraphSolver {
+public class ColoredGraphSolverTask<V extends ColoredGraph.ColoredVertex> implements Callable<List<Move<V>>> {
 
-    private static ColoredGraphSolver instance;
+    private final ColoredGraph<V> graph;
 
-    private static final int DEFAULT_MAX_NUM_STEPS = 5;
-
-    private int maxNumSteps;
-
-    /**
-     * basic constructor
-     */
-    private ColoredGraphSolver(){
-        maxNumSteps = DEFAULT_MAX_NUM_STEPS;
+    public ColoredGraphSolverTask(ColoredGraph<V> coloredGraph) {
+        this.graph = coloredGraph;
     }
 
     /**
-     * get the instance of a singleton class
-     * @return the instance
-     */
-    public static ColoredGraphSolver getInstance(){
-        if(instance == null)
-            instance = new ColoredGraphSolver();
-        return instance;
-    }
-
-    /**
-     * set the maximum of number of steps the solver would provide
-     * if it takes more than this number of steps, the solving will fail
-     * @param maxNumSteps the maximum of number of steps
-     */
-    public void setMaxNumSteps(int maxNumSteps){
-        this.maxNumSteps = maxNumSteps;
-    }
-
-    /**
-     * solve the ColorGrid grid
-     * return a list of move on a grid and that to make it mono-color in the least number of moves
+     * Computes a result, or throws an exception if unable to do so.
      *
-     * @param graph the color grid
-     * @return the list of moves as solutions
-     * @throws RuntimeException if the graph is unsolvable under the constraint
+     * @return computed result
+     * @throws Exception if unable to compute a result
      */
-    public <V extends ColoredVertex> List<Move<V>> solveColoredGraph(ColoredGraph<V> graph)
-    {
+    @Override
+    public List<Move<V>> call() throws Exception {
         try {
             Queue<ColoredGraph<V>> queue = new LinkedList<>();
             Map<ColoredGraph<V>, ColoredGraph<V>> prevGraph = new HashMap<>();
@@ -67,7 +36,7 @@ public class ColoredGraphSolver {
             distances.put(startGraph, 0);
 
             ColoredGraph<V> foundResult = null;
-            while (!queue.isEmpty() && foundResult == null) {
+            while (!queue.isEmpty() && foundResult == null && !Thread.currentThread().isInterrupted()) {
                 ColoredGraph<V> sourceGraph = queue.poll();
                 for (V vertex : sourceGraph.getVertexSet()) {
                     int orgColor = sourceGraph.getVertexColor(vertex);
@@ -83,9 +52,6 @@ public class ColoredGraphSolver {
                         moves.put(nextGraph, new Move<V>(ColorRepository.getInstance().getColor(color), vertex));
 
                         int nextDistance = distances.get(sourceGraph) + 1;
-                        if (nextDistance > this.maxNumSteps) {
-                            throw new RuntimeException("unable to solve");
-                        }
                         distances.put(nextGraph, nextDistance);
 
                         if (nextGraph.getNumVertices() == 1) {
@@ -101,11 +67,9 @@ public class ColoredGraphSolver {
                 foundResult = prevGraph.get(foundResult);
             }
             return solution;
-        } catch (OutOfMemoryError ignored){
+        } catch (OutOfMemoryError ignored) {
             throw new RuntimeException("unable to solve");
         }
+
     }
-
-
-
 }

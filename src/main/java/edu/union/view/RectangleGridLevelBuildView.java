@@ -50,10 +50,7 @@ public class RectangleGridLevelBuildView implements View, Observer {
         //Kami board buttons
         GridPane colorGridPane = new GridPane();
 
-        colorGridPane.setHgap(10); //horizontal gap in pixels => that's what you are asking for
-        colorGridPane.setVgap(10); //vertical gap in pixels
-        colorGridPane.setPadding(new Insets(10, 10, 10, 10));
-        colorGridPane.setGridLinesVisible(false);
+        colorGridPane.setGridLinesVisible(true);
         colorGridPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         for(int i = 0 ; i < level.getRows() ; ++ i) {
             ColumnConstraints columnConstraints = new ColumnConstraints();
@@ -72,7 +69,7 @@ public class RectangleGridLevelBuildView implements View, Observer {
             for (int j = 0; j < level.getCols(); ++j) {
                 Button button = new Button();
                 Color color = level.getColorAt(new RectangleGridCell(i, j));
-                button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
+                button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d); -fx-border-color: black;",
                         color.getRValue(), color.getGValue(), color.getBValue()));
                 button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 GridPane.setFillWidth(button, true);
@@ -134,13 +131,18 @@ public class RectangleGridLevelBuildView implements View, Observer {
         restartBtn.setOnAction(buildController::handleRestartBtn);
         saveBtn.setOnAction(e -> {
             saveBtn.setDisable(true);
+            Alert loading = new Alert(Alert.AlertType.NONE, "Loading... Please wait...");
+            //loading.show();
             try {
+                //loading.show();
                 buildController.handleSaveBtn(e);
             } catch (RuntimeException error) {
+                loading.close();
                 Alert a = new Alert(Alert.AlertType.ERROR);
                 a.setContentText(error.getMessage());
                 a.show();
             }
+            loading.close();
             saveBtn.setDisable(false);
         });
         exitBtn.setOnAction(buildController::handleExitBtn);

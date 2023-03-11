@@ -11,7 +11,7 @@ import java.util.concurrent.*;
 /**
  * a strategy where level is saved in raw text format
  */
-public class TextRectangleGridLevelRepository implements LevelRepository {
+public class TextRectangleGridLevelRepository extends LevelRepository {
 
     private static final int MAXBUILDTIME = 5;
     private static TextRectangleGridLevelRepository instance;
@@ -38,11 +38,10 @@ public class TextRectangleGridLevelRepository implements LevelRepository {
      * @return the associated level
      */
     @Override
-    public Level loadLevel(LevelInfo levelInfo) {
+    public Level _loadLevel(LevelInfo levelInfo) {
         try {
             File file = new File(levelInfo.getFilePath());
             Scanner scanner = new Scanner(file);
-            String levelType = scanner.next();
             int numRows = scanner.nextInt();
             int numCols = scanner.nextInt();
             ColoredGraph<RectangleGridCell> graph = new ColoredGraph<>();
@@ -74,14 +73,12 @@ public class TextRectangleGridLevelRepository implements LevelRepository {
      * @param folderPath the path of the folder where the file is saved
      */
     @Override
-    public void saveLevel(LevelBuilder lb, String folderPath) {
+    public void _saveLevel(LevelBuilder lb, List<Move> hints, String folderPath) {
         RectangleGridLevelBuilder levelBuilder = (RectangleGridLevelBuilder) lb;
-
         File folder = new File(folderPath);
         try {
-            String fileName = "/"+ (folder.listFiles().length + 1);
+            String fileName = "/"+ (folder.listFiles().length + 1) + '.' + levelBuilder.getLevelType();
             FileWriter fw = new FileWriter(folder+fileName);
-            fw.write(lb.getLevelType() + '\n');
             fw.write(levelBuilder.getRows() + " " + levelBuilder.getCols() + "\n");
             for(int i = 0; i < levelBuilder.getRows(); i++){
                 String line = Integer.toString(levelBuilder.getColorAt(new RectangleGridCell(i,0)).getColorId());
@@ -91,14 +88,8 @@ public class TextRectangleGridLevelRepository implements LevelRepository {
                 line += "\n";
                 fw.write(line);
             }
-            ExecutorService executor = Executors.newCachedThreadPool();
-            Future<List<Move<RectangleGridCell>>> future = executor.submit(new Callable<List<Move<RectangleGridCell>>>() {
-                public List<Move<RectangleGridCell>> call() {
-                    return ColoredGraphSolver.getInstance().solveColoredGraph(levelBuilder.getGraph());
-                }});
             try {
-                List<Move<RectangleGridCell>> hints = future.get(MAXBUILDTIME, TimeUnit.SECONDS);
-                fw.write(Integer.toString(hints.size()) + "\n");
+                fw.write(hints.size() + "\n");
                 for(Move<RectangleGridCell> move : hints){
                     fw.write(move.getColor().getColorId() + " "
                             + move.getVertex().row + " " + move.getVertex().col + "\n");
@@ -107,7 +98,34 @@ public class TextRectangleGridLevelRepository implements LevelRepository {
                 fw.close();
                 File f = new File(folder+fileName);
                 f.delete();
-                throw new RuntimeException("Puzzle is too complex to solve in reasonable time.");
+                throw new RuntimeException("Level save took too long.");
+            }
+            fw.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Override
+    public void _saveLevel(LevelHint l, String folderPath) {
+        RectangleHintInputLevel level = (RectangleHintInputLevel) l;
+        File folder = new File(folderPath);
+        try {
+            String fileName = "/"+ (folder.listFiles().length + 1) + '.' + level.getLevelType();
+            FileWriter fw = new FileWriter(folder+fileName);
+            fw.write(level.getRows() + " " + level.getCols() + "\n");
+            for(int i = 0; i < level.getRows(); i++){
+                String line = Integer.toString(level.getColorAt(new RectangleGridCell(i,0)).getColorId());
+                for(int j = 1; j < level.getCols(); j++){
+                    line = line + " " + level.getColorAt(new RectangleGridCell(i,j)).getColorId();
+                }
+                line += "\n";
+                fw.write(line);
+            }
+            List<Move<RectangleGridCell>> hints =  level.getHints();
+            fw.write(Integer.toString(hints.size()) + "\n");
+            for(Move<RectangleGridCell> move: hints){
+                fw.write(move.getColor().getColorId() + " "
+                        + move.getVertex().row + " " + move.getVertex().col + "\n");
             }
             fw.close();
         } catch (IOException e) {

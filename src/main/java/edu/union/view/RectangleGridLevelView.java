@@ -3,7 +3,10 @@ package edu.union.view;
 import edu.union.controller.RectangleGridLevelController;
 import edu.union.model.*;
 import edu.union.utils.Observable;
-import javafx.geometry.Insets;
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
+import javafx.css.Style;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -27,6 +30,8 @@ public class RectangleGridLevelView implements View, Observer {
     private Label numMoveRemainingLabel;
 
     private Alert resultAlert;
+
+    private Alert hintAlert;
 
     /**
      * Makes a rectangle grid level view object
@@ -76,10 +81,7 @@ public class RectangleGridLevelView implements View, Observer {
 
         GridPane colorGridPane = new GridPane();
 
-        colorGridPane.setHgap(10); //horizontal gap in pixels => that's what you are asking for
-        colorGridPane.setVgap(10); //vertical gap in pixels
-        colorGridPane.setPadding(new Insets(10, 10, 10, 10));
-        colorGridPane.setGridLinesVisible(false);
+        colorGridPane.setGridLinesVisible(true);
         colorGridPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         for(int i = 0 ; i < level.getNumCols() ; ++ i) {
             ColumnConstraints columnConstraints = new ColumnConstraints();
@@ -97,6 +99,7 @@ public class RectangleGridLevelView implements View, Observer {
         for(int i = 0 ; i < level.getNumRows() ; ++ i) {
             for (int j = 0; j < level.getNumCols(); ++j) {
                 Button button = new Button();
+                button.setStyle("-fx-border-color: black;");
                 button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 GridPane.setFillWidth(button, true);
                 GridPane.setFillHeight(button, true);
@@ -108,44 +111,66 @@ public class RectangleGridLevelView implements View, Observer {
 
         parent.setCenter(colorGridPane);
 
+        GridPane controlMenu = new GridPane();
+        controlMenu.setPrefWidth(150);
+        controlMenu.setPrefHeight(100);
+        controlMenu.setGridLinesVisible(false);
+        controlMenu.setStyle("-fx-border-color: black; -fx-border-width: 3 0 0 0;");
+
         colorToChooseButton = new HashMap<>();
         GridPane colorChoiceGrid = new GridPane();
         colorChoiceGrid.setPrefHeight(100);
-        colorChoiceGrid.setHgap(10);
-        colorChoiceGrid.setVgap(10);
-        colorChoiceGrid.setPadding(new Insets(10, 10, 10, 10));
+        colorChoiceGrid.setPrefWidth(215);
+        colorChoiceGrid.setHgap(3);
+        colorChoiceGrid.setVgap(3);
         colorChoiceGrid.setGridLinesVisible(false);
 
-        int count = 0;
+        int count = 2;
 
         numMoveRemainingLabel = new Label();
+        numMoveRemainingLabel.setAlignment(Pos.CENTER);
         colorChoiceGrid.add(numMoveRemainingLabel, count++, 0);
-        numMoveRemainingLabel.setPrefSize(10, 10);
+        numMoveRemainingLabel.setPrefSize(20, 20);
 
         List<Color> colors = level.getColors();
         for(Color color: colors){
             Button button = new Button();
-            button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
+            button.setStyle(button.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d); -fx-border-width: 2 2 2 2;",
                     color.getRValue(), color.getGValue(), color.getBValue()));
-            button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+            button.setMinWidth(colorChoiceGrid.getPrefWidth() / 5);
+            button.setMinHeight(controlMenu.getPrefHeight());
             button.setOnAction(levelController::handleChooseColorBtn);
             button.setUserData(color);
-            colorChoiceGrid.add(button, 0, count++);
+
+            colorChoiceGrid.add(button, count++, 0);
             colorToChooseButton.put(color, button);
         }
-        parent.setRight(colorChoiceGrid);
-
 
         GridPane optionsGrid = new GridPane();
         optionsGrid.setPrefHeight(100);
-        optionsGrid.setHgap(10);
-        optionsGrid.setVgap(10);
-        optionsGrid.setPadding(new Insets(10, 10, 10, 10));
+        optionsGrid.setPrefWidth(150);
         optionsGrid.setGridLinesVisible(false);
-        Button restartBtn = new Button("Restart");
-        Button exitBtn = new Button("Exit");
-        Button getHintsBtn = new Button("Get Hints");
 
+        Button restartBtn = new Button("Restart");
+        restartBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
+        restartBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
+
+
+        Button exitBtn = new Button("Exit");
+        exitBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
+        exitBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
+
+
+        Button getHintsBtn = new Button("Hints");
+        getHintsBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
+        getHintsBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
+
+
+        Button undoBtn = new Button("Undo");
+        undoBtn.setMinHeight(optionsGrid.getPrefHeight() / 2);
+        undoBtn.setMinWidth(optionsGrid.getPrefWidth() / 2);
+
+        undoBtn.setOnAction(event -> levelController.handleUndoButton());
         restartBtn.setOnAction(event -> levelController.handleRestartBtn());
         exitBtn.setOnAction(event -> levelController.handleMoveToMenuBtn());
         getHintsBtn.setOnAction(event -> {
@@ -153,7 +178,8 @@ public class RectangleGridLevelView implements View, Observer {
             //levelController.handleRestartBtn();
             List<Move<RectangleGridCell>> hints = level.getHints();
             StringBuilder readableHints = new StringBuilder();
-            int hintNumber = 1;
+            int hintNumber = 0;
+
             for (Move<RectangleGridCell> move : hints) {
                 readableHints.append(String.valueOf(hintNumber)).append(". ");
                 hintNumber += 1;
@@ -164,17 +190,32 @@ public class RectangleGridLevelView implements View, Observer {
                 readableHints.append(String.format(" row: %s | col %s", move.getVertex().row, move.getVertex().col)).append("\n");
             }
 
-            Alert hintAlert = new Alert(Alert.AlertType.INFORMATION, readableHints.toString());
-            hintAlert.setHeaderText("Hints");
-            hintAlert.show();
+            ButtonType[] hintButtons = new ButtonType[hints.size()];
+            for(int i = 0; i < hints.size(); i++){
+                ButtonType hint = new ButtonType(String.valueOf(i + 1));
+                hintButtons[i] = hint;
+            }
 
+            hintAlert = new Alert(Alert.AlertType.CONFIRMATION, "",
+                    hintButtons);
+            hintAlert.show();
+            hintAlert.setOnCloseRequest(event2 -> {
+                ButtonType result = hintAlert.getResult();
+                String hintText = result.getText();
+                int hintNum = Integer.parseInt(hintText) - 1;
+                Move<RectangleGridCell> target = hints.get(hintNum);
+                flashMove(target, colorChoiceGrid);
+            });
         });
         optionsGrid.add(exitBtn,0,0);
         optionsGrid.add(restartBtn,0,1);
         optionsGrid.add(getHintsBtn,1,1);
+        optionsGrid.add(undoBtn, 1, 0);
 
-
-        parent.setBottom(optionsGrid);
+        //parent.setBottom(optionsGrid);
+        controlMenu.add(optionsGrid, 0, 0);
+        controlMenu.add(colorChoiceGrid, 1, 0);
+        parent.setBottom(controlMenu);
 
         ButtonType RESTART = new ButtonType("Restart");
         ButtonType MOVE_TO_MENU = new ButtonType("Move to Menu");
@@ -189,14 +230,7 @@ public class RectangleGridLevelView implements View, Observer {
                 levelController.handleMoveToMenuBtn();
             }
         });
-        update();
-    }
 
-    /**
-     * Updates the observers
-     */
-    @Override
-    public void update() {//update() should just call renderView
         // color grid
         for(int i = 0 ; i < level.getNumRows() ; ++ i) {
             for (int j = 0; j < level.getNumCols(); ++j) {
@@ -228,5 +262,31 @@ public class RectangleGridLevelView implements View, Observer {
             }
             resultAlert.show();
         }
+    }
+
+    private void flashMove(Move<RectangleGridCell> target, GridPane colorChoiceGrid) {
+        RectangleGridCell targetVert = target.getVertex();
+        Color targetColor = target.getColor();
+        int row = targetVert.row;
+        int col = targetVert.col;
+        Button targetButton = buttonGrid[row][col];
+        FadeTransition transition = new FadeTransition();
+        String tempStyle = targetButton.getStyle();
+        targetButton.setStyle(targetButton.getStyle() + String.format("-fx-background-color: rgb(%d, %d, %d);",
+                targetColor.getRValue(), targetColor.getGValue(), targetColor.getBValue()));
+        transition.setNode(targetButton);
+        transition.setFromValue(1.0);
+        transition.setToValue(0.3);
+        transition.setCycleCount(Animation.INDEFINITE);
+        transition.setAutoReverse(true);
+        transition.play();
+    }
+
+    /**
+     * Updates the observers
+     */
+    @Override
+    public void update() {
+        renderView();
     }
 }

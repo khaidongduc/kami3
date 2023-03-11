@@ -44,6 +44,7 @@ public class RectangleGridLevelController {
             Button targetButton = (Button) actionEvent.getTarget();
             int row = GridPane.getRowIndex(targetButton);
             int col = GridPane.getColumnIndex(targetButton);
+            level.getCareTaker().recordOriginator();
             level.play(new Move<>(level.getCurrentColor(), new RectangleGridCell(row, col)));
         } catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.WARNING, e.toString());
@@ -79,5 +80,17 @@ public class RectangleGridLevelController {
      */
     public void handleMoveToMenuBtn() {
         ViewSwitcher.getInstance().switchView(ViewEnum.MENU);
+    }
+
+    /**
+     * Handler for the undo button. Changes the view to the level state before last move.
+     */
+    public void handleUndoButton(){
+        if(level.getCareTaker().undoable()){
+            level.getCareTaker().undo();
+        } else{
+            Alert alert = new Alert(Alert.AlertType.WARNING, "No previous moves!");
+            alert.show();
+        }
     }
 }

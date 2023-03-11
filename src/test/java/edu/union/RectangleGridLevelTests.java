@@ -1,6 +1,7 @@
 package edu.union;
 
 import edu.union.model.*;
+import edu.union.service.ColorRepository;
 import edu.union.service.LevelRepositoryManager;
 import edu.union.service.TextRectangleGridLevelRepository;
 import org.junit.Test;
@@ -30,17 +31,23 @@ public class RectangleGridLevelTests {
     public void setUp(){
         LevelRepositoryManager levelRepositoryManager = LevelRepositoryManager.getInstance();
         levelRepositoryManager.register(LevelType.RECTANGLE_GRID_LEVEL, TextRectangleGridLevelRepository.getInstance());
-        red.setColorId(0);
-        green.setColorId(1);
-        blue.setColorId(2);
-        light_blue.setColorId(3);
+
+        ColorRepository colorRepository = ColorRepository.getInstance();
+        colorRepository.addColor(red);
+        colorRepository.addColor(green);
+        colorRepository.addColor(blue);
+        colorRepository.addColor(light_blue);
+
         repositoryManager = LevelRepositoryManager.getInstance();
         repositoryManager.setFolderPath("build/resources/test/edu.union/level");
-        level = (RectangleGridLevel) repositoryManager.loadLevel(new LevelInfo(1, LevelType.RECTANGLE_GRID_LEVEL, "build/resources/test/edu.union/level/1"));
+        level = (RectangleGridLevel) repositoryManager.loadLevel(new LevelInfo(1, LevelType.RECTANGLE_GRID_LEVEL, "build/resources/test/edu.union/level/1.rectgrl"));
     }
 
     @After
-    public void tearDown(){level = null;}
+    public void tearDown(){
+        level = null;
+        ColorRepository.getInstance().clear();
+    }
 
     @Test
     public void testConstruct(){
@@ -154,6 +161,15 @@ public class RectangleGridLevelTests {
         assertEquals(win, level.getLevelState());
     }
 
+    @Test
+    public void testCreateAndSetMemento(){
+        Level.LevelMemento levelMemento = (Level.LevelMemento) level.createMemento();
+        assertEquals(red, level.getColorAt(new RectangleGridCell(0, 0)));
+        level.play(new Move<>(green, new RectangleGridCell(0, 0)));
+        assertNotEquals(red, level.getColorAt(new RectangleGridCell(0, 0)));
+        level.setMemento(levelMemento);
+        assertEquals(red, level.getColorAt(new RectangleGridCell(0, 0)));
+    }
 
     private boolean listsEqual(List<Move<RectangleGridCell>> hints, ArrayList<Move<RectangleGridCell>> otherHints) {
         ListIterator<Move<RectangleGridCell>> iter1 = hints.listIterator();

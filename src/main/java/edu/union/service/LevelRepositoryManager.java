@@ -2,7 +2,9 @@ package edu.union.service;
 
 import edu.union.model.Level;
 import edu.union.model.LevelBuilder;
+import edu.union.model.LevelHint;
 import edu.union.model.LevelInfo;
+import edu.union.utils.Command;
 import edu.union.utils.Observable;
 
 import java.io.File;
@@ -74,28 +76,29 @@ public class LevelRepositoryManager extends Observable {
         notifyObservers();
     }
 
+    public void saveLevel(LevelHint level){
+        levelRepositoryMap.get(level.getLevelType()).saveLevel(level,folderPath);
+        notifyObservers();
+    }
     /**
      * list the available levelInfos
      * @return the List of levelInfo
      */
     public List<LevelInfo> listLevelInfos(){
-        try {
-            File folder = new File(folderPath);
-            List<LevelInfo> res = new LinkedList<>();
-            for (File file : folder.listFiles()) {
-                Scanner scanner = new Scanner(file);
-                res.add(
-                    new LevelInfo(Integer.parseInt(file.getName()),
-                        scanner.next(),
-                        file.getPath())
-                );
-            }
-            res.sort(Comparator.comparingInt(LevelInfo::getLevelId));
-            return res;
-        }catch (FileNotFoundException ignored){
-
+        File folder = new File(folderPath);
+        List<LevelInfo> res = new LinkedList<>();
+        for (File file : Objects.requireNonNull(folder.listFiles())) {
+            int levelId = 0;
+            String levelType = "";
+            try{
+                String[] tokens = file.getName().split("\\.", 2);
+                levelType = tokens[1];
+                levelId = Integer.parseInt(tokens[0]);
+            } catch (Exception ignored){}
+            res.add(new LevelInfo(levelId, levelType, file.getPath()));
         }
-        return null;
+        res.sort(Comparator.comparingInt(LevelInfo::getLevelId));
+        return res;
     }
 
 }
