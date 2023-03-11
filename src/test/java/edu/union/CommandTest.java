@@ -68,6 +68,7 @@ public class CommandTest {
         for(int i = 0; i < moveList.size(); i++){
             PlayMoveCommand c = (PlayMoveCommand) commandList.get(i);
             assertEquals(c.getMove(),moveList.get(i));
+            assertEquals(moveList.get(i),new Move<>(red,new RectangleGridCell(0,i)));
         }
         commandInvoker.reset();
     }
