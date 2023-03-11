@@ -61,10 +61,32 @@ public class LevelRepositoryManagerTests {
 
 
     @Test
-    public void testSave(){
+    public void testSaveBuild(){
         RectangleGridLevelBuilder builder = new RectangleGridLevelBuilder(5, 5);
         builder.setColor(new Color(0, 255, 0), new RectangleGridCell(0, 0));
         repositoryManager.saveLevel(builder);
+
+        List<LevelInfo> levels = repositoryManager.listLevelInfos();
+        List<String> levelInfo = new ArrayList<>();
+        for (LevelInfo l : levels){
+            levelInfo.add(l.toString());
+        }
+
+        boolean is = false;
+        for (String l : levelInfo){
+            if(l.equals("4")){
+                is = true;
+            }
+        }
+        assertTrue(is);
+    }
+
+    @Test
+    public void testSaveHint(){
+        RectangleGridLevelBuilder builder = new RectangleGridLevelBuilder(5, 5);
+        builder.setColor(new Color(0, 255, 0), new RectangleGridCell(0, 0));
+        RectangleHintInputLevel level = new RectangleHintInputLevel(builder.getGraph(),5,5);
+        repositoryManager.saveLevel(level);
 
         List<LevelInfo> levels = repositoryManager.listLevelInfos();
         List<String> levelInfo = new ArrayList<>();
